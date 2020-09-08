@@ -1,40 +1,79 @@
 openapi: 3.0.0
 info:
-  title: bill-service.1.8
+  title: api.cyclopay
   description: |-
 
+    # Introdução à Cyclopay
 
-    # Introdução à Veripag
-
-    Bem vindo à  API de sub-adquirente Veripag! Você pode utilizar nossa API para realizar o gerenciamento de sua sub-adquirente com facilidade e agilidade.
+    Bem vindo à  API da Cyclopay! Você pode utilizar nossa API para realizar o gerenciamento de seus pagamentos recorrentes com facilidade e agilidade.
 
     Antes de começarmos, pensamos em facilitar ao máximo sua integração com a gente, então disponibilizamos pequenos trechos de código ao longo dessa documentação, escritos em diversas linguagens, entre elas Javascript, Node, Python, Ruby e cURL.
 
-    Nossos serviços oferecidos pela API podem ser vistas no menu do lado esquerdo. Separando as funcionalidades pelas sessões estabelecimentos,terminais e transações.
+    Nossos serviços oferecidos pela API podem ser vistas no menu do lado esquerdo. Separando as funcionalidades pelas sessões.
 
     # Começando
 
-    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que também podemos chamar de *"api_key"*), que é obtida na integração ou por meio do contato com o nosso suporte, e pronto! Com a api_key em mãos você já pode começar à utilizar tudo que a API sub-adquirente Veripag pode oferecer.
+    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay no menu Empresa -> Aba Configurações -> Acesso, e pronto! Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
 
-    > A chave de api é uma chave secreta, única e intransferível. A Veripag não se responsabiliza pela forma de utilização e administração das chaves fornecidas. Porém em caso de perda da sua chave, você pode recria-la entrando em contato com nosso suporte.
+    > A chave de api é uma chave secreta, única e intransferível. A Veripag não se responsabiliza pela forma de utilização e administração das chaves fornecidas. Porém em caso de perda da sua chave, você pode recria-la utilizando a funcionalidade Redefinir Chaves.
 
-    Você deverá preparar uma __aplicação client-side__ utilizando __HTML__, __CSS__ e __Javascript__.
-    A aplicação consiste de um gerenciamento de uma lista de afazeres ou tarefas, o famoso _todo-list_.
-    Ademais, consistirá de duas telas:
-    - Tela de Login;
-    - Lista de "Todos", isto é, os afazeres.
-    A aplicação deverá consumir um serviço, que pode ser acessado por meio da URL 
-    `https://veripag-node-todolist.glitch.me`.
-    Os _todos_ possuem a seguinte modelagem no banco de dados:
-    ```ts
-    interface Todo {
-        id: number // id da tarefa
-        description: string // descrição da tarefa
-        done: boolean // se ela já foi realizada
-        createdAt: Date // data de criação
-        updatedAt: Date // data de atualização
-    }
+    ## Autenticação
+
+    A autenticação de acesso à API é realizado por meio da [Headers](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers), necessitando 
+    o cabeçalho "api_key" a cada solicitação.
+
+    Abaixo segue um exemplo de requisição à API Cyclopay 
+
+    ``` curlrc
+          curl --location --request GET 'https://api-billing.veripag.com.br/v1/customers' \
+          --header 'api_key: ak_sandbox_bfffff8fc80096c0b8e6c95d7d670e080bf3ffff' \
     ```
+
+    ## Respostas HTTP
+
+    Nossa API é construída com o padrão REST, utilizando melhor dos método e verbos HTTP para identificação das respostas. Cada seção possui a definição de seus erros e possíveis respotas, mas os códigos esperados são:
+
+    - **HTTP 2xx** - Respostas de sucesso. Ocorre quando a requisição foi realizada corretamente pela API.
+
+    - **HTTP 4xx** - Respostas de erros mapeados e identificados, podendo ser solucionados pela mensagem de retorno da API.
+    
+    - **HTTP 5xx** - Erro desconhecido (nesse caso é necessário entrar em contato com o suporte, para identificação do problema).
+
+    ## Erros
+
+    Como falado agora pouco, nossa API possui um objeto padrão para os erros retornados **4xx**. 
+
+    Os objetos são separados em duas categorias
+
+    - Objeto Listagem de erros: Ocorre na validação do body
+    
+    ``` javascript
+        {
+          "errors": [
+          {
+            "error_code": 400,
+            "parameter_name": "error message",
+            "message": "parameter.code"
+          }]
+        }    
+    ``` 
+
+    - Objeto Erro:  Ocorre na validação do body e devido ações indisponíveis
+
+    ``` javascript
+        {
+            "error_code": 409,
+            "parameter_name": "error message",
+            "message": "parameter.code"
+        }
+    ```
+    
+    |  parâmetro | descrição | tipo  | 
+    |---|---|---|
+    | error_code  | _Http code_ do erro | `int`  |  
+    | parameter_name  | Código do erro  | `string`  |  
+    | message | Mensagem do erro, resumo do ocorrido  | `string`  |  
+
     Este serviço possui 5 _endpoints_:
     - `GET/todos/`:retorna um `Todo[]`, representando a lista de _todos_ do usuário.
     - `POST/todos/`:cria um _todo_ para o usuário. Aceita como corpo de requisição um JSON como campo`description`. Retorna o `Todo` criado.
@@ -84,7 +123,7 @@ info:
     O código fonte da sua aplicação deve estar disponível em algum repositório público (recomandamos hospedar no _GitHub_). Recomendamos também documentar as instruções para realizar a _build_ do projeto, claro, se for necessário. Hospedar gratuitamente em algum site (como no próprio _GitHub_ ou no _surge.sh_) para agilizar a nossa avaliação também é desejável.
     ```
   contact: {}
-  version: '1.0'
+  version: '1.7.2'
 servers:
   - url: 'http://example.com/v1'
     variables: {}
