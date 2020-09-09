@@ -2456,61 +2456,74 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /plans/1343/checkout:
-    get:
+  /plans/{planId}/pricing-options/{pricingOptionId}/checkout:
+    post:
       tags:
-        - Plan Checkout
-      summary: Get Plan Checkout
-      operationId: GetPlanCheckout
+        - Planos - Página de Checkout
+      summary: Criando página de checkout
+      operationId: CreatePlanCheckout
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
+        - name: api_key
           in: header
           description: ''
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlanCheckoutRequest'
+            example:
+              valid_until: 2020-09-12T22:33:11
+              is_time_defined: false
+              coupon_enabled: false
+              checkout_type: step
+        required: true
       responses:
         '200':
-          description: ''
+          description: 'Página de checkout criado com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Dado para criar checkout não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  '/plans/1822/}/pricing-options/e739480f-b461-4a5f-b351-ee2c62cabb21/checkout':
-    post:
+    get:
       tags:
-        - Plan Checkout
-      summary: Create Plan Checkout
+        - Planos - Página de Checkout
+      summary: Consultando página de checkout
       operationId: CreatePlanCheckout
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
+        - name: api_key
           in: header
           description: ''
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       requestBody:
         description: ''
         content:
@@ -2523,113 +2536,105 @@ paths:
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Consulta realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Dado para consulta não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /plans/1120/pricing-options/bb3371fb-9d95-4702-8d5a-5716a2a83803/checkout/19:
-    put:
+  /plans/{planId}/checkout:
+    get:
       tags:
-        - Plan Checkout
-      summary: Update Plan Checkout
-      operationId: UpdatePlanCheckout
+        - Planos - Página de Checkout
+      summary: Consultando checkouts de um plano
+      operationId: GetPlanCheckout
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
+        - name: api_key
           in: header
           description: ''
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
+  /plans/{planId}/pricing-options/{pricingOptionId}/checkout/{checkoutId}:
+    put:
+      tags:
+        - Planos - Página de Checkout
+      summary: Atualizando dados de checkout
+      operationId: UpdatePlanCheckout
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdatePlanCheckoutRequest'
-            example:
-              valid_until: '2020-08-07'
+              $ref: '#/components/schemas/CreatePlanCheckoutRequest'
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Checkout atualizado com sucesso'
           headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1066/checkout:
-    delete:
-      tags:
-        - Plan Checkout
-      summary: Inactive Plan Checkout
-      operationId: InactivePlanCheckout
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Dado para atualização não encontrado'
           headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1066/checkout/active:
-    put:
-      tags:
-        - Plan Checkout
-      summary: Active Plan Checkout
-      operationId: ActivePlanCheckout
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Conflito, analisar objeto de retorno'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
@@ -2827,7 +2832,7 @@ paths:
   /plans/1141/pricing-options:
     get:
       tags:
-        - Pricing Options
+        - Preços
       summary: Get Plan Pricing Options
       operationId: GetPlanPricingOptions
       parameters:
@@ -2859,7 +2864,7 @@ paths:
   /plans/1132/pricing-options/id:
     get:
       tags:
-        - Pricing Options
+        - Preços
       summary: Get Specific Plan Pricing Options
       operationId: GetSpecificPlanPricingOptions
       parameters:
@@ -2962,7 +2967,7 @@ paths:
   /plans/1584/pricing-options:
     post:
       tags:
-        - Pricing Options
+        - Preços
       summary: Create Plan Pricing Option
       operationId: CreatePlanPricingOption
       parameters:
@@ -3015,7 +3020,7 @@ paths:
   /plans/1110/pricing-options/17a100e9-8c1c-41c7-b3d9-b1459986692a:
     put:
       tags:
-        - Pricing Options
+        - Preços
       summary: Update Price Option
       operationId: UpdatePriceOption
       parameters:
@@ -3067,15 +3072,61 @@ paths:
         '200':
           description: ''
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
   /plans:
+    post:
+      tags:
+        - Planos
+      summary: Criando um Plano
+      operationId: CreatePlan
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlanRequest'
+        required: true
+      responses:
+        '200':
+          description: 'Plano criado com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+        '400':
+          description: 'Erro de validação'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/ListErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
     get:
       tags:
-        - Plans
+        - Planos
       summary: Get Plans
       operationId: GetPlans
       parameters:
@@ -3105,70 +3156,6 @@ paths:
           schema:
             type: string
             example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Plans
-      summary: Create Plan
-      operationId: CreatePlan
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlanRequest'
-            example:
-              name: AVANÇADO 3
-              plan_code: string
-              description: string
-              pricing_options:
-                - amount: 1000
-                  currency: BRL
-                  setup_fee: 1000
-                  count: 12
-                  interval: 1
-                  frequency: MONTHLY
-                  rrule: COUNT=12;FREQ=MONTHLY;INTERVAL=1
-                  auto_renew: false
-                  trial_amount: 0
-                  trial_interval: 0
-                  trial_unit: MONTHLY
-                  default: true
-              payment_methods:
-                - credit_card
-              callback_url: 'http://www.google.com.br'
-              redirect_url_on_success: null
-              redirect_url_on_failure: null
-              enable_customer_suspension: true
-              enable_customer_cancelation: true
-              require_billing_address: true
-              require_shipping_address: true
-        required: true
       responses:
         '200':
           description: ''
@@ -3213,7 +3200,7 @@ paths:
   /plans/1120:
     get:
       tags:
-        - Plans
+        - Planos
       summary: Get Specific Plan
       operationId: GetSpecificPlan
       parameters:
@@ -3245,7 +3232,7 @@ paths:
   /plans/1079:
     put:
       tags:
-        - Plans
+        - Planos
       summary: Update Plan
       operationId: UpdatePlan
       parameters:
@@ -3299,7 +3286,7 @@ paths:
   /plans/1412/active:
     put:
       tags:
-        - Plans
+        - Planos
       summary: Active Plan
       operationId: ActivePlan
       parameters:
@@ -3331,7 +3318,7 @@ paths:
   /plans/DIARY_PLAN22/inactive:
     put:
       tags:
-        - Plans
+        - Planos
       summary: Inactive Plan
       operationId: InactivePlan
       parameters:
@@ -3612,7 +3599,7 @@ paths:
     post:
       tags:
         - Clientes - Página de Checkout
-      summary: Send Subscribe Link
+      summary: Enviando link para o assinante
       operationId: SendSubscribeLink
       parameters:
         - name: customerId
@@ -3676,7 +3663,7 @@ paths:
     delete:
       tags:
         - Clientes - Página de Checkout
-      summary: Delete Customer Link
+      summary: Removendo link de pagamento
       operationId: DeleteCustomerLink
       parameters:
         - name: customerId
@@ -3733,7 +3720,7 @@ paths:
     get:
       tags:
         - Clientes - Página de Checkout
-      summary: Get Subscribe Link
+      summary: Consultando links de pagamento
       operationId: GetSubscribeLink
       parameters:
         - name: customerId
@@ -5423,7 +5410,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-    /coupons/report:
+  /coupons/report:
     get:
       tags:
         - Cupons
@@ -8337,10 +8324,8 @@ components:
       properties:
         errors:
           type: array
-        message:
-          type: string
-        parameter_name:
-          type: string
+          items:
+            $ref: '#/components/schemas/SimpleErrorResponse'
     CustomerCheckoutLinkResponse:
       title: CustomerCheckoutLinkResponse
       properties:
@@ -8378,7 +8363,48 @@ components:
         status:
           type: string
           description: Status do link de pagamento 
-
+    PlanCheckoutResponse:
+      title: PlanCheckoutResponse
+      properties:
+        checkout_id:
+          type: integer
+          description: Id do chekout
+        plan_id:
+          type: integer
+          description: Id do plano
+        pricing_option_id:
+          type: string
+          description: Id do preço
+        hash:
+          type: string
+          description: Hash do checkout
+        valid_until:
+          type: string
+          format: date-time
+          description: Data UTC de expiração do checkout
+        is_time_defined:
+          type: boolean
+          description: Flag de validação de horário na expiração do checkout
+        url:
+          type: string
+          description: Url de acesso para o checkout
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação do checkout
+        update_date:
+          type: string
+          format: date-time
+          description: Data de criação do checkout
+        status:
+          type: string
+          description: Status do checkout
+        checkout_type:
+          type: string
+          description: Tipo do checkout
+        coupon_enabled:
+          type: boolean
+          description: Flag para habilitar cupom no checkout
     CreateCompanyRequest:
       title: CreateCompanyRequest
       required:
@@ -10281,18 +10307,29 @@ components:
     CreatePlanCheckoutRequest:
       title: CreatePlanCheckoutRequest
       required:
-        - valid_until
         - checkout_type
       type: object
       properties:
         valid_until:
           type: string
+          format: date-time
           nullable: true
+          description: Data de validade do checkout
         checkout_type:
           type: string
+          description: Tipo do checkout - obrigatório ser step
+        is_time_defined:
+          type: boolean
+          description: Flag para habilitar horas na validação
+        coupon_enabled:
+          type: boolean
+          description: Flag para habilitar cupom
+          nullable: true
       example:
-        valid_until: null
-        checkout_type: step
+          valid_until: 2020-09-12T22:33:11
+          is_time_defined: false
+          coupon_enabled: false
+          checkout_type: step
     UpdatePlanCheckoutRequest:
       title: UpdatePlanCheckoutRequest
       required:
@@ -10515,52 +10552,54 @@ components:
       required:
         - name
         - plan_code
-        - description
         - pricing_options
         - payment_methods
-        - callback_url
-        - redirect_url_on_success
-        - redirect_url_on_failure
-        - enable_customer_suspension
-        - enable_customer_cancelation
-        - require_billing_address
-        - require_shipping_address
       type: object
       properties:
         name:
           type: string
+          description: Nome do plano
         plan_code:
           type: string
+          description: Código do plano. Quando não enviado será gerado pela Cyclopay 
         description:
           type: string
+          description: Descrição do plano. Esse campo é exibido na seção *Descrição* na página de checkout
         pricing_options:
           type: array
           items:
             $ref: '#/components/schemas/PricingOption'
-          description: ''
+          description: 'Preços de um plano'
         payment_methods:
           type: array
           items:
             type: string
-          description: ''
+          description: 'Métodos de pagamento, credit_card ou boleto'
         callback_url:
           type: string
+          description: Url de callback para resposta de nosso servidor
         redirect_url_on_success:
           type: string
           nullable: true
+          description: Url de redirecionamento quando pagamento via checkout é realizado com sucesso
         redirect_url_on_failure:
           type: string
           nullable: true
+          description: Url de redirecionamento quando pagamento via checkout resulta em falha
         enable_customer_suspension:
           type: boolean
+          description: Habilita o botão para suspensão via backoffice das assinaturas deste plano 
         enable_customer_cancelation:
           type: boolean
+          description: Configuração do plano para identificar se os assinantes podem efetuar o cancelamento do plano via portal
         require_billing_address:
           type: boolean
+          description: Configuração do plano para exigir que os assinantes possuam endereço de cobrança
         require_shipping_address:
           type: boolean
+          description: Configuração do plano para exigir que os assinantes possuam endereço de entrega
       example:
-        name: AVANÇADO 3
+        name: string
         plan_code: string
         description: string
         pricing_options:
@@ -10578,9 +10617,10 @@ components:
             default: true
         payment_methods:
           - credit_card
-        callback_url: 'http://www.google.com.br'
-        redirect_url_on_success: null
-        redirect_url_on_failure: null
+          - boleto
+        callback_url: 'string'
+        redirect_url_on_success: string
+        redirect_url_on_failure: string
         enable_customer_suspension: true
         enable_customer_cancelation: true
         require_billing_address: true
@@ -10590,61 +10630,75 @@ components:
       required:
         - amount
         - currency
-        - setup_fee
         - count
         - interval
         - frequency
-        - rrule
         - auto_renew
-        - trial_amount
-        - trial_interval
-        - trial_unit
-        - default
       type: object
       properties:
         amount:
           type: integer
           format: int32
+          description: Valor do preço em centavos
+        pricing_code:
+          type: string
+          description: Código do preço, Quando não enviado, será gerado via servidor
         currency:
           type: string
+          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
         setup_fee:
           type: integer
           format: int32
+          description: Valor de Setup em centavos
         count:
           type: integer
           format: int32
+          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
         interval:
           type: integer
           format: int32
+          description: Intervalo entre as cobranças
         frequency:
           type: string
+          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
         rrule:
           type: string
+          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
         auto_renew:
           type: boolean
+          description: Identificador de renovação automática.
         trial_amount:
           type: integer
           format: int32
+          description: TRIAL - Preço em centavos
         trial_interval:
           type: integer
           format: int32
+          description: TRIAL - Quantidade de cobranças de trial
         trial_unit:
           type: string
-        default:
+          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
+        is_default:
           type: boolean
+          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
+        billing_day:
+          type: integer
+          format: int32
+          description: Dia que deve ser realizada a cobrança, quando não definido, as cobranças serão realizadas no dia da assinatura
       example:
-        amount: 1000
+      - amount: 11300
+        pricing_code: ALHS22SX
         currency: BRL
-        setup_fee: 1000
-        count: 12
+        count: 1
         interval: 1
         frequency: MONTHLY
-        rrule: COUNT=12;FREQ=MONTHLY;INTERVAL=1
         auto_renew: false
         trial_amount: 0
         trial_interval: 0
+        setup_fee: 0
         trial_unit: MONTHLY
-        default: true
+        is_default: true
+        billing_day: 5
     UpdatePlanRequest:
       title: UpdatePlanRequest
       required:
@@ -11561,6 +11615,74 @@ components:
             billing_date: '2020-09-04T00:00:00'
             create_date: '2018-09-04T21:36:28.23'
             update_date: null
+    PlansResponse:
+      title: PlanRequest
+      properties:
+        plan_id:
+          type: integer
+          description: Id do plano
+        name:
+          type: string
+          description: Nome do plano
+        plan_code:
+          type: string
+          description: Código do plano
+        description:
+          type: string
+          description: Descrição do plano
+        taxable:
+          type: boolean
+          description: Identificador de taxas sobre o plano
+        tax_code:
+          type: string
+          description: Código da taxa cadastrada
+        tax_included:
+          type: string
+          description: Verificador de taxa inclusa ou não sobre o preço do plano
+        pricing_options:
+          type: array
+          description: Preços do plano
+        payment_methods:
+          type: string
+          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
+        metadata:
+          type: object
+          description: Objeto livre
+        callback_url:
+          type: string
+          description: URL de callback
+        redirect_url_on_success:
+          type: string
+          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
+        redirect_url_on_failure:
+          type: string
+          description: URL de redirecionamento em caso de falha no pagamento do checkout
+        enable_customer_suspension:
+          type: boolean
+          description: Flag para identificar que o assinante pode suspender o plano
+        enable_customer_cancelation:
+          type: boolean
+          description: Flag para identificar que o assinante pode cancelar o plano
+        require_billing_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
+        require_shipping_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
+        status:
+          type: string
+          description: Status do plano, active | inactive
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação do plano
+        update_date: 
+          type: string
+          format: date-time
+          description: Data de atualização do plano
+        active: 
+          type: boolean
+          description: Flag para identificar o estado do plano
     Plan:
       title: Plan
       required:
@@ -13212,8 +13334,8 @@ tags:
   - name: Shop
   - name: Plan Checkout
   - name: Tabs
-  - name: Pricing Options
-  - name: Plans
+  - name: Preços
+  - name: Planos
   - name: Cards
   - name: Checkout
     description: '
@@ -13268,19 +13390,19 @@ tags:
         
         > 🚧 Para criar os link, o Plano selecionado deve possuir sua página de Checkout habilitado.
       '
-  - name: Customers
+  - name: Assinantes
   - name: Public routes
   - name: Report
-  - name: Subscription
+  - name: Assinaturas
   - name: Product
   - name: Cupons
   - name: Taxes
   - name: Common
     description: '01-02-2019 15:23: OK TESTADO'
-  - name: Transaction
+  - name: Transações
   - name: Dashboard
   - name: Invoice
-  - name: Sales
+  - name: Vendas
   - name: Invoice Copy
   - name: Modules
   - name: System
@@ -13291,13 +13413,17 @@ x-tagGroups:
   - name: Pagamentos Recorrentes
     description: Teste
     tags:
-      - Admin
+      - Planos
+      - Preços
+      - Cupons
+      - Assinantes
+      - Assinaturas
+      - Vendas
+      - Transações
   - name: Checkout
     tags:
       - Checkout
       - Planos - Página de Checkout
       - Clientes - Página de Checkout
-  - name: Descontos
-    tags:
-      - Invoice
+  
       
