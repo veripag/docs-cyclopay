@@ -3595,41 +3595,7 @@ paths:
             application/json: 
               schema:
                 type: object
-                properties:
-                  plan_checkout_link_id:
-                    type: integer
-                    description: Id do link de pagamento
-                  checkout_id:
-                    type: integer
-                    description: Id do checkout
-                  plan_id:
-                    type: integer
-                    description: Id do plano
-                  pricing_option_id:
-                    type: string
-                    description: Id do preço do plano
-                  pricing_option:
-                    type: object
-                    description: Detalhes do preço utilizado
-                  customer_id:
-                    type: string
-                    description: Id do assinante
-                  expiry_date:
-                    type: string
-                    format: date-time
-                    description: Data UTC do expiração do link
-                  hash:
-                    type: string
-                    description: Código hash do link
-                  is_used:
-                    type: boolean
-                    description: Flag para identificar se o link já foi utilizado
-                  url:
-                    type: string
-                    description: URL de acesso ao link de pagamento
-                  status:
-                    type: string
-                    description: Status do link de pagamento 
+                $ref: '#/components/schemas/CustomerCheckoutLinkResponse'
           headers: {}
         '404':
           description: 'Assinante ou checkout não encontrado'
@@ -3642,122 +3608,166 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout/201/send:
+  /customers/{customerId}/checkout/{checkoutLinkId}/send:
     post:
       tags:
         - Clientes - Página de Checkout
       summary: Send Subscribe Link
       operationId: SendSubscribeLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: uuid
+        - name: checkoutLinkId
+          in: path
+          description: ID do link de pagamento
           required: true
-          style: simple
+          deprecated: false
+          schema:
+            type: integer
+            format: int32
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
           schema:
             type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SendSubscribeLinkRequest'
-            example:
-              plan_id: 1065
-        required: true
+            format: 'api key'
       responses:
         '200':
-          description: ''
+          description: 'Link de pagamento enviado com sucesso.'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: 'Link de pagamento utilizado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Assinante não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Conflito na requisição, verificar resposta'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/b905de9a-7968-4a09-85e3-dec143e4e00c/checkout/25:
+  /customers/{customerId}/checkout/{checkoutLinkId}:
     delete:
       tags:
         - Clientes - Página de Checkout
       summary: Delete Customer Link
       operationId: DeleteCustomerLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: uuid
+        - name: checkoutLinkId
+          in: path
+          description: ID do link de pagamento
           required: true
-          style: simple
+          deprecated: false
+          schema:
+            type: integer
+            format: int32
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
           schema:
             type: string
-            example: live
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
+            format: 'api key'
       responses:
         '200':
-          description: ''
+          description: 'Link removido com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: 'object'
+        '404':
+          description: 'Link de pagamento não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Link de pagamento já utilizado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout:
+  /customers/{customerId}/checkout:
     get:
       tags:
         - Clientes - Página de Checkout
       summary: Get Subscribe Link
       operationId: GetSubscribeLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: Content-Type
+            format: uuid
+        - name: api_key
           in: header
-          description: ''
+          description: Chave de API
           required: true
-          style: simple
           schema:
             type: string
-            example: application/json
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
+            format: 'api key'
       responses:
         '200':
-          description: ''
+          description: 'Consulta realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerCheckoutLinkResponse'
+        '404':
+          description: 'Dados não encontrados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
@@ -8313,6 +8323,62 @@ paths:
           variables: {}
 components:
   schemas:
+    SimpleErrorResponse:
+      title: SimpleErrorResponse
+      properties:
+        error_code:
+          type: integer
+        message:
+          type: string
+        parameter_name:
+          type: string
+    ListErrorResponse:
+      title: ListErrorResponse
+      properties:
+        errors:
+          type: array
+        message:
+          type: string
+        parameter_name:
+          type: string
+    CustomerCheckoutLinkResponse:
+      title: CustomerCheckoutLinkResponse
+      properties:
+        plan_checkout_link_id:
+          type: integer
+          description: Id do link de pagamento
+        checkout_id:
+          type: integer
+          description: Id do checkout
+        plan_id:
+          type: integer
+          description: Id do plano
+        pricing_option_id:
+          type: string
+          description: Id do preço do plano
+        pricing_option:
+          type: object
+          description: Detalhes do preço utilizado
+        customer_id:
+          type: string
+          description: Id do assinante
+        expiry_date:
+          type: string
+          format: date-time
+          description: Data UTC do expiração do link
+        hash:
+          type: string
+          description: Código hash do link
+        is_used:
+          type: boolean
+          description: Flag para identificar se o link já foi utilizado
+        url:
+          type: string
+          description: URL de acesso ao link de pagamento
+        status:
+          type: string
+          description: Status do link de pagamento 
+
     CreateCompanyRequest:
       title: CreateCompanyRequest
       required:
