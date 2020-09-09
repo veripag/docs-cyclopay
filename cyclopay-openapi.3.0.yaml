@@ -7,10 +7,10 @@ info:
 
     Bem vindo à  API da Cyclopay! Você pode utilizar nossa API para realizar o gerenciamento de seus pagamentos recorrentes com facilidade e agilidade.
 
-    Antes de começarmos, pensamos em facilitar ao máximo sua integração com a gente, então disponibilizamos pequenos trechos de código ao longo dessa documentação, escritos em diversas linguagens, entre elas Javascript, Node, Python, Ruby e cURL.
+    Os recursos da plataforma Cyclopay estão disponíveis utilizando o padrão de API REST. Nossas respostas serão sempre em JSON e utilizando os padrões dos códigos HTTP.
 
-    Nossos serviços oferecidos pela API podem ser vistas no menu do lado esquerdo. Separando as funcionalidades pelas sessões.
-
+    Ao longo desta documentação detalharemos cada funcionalidade suportada por nossa API. Caso tenha alguma dúvida, sugestão ou queira reportar algum erro entre em contato através do canal ***integracoes@veripag.com.br***.
+    
     # Começando
 
     Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay no menu Empresa -> Aba Configurações -> Acesso, e pronto! Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
@@ -68,60 +68,79 @@ info:
         }
     ```
     
-    |  parâmetro | descrição | tipo  | 
-    |---|---|---|
-    | error_code  | _Http code_ do erro | `int`  |  
-    | parameter_name  | Código do erro  | `string`  |  
-    | message | Mensagem do erro, resumo do ocorrido  | `string`  |  
+      |  parâmetro | descrição | tipo  | 
+      |---|---|---|
+      | error_code  | _Http Code_ do erro | `int`  |  
+      | parameter_name  | Código do erro  | `string`  |  
+      | message | Mensagem do erro, resumo do ocorrido  | `string`  |  
 
-    Este serviço possui 5 _endpoints_:
-    - `GET/todos/`:retorna um `Todo[]`, representando a lista de _todos_ do usuário.
-    - `POST/todos/`:cria um _todo_ para o usuário. Aceita como corpo de requisição um JSON como campo`description`. Retorna o `Todo` criado.
-    - `PUT/todos/{id}/`:atualiza um _todo_, em que o`id` representa o `id` do _todo_ a ser atualizado. Aceita com o corpo de requisição um JSON com os campos `description` e `done`. Retorna o `Todo` atualizado.
-    - `DELETE/todos/{id}/`:remove um _todo_ da lista, em que o `id` representa o `id` do _todo_ a ser removido.
-    - `POST/login/`: autentica o usuário. Seus formatos de requisição e resposta (ambosJSON) estão descritos abaixo:
-    ```ts
-    interface LoginRequestBody {
-        email: string
-        password: string
-    }
-    interface LoginResponseBody {
-        token: string // O token de autenticação. Armazene-o na localStorage assim que o receber.
-    }
+    # Pesquisas e Retornos
+
+    Continuando com nossa explicação da API Veripag. As funcionalidades que retornam uma lista de dados, que ocorrem nos métodos HTTP GET, possuem funcionalidades de filtro de pesquisa, paginação e ordenação do resultado requerido.
+
+    ## Filtros
+
+    Os filtros de pesquisa são opcionais e devem ser enviados na URL por meio de [QueryString](https://en.wikipedia.org/wiki/Query_string). Contendo formatos específicos de envio de acordo com o tipo de dado. Para dados do tipos numérico e texto, não existem alterações no formato de envio. Para dados do tipo Boolean os dados enviados devem ser:
+
+    - **true**: Verdadeiro
+    - **false**: Falso
+
+    Dados de data, devem serem formatados de acordo com o exemplo abaixo para que seja efetuada a pesquisa de forma correta.
+
     ```
-    Para qualquer requisição para a API (com exceção do login, claro), um cabeçalho `Authorization` deve ser passado, cujo conteúdo é o token armazenado na `localStorage`. Se a API não validar o token, um código HTTP 401 será retornado e a sua aplicação __deve__ tratar essa exceção. Para fins de teste, o corpo de login é:
-    ```json
+      YYYY-MM-DD
+      http://example.cyclopay.com/v1/example?createDateStart=2018-06-15
+
+      MM-DD-YYYY
+      http://example.cyclopay.com/v1/example?createDateStart=06-15-2018
+
+      YYYY/MM/DD
+      http://example.cyclopay.com/v1/example?createDateStart=2018/06/15
+
+      MM/DD/YYYY
+      http://example.cyclopay.com/v1/example?createDateStart=06/15/2018
+    ```
+
+    ## Paginação
+
+    A paginação é realizada a partir do envio dos parâmetros __*count*__ e __*page*__. Após realizar uma pesquisa paginada será respondido a requisição com um objeto, o formato deste objeto é:
+
+    ``` javascript
     {
-        "email": "teste@example.com",
-        "password": "veripag"
+        "total_items": 0,
+        "total_pages": 0,
+        "quantity_page": 10,
+        "actual_page": 1,
+        "items": []
     }
     ```
-    Assim que a aplicação é acessada, ela deve buscar a lista de _todos_.
-    Exemplo:
-    ```js
-    const API_URL = "https://viniciusfonseca-node-todolist.glitch.me"
-    async function fetchTodos() {
-        try {
-            const token = localStorage.getItem('token')
-            const todos = await fetch(`${API_URL}/todos/`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                }
-            }).then(r => r.json())
-            // mostre os todos na tela de todos
-        }
-        catch (e) {
-            // não foi possível validar o token,
-            // faça a validação que achar necessária para obter um novo token.
-        }
-    }
+
+      |  parâmetro | tipo | descrição  | 
+      |---|---|---|
+      | total_items  | `int` | Total de itens retornados no elemento *items*, resultantes da pesquisa.  |  
+      | total_pages  | `int` | Total de páginas retornados na pesquisa de acordo com a quantidade de itens consultados.  |  
+      | quantity_page | `int` | Quantidade de itens por página, definido pelo parâmetro *count*.  |
+      | current_page  | `int`| Página atual pesquisada, definida pelo parâmetro *page*  |  
+      | items  | `object<T>` | Lista da pesquisa, onde T é o objeto contexto da requisição.  |  
+         
+    
+      > Quando o parâmetro page (paginação da pesquisa) não for enviado, a API sempre irá considerar o padrão, retornando a página número 1.
+    
+      > Quando o parâmetro count (quantidade de itens na página) não for enviado, a API sempre irá atribuir a quantidade padrão de 10 itens por página.
+
+    ## Ordenação
+
+    A ordem do resultados, quando possível, podem ser realizadas de forma crescente ou decrescente pela data de criação do registro. Por padrão a ordem dos resultados são sempre em ordem decrescente.
+    Mas ao enviar o parâmetro *"orderDir"* por meio de *QueryString*, você pode alterar a ordenação. 
+    Os possíveis valores do parâmetro *"orderDir"* são: *"asc"* ou *"desc"*.
+    - __asc__: Ordenação crescente.
+    - __desc__: Ordenação decrescente.
+
+    
     ```
-    A tela de _todos_ deve conter um campo para adicionar novos _todos_ e uma lista contendo os _todos_ já adicionados.
-    Cada item da lista de _todos_ deve conter um campo para editar a descrição do _todo_, um botão para marcá-lo ou desmarcá-lo como feito e um botão para apagá-lo. __Cada funcionalidade deve ser sincronizada com uma chamada na API e a lista, atualizada na aplicação.__
-    Você pode utilizar um _framework_ e as bibliotecas que quiser (tais como _Angular_, _React_, _Vue_), desde que a aplicação final seja acessível por meio de um arquivo `.html`, junto com suas dependências. __Caso queira demonstrar seus dotes intelectuais e não utilizar nenhum framework ou biblioteca, fique à vontade.__
-    O código fonte da sua aplicação deve estar disponível em algum repositório público (recomandamos hospedar no _GitHub_). Recomendamos também documentar as instruções para realizar a _build_ do projeto, claro, se for necessário. Hospedar gratuitamente em algum site (como no próprio _GitHub_ ou no _surge.sh_) para agilizar a nossa avaliação também é desejável.
+      http://example.veripag.com/v1/example?orderDir=asc
     ```
+
   contact: {}
   version: '1.7.2'
 servers:
