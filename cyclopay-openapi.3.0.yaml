@@ -5,7 +5,9 @@ info:
 
     # Introdução à Cyclopay
 
-    Bem vindo à  API da Cyclopay! Você pode utilizar nossa API para realizar o gerenciamento de seus pagamentos recorrentes com facilidade e agilidade.
+    Bem vindo à  API da Cyclopay! 
+    
+    Você pode utilizar nossa API para realizar o gerenciamento de seus pagamentos recorrentes com facilidade e agilidade.
 
     Os recursos da plataforma Cyclopay estão disponíveis utilizando o padrão de API REST. Nossas respostas serão sempre em JSON e utilizando os padrões dos códigos HTTP.
 
@@ -74,11 +76,11 @@ info:
       | parameter_name  | Código do erro  | `string`  |  
       | message | Mensagem do erro, resumo do ocorrido  | `string`  |  
 
-    # Pesquisas e Retornos
+    ## Pesquisas e Retornos
 
     Continuando com nossa explicação da API Veripag. As funcionalidades que retornam uma lista de dados, que ocorrem nos métodos HTTP GET, possuem funcionalidades de filtro de pesquisa, paginação e ordenação do resultado requerido.
 
-    ## Filtros
+    ### Filtros
 
     Os filtros de pesquisa são opcionais e devem ser enviados na URL por meio de [QueryString](https://en.wikipedia.org/wiki/Query_string). Contendo formatos específicos de envio de acordo com o tipo de dado. Para dados do tipos numérico e texto, não existem alterações no formato de envio. Para dados do tipo Boolean os dados enviados devem ser:
 
@@ -101,7 +103,7 @@ info:
       http://example.cyclopay.com/v1/example?createDateStart=06/15/2018
     ```
 
-    ## Paginação
+    ### Paginação
 
     A paginação é realizada a partir do envio dos parâmetros __*count*__ e __*page*__. Após realizar uma pesquisa paginada será respondido a requisição com um objeto, o formato deste objeto é:
 
@@ -121,18 +123,18 @@ info:
       | total_pages  | `int` | Total de páginas retornados na pesquisa de acordo com a quantidade de itens consultados.  |  
       | quantity_page | `int` | Quantidade de itens por página, definido pelo parâmetro *count*.  |
       | current_page  | `int`| Página atual pesquisada, definida pelo parâmetro *page*  |  
-      | items  | `object<T>` | Lista da pesquisa, onde T é o objeto contexto da requisição.  |  
+      | items  | `T` | Lista da pesquisa, onde T é o objeto contexto da requisição.  |  
          
     
       > Quando o parâmetro page (paginação da pesquisa) não for enviado, a API sempre irá considerar o padrão, retornando a página número 1.
     
       > Quando o parâmetro count (quantidade de itens na página) não for enviado, a API sempre irá atribuir a quantidade padrão de 10 itens por página.
 
-    ## Ordenação
+    ### Ordenação
 
     A ordem do resultados, quando possível, podem ser realizadas de forma crescente ou decrescente pela data de criação do registro. Por padrão a ordem dos resultados são sempre em ordem decrescente.
-    Mas ao enviar o parâmetro *"orderDir"* por meio de *QueryString*, você pode alterar a ordenação. 
-    Os possíveis valores do parâmetro *"orderDir"* são: *"asc"* ou *"desc"*.
+    Mas ao enviar o parâmetro "*orderDir*" por meio de *QueryString*, você pode alterar a ordenação. 
+    Os possíveis valores do parâmetro "*orderDir*" são: "*asc*" ou "*desc*".
     - __asc__: Ordenação crescente.
     - __desc__: Ordenação decrescente.
 
