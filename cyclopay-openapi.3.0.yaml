@@ -153,7 +153,7 @@ servers:
   - url: 'https://cyclo-payment-develop.azurewebsites.net/api'
     variables: {}
 paths:
-    /users:
+  /users:
     get:
       tags:
         - User
@@ -230,7 +230,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /users/23:
+  /users/{userId}:
     get:
       tags:
         - User
@@ -262,7 +262,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /users/permissions65:
+  /users/permissions/65:
     get:
       tags:
         - User
@@ -3950,7 +3950,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-   /transactions:
+  /transactions:
     get:
       tags:
         - Transaction
