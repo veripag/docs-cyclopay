@@ -15,7 +15,9 @@ info:
     
     # Começando
 
-    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay no menu Empresa -> Aba Configurações -> Acesso, e pronto! Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
+    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay, acessando o menu Empresa -> Aba Configurações -> Acesso! 
+    
+    Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
 
     > A chave de api é uma chave secreta, única e intransferível. A Veripag não se responsabiliza pela forma de utilização e administração das chaves fornecidas. Porém em caso de perda da sua chave, você pode recria-la utilizando a funcionalidade Redefinir Chaves.
 
