@@ -15,7 +15,7 @@ info:
     
     # Começando
 
-    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay, acessando o menu Empresa -> Aba Configurações -> Acesso! 
+    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay, acessando o menu Empresa -> Aba Configurações -> Acesso. 
     
     Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
 
@@ -3550,29 +3550,36 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout/5:
+  /customers/{customerId}/checkout/{checkoutId}:
     post:
       tags:
-        - Checkout
-      summary: Subscribe Link
+        - Clientes - Página de Checkout
+      summary: Criando link de pagamento
       operationId: SubscribeLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: uuid
+        - name: checkoutId
+          in: path
+          description: ID do checkout de um plano
           required: true
-          style: simple
+          deprecated: false
+          schema:
+            type: integer
+            format: int32
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
           schema:
             type: string
-            example: live
+            format: 'api key'
         - name: Content-Type
           in: header
           description: ''
@@ -3583,7 +3590,52 @@ paths:
             example: application/json
       responses:
         '200':
-          description: ''
+          description: 'Link criado com sucesso'
+          content: 
+            application/json: 
+              schema:
+                type: object
+                properties:
+                  plan_checkout_link_id:
+                    type: integer
+                    description: Id do link de pagamento
+                  checkout_id:
+                    type: integer
+                    description: Id do checkout
+                  plan_id:
+                    type: integer
+                    description: Id do plano
+                  pricing_option_id:
+                    type: string
+                    description: Id do preço do plano
+                  pricing_option:
+                    type: object
+                    description: Detalhes do preço utilizado
+                  customer_id:
+                    type: string
+                    description: Id do assinante
+                  expiry_date:
+                    type: string
+                    format: date-time
+                    description: Data UTC do expiração do link
+                  hash:
+                    type: string
+                    description: Código hash do link
+                  is_used:
+                    type: boolean
+                    description: Flag para identificar se o link já foi utilizado
+                  url:
+                    type: string
+                    description: URL de acesso ao link de pagamento
+                  status:
+                    type: string
+                    description: Status do link de pagamento 
+          headers: {}
+        '404':
+          description: 'Assinante ou checkout não encontrado'
+          headers: {}
+        '409':
+          description: 'Erro de conflito ao criar link de pagamento, analisar resposta'
           headers: {}
       deprecated: false
       security: []
@@ -3593,7 +3645,7 @@ paths:
   /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout/201/send:
     post:
       tags:
-        - Checkout
+        - Clientes - Página de Checkout
       summary: Send Subscribe Link
       operationId: SendSubscribeLink
       parameters:
@@ -3634,7 +3686,7 @@ paths:
   /customers/b905de9a-7968-4a09-85e3-dec143e4e00c/checkout/25:
     delete:
       tags:
-        - Checkout
+        - Clientes - Página de Checkout
       summary: Delete Customer Link
       operationId: DeleteCustomerLink
       parameters:
@@ -3674,7 +3726,7 @@ paths:
   /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout:
     get:
       tags:
-        - Checkout
+        - Clientes - Página de Checkout
       summary: Get Subscribe Link
       operationId: GetSubscribeLink
       parameters:
@@ -13098,6 +13150,58 @@ tags:
   - name: Plans
   - name: Cards
   - name: Checkout
+    description: '
+      Nesta seção é apresentado como criar e gerenciar as funcionalidades de Checkout, sendo elas a gestão dos checkout dos planos, os links de assinaturas, a página de checkout.
+    
+
+      **Gestão de checkout dos Planos**: Permite habilitar e configurar a página de checkout do plano.
+
+
+      **Link de Assinatura**: Checkout específico para um determinado assinante.
+
+
+      **Checkout**: Visualização dos dados para a página e Requisição de Assinar.
+
+
+      Ao gerar uma página de checkout ou link de assinatura, é possível utilizar a url retornada para acessar a pagina de checkout com os dados do assinantes já preenchidos, necessitando apenas o preenchimento dos dados do meio de pagamento.
+      '
+  - name: Planos - Página de Checkout
+    description: '
+          Começando temos que habilitar a página de checkout de um determinado plano, os pré requisitos para poder criar e configurar uma página de checkout são:
+          
+          - Plano selecionado ser existente
+          - Plano estar de modo **ATIVO**
+          
+          Estas páginas podem possuir validade, quando houver esta informação, a página ficará disponível até a data de validade.
+                  
+          > ### Link de página expirada
+          
+          > Quando a página de checkout do plano estiver expirada, você pode renovar a data de validade atualizando o campo "valid_until" para uma nova data, ou se quiser indicar que está página ficará sempre disponível atualizando este campo acima sem informar data.
+       '
+  - name: Clientes - Página de Checkout
+    description: '
+        Links de assinatura para os assinantes já cadastrados na plataforma. Os links são semelhantes aos gerados pela funcionalidade de *Página de Checkout*.
+
+        
+        Os pré-requisitos para utilizar essa funcionalidade são:
+         
+        - Possuir assinantes cadastrados
+        - Possuir plano cadastrado
+
+        Diferente da Página de Checkout, os links possuem algumas características e diferenças, elas são:
+
+        - Os links possuem validade
+        
+        > 🚧 A validade padrão dos links são de 24 horas após a sua data de criação.
+
+        - Os links são únicos
+        
+        > 🚧 Os links de assinatura não podem ser utilizado mais de uma vez.
+
+        - Plano selecionado necessita possuir checkout
+        
+        > 🚧 Para criar os link, o Plano selecionado deve possuir sua página de Checkout habilitado.
+      '
   - name: Customers
   - name: Public routes
   - name: Report
@@ -13117,3 +13221,17 @@ tags:
   - name: Configuration
   - name: IPN
   - name: Functions
+x-tagGroups:
+  - name: Pagamentos Recorrentes
+    description: Teste
+    tags:
+      - Admin
+  - name: Checkout
+    tags:
+      - Checkout
+      - Planos - Página de Checkout
+      - Clientes - Página de Checkout
+  - name: Descontos
+    tags:
+      - Invoice
+      
