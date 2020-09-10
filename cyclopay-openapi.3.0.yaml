@@ -1,6 +1,11 @@
 openapi: 3.0.0
 info:
   title: bill-service.1.8
+  "x-logo": {
+      "url": "https://veripagassets.blob.core.windows.net/img/logotipo-veripag-cyclopay%402x.png",
+      "backgroundColor": "#F6F6F6",
+      "altText": "Cyclopay logo"
+    }
   description: |-
 
 
