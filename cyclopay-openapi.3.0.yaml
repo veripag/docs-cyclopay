@@ -6,1496 +6,159 @@ info:
       "backgroundColor": "#F6F6F6",
       "altText": "Cyclopay logo"
     }
+  title: api.cyclopay
   description: |-
 
+    # Introdução à Cyclopay
 
-    # Introdução à Veripag
+    Bem vindo à  API da Cyclopay! 
+    
+    Você pode utilizar nossa API para realizar o gerenciamento de seus pagamentos recorrentes com facilidade e agilidade.
 
-    Bem vindo à  API de sub-adquirente Veripag! Você pode utilizar nossa API para realizar o gerenciamento de sua sub-adquirente com facilidade e agilidade.
+    Os recursos da plataforma Cyclopay estão disponíveis utilizando o padrão de API REST. Nossas respostas serão sempre em JSON e utilizando os padrões dos códigos HTTP.
 
-    Antes de começarmos, pensamos em facilitar ao máximo sua integração com a gente, então disponibilizamos pequenos trechos de código ao longo dessa documentação, escritos em diversas linguagens, entre elas Javascript, Node, Python, Ruby e cURL.
-
-    Nossos serviços oferecidos pela API podem ser vistas no menu do lado esquerdo. Separando as funcionalidades pelas sessões estabelecimentos,terminais e transações.
-
+    Ao longo desta documentação detalharemos cada funcionalidade suportada por nossa API. Caso tenha alguma dúvida, sugestão ou queira reportar algum erro entre em contato através do canal ***integracoes@veripag.com.br***.
+    
     # Começando
 
-    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que também podemos chamar de *"api_key"*), que é obtida na integração ou por meio do contato com o nosso suporte, e pronto! Com a api_key em mãos você já pode começar à utilizar tudo que a API sub-adquirente Veripag pode oferecer.
+    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay, acessando o menu Empresa -> Aba Configurações -> Acesso. 
+    
+    Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
 
-    > A chave de api é uma chave secreta, única e intransferível. A Veripag não se responsabiliza pela forma de utilização e administração das chaves fornecidas. Porém em caso de perda da sua chave, você pode recria-la entrando em contato com nosso suporte.
+    > A chave de api é uma chave secreta, única e intransferível. A Veripag não se responsabiliza pela forma de utilização e administração das chaves fornecidas. Porém em caso de perda da sua chave, você pode recria-la utilizando a funcionalidade Redefinir Chaves.
 
-    Você deverá preparar uma __aplicação client-side__ utilizando __HTML__, __CSS__ e __Javascript__.
-    A aplicação consiste de um gerenciamento de uma lista de afazeres ou tarefas, o famoso _todo-list_.
-    Ademais, consistirá de duas telas:
-    - Tela de Login;
-    - Lista de "Todos", isto é, os afazeres.
-    A aplicação deverá consumir um serviço, que pode ser acessado por meio da URL 
-    `https://veripag-node-todolist.glitch.me`.
-    Os _todos_ possuem a seguinte modelagem no banco de dados:
-    ```ts
-    interface Todo {
-        id: number // id da tarefa
-        description: string // descrição da tarefa
-        done: boolean // se ela já foi realizada
-        createdAt: Date // data de criação
-        updatedAt: Date // data de atualização
-    }
+    ## Autenticação
+
+    A autenticação de acesso à API é realizado por meio da [Headers](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers), necessitando 
+    o cabeçalho "api_key" a cada solicitação.
+
+    Abaixo segue um exemplo de requisição à API Cyclopay 
+
+    ``` curlrc
+          curl --location --request GET 'https://api-billing.veripag.com.br/v1/customers' \
+          --header 'api_key: ak_sandbox_bfffff8fc80096c0b8e6c95d7d670e080bf3ffff' \
     ```
-    Este serviço possui 5 _endpoints_:
-    - `GET/todos/`:retorna um `Todo[]`, representando a lista de _todos_ do usuário.
-    - `POST/todos/`:cria um _todo_ para o usuário. Aceita como corpo de requisição um JSON como campo`description`. Retorna o `Todo` criado.
-    - `PUT/todos/{id}/`:atualiza um _todo_, em que o`id` representa o `id` do _todo_ a ser atualizado. Aceita com o corpo de requisição um JSON com os campos `description` e `done`. Retorna o `Todo` atualizado.
-    - `DELETE/todos/{id}/`:remove um _todo_ da lista, em que o `id` representa o `id` do _todo_ a ser removido.
-    - `POST/login/`: autentica o usuário. Seus formatos de requisição e resposta (ambosJSON) estão descritos abaixo:
-    ```ts
-    interface LoginRequestBody {
-        email: string
-        password: string
-    }
-    interface LoginResponseBody {
-        token: string // O token de autenticação. Armazene-o na localStorage assim que o receber.
-    }
+
+    ## Respostas HTTP
+
+    Nossa API é construída com o padrão REST, utilizando melhor dos método e verbos HTTP para identificação das respostas. Cada seção possui a definição de seus erros e possíveis respotas, mas os códigos esperados são:
+
+    - **HTTP 2xx** - Respostas de sucesso. Ocorre quando a requisição foi realizada corretamente pela API.
+
+    - **HTTP 4xx** - Respostas de erros mapeados e identificados, podendo ser solucionados pela mensagem de retorno da API.
+    
+    - **HTTP 5xx** - Erro desconhecido (nesse caso é necessário entrar em contato com o suporte, para identificação do problema).
+
+    ## Erros
+
+    Como falado agora pouco, nossa API possui um objeto padrão para os erros retornados **4xx**. 
+
+    Os objetos são separados em duas categorias
+
+    - Objeto Listagem de erros: Ocorre na validação do body
+    
+    ``` javascript
+        {
+          "errors": [
+          {
+            "error_code": 400,
+            "parameter_name": "error message",
+            "message": "parameter.code"
+          }]
+        }    
+    ``` 
+
+    - Objeto Erro:  Ocorre na validação do body e devido ações indisponíveis
+
+    ``` javascript
+        {
+            "error_code": 409,
+            "parameter_name": "error message",
+            "message": "parameter.code"
+        }
     ```
-    Para qualquer requisição para a API (com exceção do login, claro), um cabeçalho `Authorization` deve ser passado, cujo conteúdo é o token armazenado na `localStorage`. Se a API não validar o token, um código HTTP 401 será retornado e a sua aplicação __deve__ tratar essa exceção. Para fins de teste, o corpo de login é:
-    ```json
+    
+      |  parâmetro | descrição | tipo  | 
+      |---|---|---|
+      | error_code  | _Http Code_ do erro | `int`  |  
+      | parameter_name  | Código do erro  | `string`  |  
+      | message | Mensagem do erro, resumo do ocorrido  | `string`  |  
+
+    ## Pesquisas e Retornos
+
+    Continuando com nossa explicação da API Veripag. As funcionalidades que retornam uma lista de dados, que ocorrem nos métodos HTTP GET, possuem funcionalidades de filtro de pesquisa, paginação e ordenação do resultado requerido.
+
+    ### Filtros
+
+    Os filtros de pesquisa são opcionais e devem ser enviados na URL por meio de [QueryString](https://en.wikipedia.org/wiki/Query_string). Contendo formatos específicos de envio de acordo com o tipo de dado. Para dados do tipos numérico e texto, não existem alterações no formato de envio. Para dados do tipo Boolean os dados enviados devem ser:
+
+    - **true**: Verdadeiro
+    - **false**: Falso
+
+    Dados de data, devem serem formatados de acordo com o exemplo abaixo para que seja efetuada a pesquisa de forma correta.
+
+    ```
+      YYYY-MM-DD
+      http://example.cyclopay.com/v1/example?createDateStart=2018-06-15
+
+      MM-DD-YYYY
+      http://example.cyclopay.com/v1/example?createDateStart=06-15-2018
+
+      YYYY/MM/DD
+      http://example.cyclopay.com/v1/example?createDateStart=2018/06/15
+
+      MM/DD/YYYY
+      http://example.cyclopay.com/v1/example?createDateStart=06/15/2018
+    ```
+
+    ### Paginação
+
+    A paginação é realizada a partir do envio dos parâmetros __*count*__ e __*page*__. Após realizar uma pesquisa paginada será respondido a requisição com um objeto, o formato deste objeto é:
+
+    ``` javascript
     {
-        "email": "teste@example.com",
-        "password": "veripag"
+        "total_items": 0,
+        "total_pages": 0,
+        "quantity_page": 10,
+        "actual_page": 1,
+        "items": []
     }
     ```
-    Assim que a aplicação é acessada, ela deve buscar a lista de _todos_.
-    Exemplo:
-    ```js
-    const API_URL = "https://viniciusfonseca-node-todolist.glitch.me"
-    async function fetchTodos() {
-        try {
-            const token = localStorage.getItem('token')
-            const todos = await fetch(`${API_URL}/todos/`, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': token
-                }
-            }).then(r => r.json())
-            // mostre os todos na tela de todos
-        }
-        catch (e) {
-            // não foi possível validar o token,
-            // faça a validação que achar necessária para obter um novo token.
-        }
-    }
+
+      |  parâmetro | tipo | descrição  | 
+      |---|---|---|
+      | total_items  | `int` | Total de itens retornados no elemento *items*, resultantes da pesquisa.  |  
+      | total_pages  | `int` | Total de páginas retornados na pesquisa de acordo com a quantidade de itens consultados.  |  
+      | quantity_page | `int` | Quantidade de itens por página, definido pelo parâmetro *count*.  |
+      | current_page  | `int`| Página atual pesquisada, definida pelo parâmetro *page*  |  
+      | items  | `T` | Lista da pesquisa, onde T é o objeto contexto da requisição.  |  
+         
+    
+      > Quando o parâmetro page (paginação da pesquisa) não for enviado, a API sempre irá considerar o padrão, retornando a página número 1.
+    
+      > Quando o parâmetro count (quantidade de itens na página) não for enviado, a API sempre irá atribuir a quantidade padrão de 10 itens por página.
+
+    ### Ordenação
+
+    A ordem do resultados, quando possível, podem ser realizadas de forma crescente ou decrescente pela data de criação do registro. Por padrão a ordem dos resultados são sempre em ordem decrescente.
+    Mas ao enviar o parâmetro "*orderDir*" por meio de *QueryString*, você pode alterar a ordenação. 
+    Os possíveis valores do parâmetro "*orderDir*" são: "*asc*" ou "*desc*".
+    - __asc__: Ordenação crescente.
+    - __desc__: Ordenação decrescente.
+
+    
     ```
-    A tela de _todos_ deve conter um campo para adicionar novos _todos_ e uma lista contendo os _todos_ já adicionados.
-    Cada item da lista de _todos_ deve conter um campo para editar a descrição do _todo_, um botão para marcá-lo ou desmarcá-lo como feito e um botão para apagá-lo. __Cada funcionalidade deve ser sincronizada com uma chamada na API e a lista, atualizada na aplicação.__
-    Você pode utilizar um _framework_ e as bibliotecas que quiser (tais como _Angular_, _React_, _Vue_), desde que a aplicação final seja acessível por meio de um arquivo `.html`, junto com suas dependências. __Caso queira demonstrar seus dotes intelectuais e não utilizar nenhum framework ou biblioteca, fique à vontade.__
-    O código fonte da sua aplicação deve estar disponível em algum repositório público (recomandamos hospedar no _GitHub_). Recomendamos também documentar as instruções para realizar a _build_ do projeto, claro, se for necessário. Hospedar gratuitamente em algum site (como no próprio _GitHub_ ou no _surge.sh_) para agilizar a nossa avaliação também é desejável.
+      http://example.veripag.com/v1/example?orderDir=asc
     ```
+
   contact: {}
-  version: '1.0'
+  version: '1.7.2'
 servers:
   - url: 'http://example.com/v1'
     variables: {}
   - url: 'https://cyclo-payment-develop.azurewebsites.net/api'
     variables: {}
 paths:
-  /companies/current:
-    get:
-      tags:
-        - Admin
-      summary: Get Current Company
-      operationId: GetCurrentCompany
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_live_edc14416aa77554e3ed3d9e2a81492aea824b
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /companies:
-    get:
-      tags:
-        - Admin
-      summary: Get Company List
-      operationId: GetCompanyList
-      parameters:
-        - name: searchType
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: provider
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_live_edc14416aa77554e3ed3d9e2a81492aea824b
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Admin
-      summary: Create Company
-      operationId: CreateCompany
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: provider-code
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: 91b72929-5725-4c64-9a0f-d1263baf0a7f
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCompanyRequest'
-            example:
-              name: teste-teste
-              adm_name: testeteste
-              adm_email: testetesteteste1222@veripag.com.br
-              legal_name: VERIPAG SISTEMAS DE PAGAMENTOS LTDA
-              document_type: cnpj
-              document_number: 32.367.163/0001-01
-              country_code: '76'
-              website: 'https://www.veripag.com.br'
-              description: Transações Financeiras Inteligentes.
-              category: pagamentos
-              phone_number:
-                - '5511955662211'
-              address:
-                street1: Av. Queiroz Filho
-                street2: ''
-                number: '1560'
-                complement: Torre Beija Flor 4º andar
-                postal_code: '06123456'
-                country_code: '76'
-                district: Vila Leopoldina
-                city: São Paulo
-                state: SP
-                latitude: -5066
-                longitude: 4999
-              payment_configuration:
-                currencies:
-                  - BRL
-                  - USD
-                formToken:
-                  enabled: false
-                  type: pop-in || pop-up
-              cyclo:
-                module_code: Cyclo
-                domain_name: cyclopay.com.br
-                provider_dns: cyclopay.com.br
-                backoffice_dns: app.cyclopay.com.br
-                customer_portal: true
-                styles:
-                  - name: backoffice
-                    url_logo_white: '{{$randomAvatarImage}}'
-                    url_logo_default: '{{$randomAvatarImage}}'
-                    url_logo_black: '{{$randomAvatarImage}}'
-                    favicon: '{{$randomAvatarImage}}'
-                    primary_color: '{{$randomHexColor}}'
-                    secundary_color: '{{$randomHexColor}}'
-                    background_color: '{{$randomHexColor}}'
-                  - name: customer_portal
-                    url_logo_white: '{{$randomAvatarImage}}'
-                    url_logo_default: '{{$randomAvatarImage}}'
-                    url_logo_black: '{{$randomAvatarImage}}'
-                    favicon: '{{$randomAvatarImage}}'
-                    primary_color: '{{$randomHexColor}}'
-                    secundary_color: '{{$randomHexColor}}'
-                    background_color: '{{$randomHexColor}}'
-              metadata:
-                termos: '{{$randomPhrase}}'
-              is_provider: false
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-          content:
-            text/plain:
-              schema:
-                type: object
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /companies/provider/406ba29d-0344-4b20-91a0-4a9a1e667149/companies:
-    get:
-      tags:
-        - Admin
-      summary: Get provider companies
-      operationId: Getprovidercompanies
-      parameters:
-        - name: documentNumber
-          in: query
-          description: Número do documento
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: asdasd
-        - name: name
-          in: query
-          description: Nome da Empresa
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 123123
-        - name: email
-          in: query
-          description: Email do administrador
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: asdasd
-        - name: adminName
-          in: query
-          description: Nome do administrador
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: asdasd
-        - name: status
-          in: query
-          description: 'Status: active | inactive'
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: asdasda
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_live_edc14416aa77554e3ed3d9e2a81492aea824b
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /companies/0097c9ca-02ed-47db-a077-0bb58b876491:
-    get:
-      tags:
-        - Admin
-      summary: Get Company By Id
-      operationId: GetCompanyById
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    put:
-      tags:
-        - Admin
-      summary: Update Company
-      operationId: UpdateCompany
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCompanyRequest'
-            example:
-              id: 124
-              provider_id: 1
-              provider:
-                id: 1
-                provider_id: 0
-                provider: null
-                code: 406ba29d-0344-4b20-91a0-4a9a1e667149
-                adm_name: admin@admin.admin
-                adm_email: admin@admin.admin
-                name: Empresa Veripag12331
-                legal_name: VERIPAG SISTEMAS DE PAGAMENTOS LTDA
-                document_type: cnpj
-                document_number: '29245476000174'
-                country_code: BRA
-                website: 'https://www.veripag.com.br'
-                description: dfgdfgdfgdfg
-                category: pagamentos
-                phones: []
-                address:
-                  address_code: '1'
-                  street1: Av. Queiroz Filho
-                  street2: ''
-                  number: ''
-                  district: ''
-                  city: São Paulo
-                  state: SP
-                  postal_code: '06123456'
-                  additional_info: '1560'
-                api: null
-                payment_configuration:
-                  currencies: null
-                  formtoken_enabled: false
-                  formtoken_type: pop-up
-                cyclo: null
-                metadata: null
-                is_provider: true
-                status: pending
-                create_date: '2018-06-06T14:04:50'
-                update_date: null
-              code: 0097c9ca-02ed-47db-a077-0bb58b876491
-              adm_name: admin@admin.admin
-              adm_email: admin@admin.admin
-              name: Empresa Veripag12331
-              legal_name: Empresa VeriPag12331
-              document_type: cnpj
-              document_number: '19388839000177'
-              country_code: BRA
-              website: www.google.com
-              description: asdasdasd
-              category: ''
-              phones: []
-              address:
-                address_code: '124'
-                street1: Rua Sabará
-                street2: ''
-                number: '123'
-                district: Higienópolis
-                city: São Paulo
-                state: SP
-                postal_code: 01239-010
-                additional_info: ''
-                complement: ''
-                latitude: 0
-                longitude: 0
-              api: null
-              payment_configuration:
-                currencies:
-                  - BRL
-                  - USD
-                formtoken_enabled: false
-                formtoken_type: pop-up
-                formToken:
-                  enabled: false
-                  type: pop-in
-              cyclo:
-                module_code: Bill
-                domain_name: empresa-veripag12331.veripag.com.br
-                provider_dns: ''
-                backoffice_dns: ''
-                customer_portal: false
-                styles: []
-              metadata: {}
-              is_provider: false
-              status: active
-              create_date: '2020-04-28T21:32:20.17'
-              update_date: null
-              phone_number: []
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /companies/07b3d2ea-c3ff-4a63-993f-28eb7bc70a71/styles:
-    get:
-      tags:
-        - Admin
-      summary: Get Company Styles
-      operationId: GetCompanyStyles
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/companies/{company_id}/address':
-    put:
-      tags:
-        - Admin
-      summary: Update Company Address
-      operationId: UpdateCompanyAddress
-      parameters:
-        - name: company_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCompanyAddressRequest'
-            example:
-              street1: Av. Queiroz Filho
-              street2: ''
-              number: '1560'
-              complement: Torre Beija Flor 4º andar
-              postal_code: '06123456'
-              country_code: '76'
-              district: Vila Leopoldina
-              city: São Paulo
-              state: SP
-              latitude: -5066
-              longitude: 4999
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/companies/{company_id}/styles':
-    post:
-      tags:
-        - Admin
-      summary: Create Company Styles
-      operationId: CreateCompanyStyles
-      parameters:
-        - name: company_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCompanyStylesRequest'
-            example:
-              name: backoffice
-              url_logo_white: '{{$randomAvatarImage}}'
-              url_logo_default: '{{$randomAvatarImage}}'
-              url_logo_black: '{{$randomAvatarImage}}'
-              favicon: '{{$randomAvatarImage}}'
-              primary_color: '{{$randomHexColor}}'
-              secundary_color: '{{$randomHexColor}}'
-              background_color: '{{$randomHexColor}}'
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/companies/{company_id}/styles/{style_id}':
-    post:
-      tags:
-        - Admin
-      summary: Update Company Styles
-      operationId: UpdateCompanyStyles
-      parameters:
-        - name: company_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-        - name: style_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateCompanyStylesRequest'
-            example:
-              name: backoffice
-              url_logo_white: '{{$randomAvatarImage}}'
-              url_logo_default: '{{$randomAvatarImage}}'
-              url_logo_black: '{{$randomAvatarImage}}'
-              favicon: '{{$randomAvatarImage}}'
-              primary_color: '{{$randomHexColor}}'
-              secundary_color: '{{$randomHexColor}}'
-              background_color: '{{$randomHexColor}}'
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings:
-    post:
-      tags:
-        - Tests
-      summary: Create Dunning Rule
-      operationId: CreateDunningRule
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateDunningRuleRequest'
-            example:
-              name: primeiro dunning
-              payment_method: credit_card
-              email_bcc: lucas.nalon@veripag.com.br
-              email_from: lucas.nalon@veripag.com.br
-              rule_sets:
-                - on_day: 1
-                  action_type: ''
-                  is_notificated: true
-                  notification_content: ''
-                  final_action: ''
-                  is_final_action: false
-                - on_day: 2
-                  action_type: ''
-                  is_notificated: true
-                  notification_content: ''
-                  final_action: cancel_subscription
-                  is_final_action: true
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    get:
-      tags:
-        - Dunning
-      summary: Get Dunnings Rules
-      operationId: GetDunningsRules
-      parameters:
-        - name: onlyDefault
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: boolean
-            example: true
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings/sales:
-    get:
-      tags:
-        - Sales Dunnings
-      summary: Get Sale Dunnings
-      operationId: GetSaleDunnings
-      parameters:
-        - name: customerId
-          in: query
-          description: id do assinante
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '{{$guid}}'
-        - name: saleId
-          in: query
-          description: id da venda
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '{{$randomInt}}'
-        - name: nextStep
-          in: query
-          description: código da próxima etapa
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 3
-        - name: nextStepStart
-          in: query
-          description: início  da faixa da data próxima etapa executada
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: yyyy-MM-dd
-        - name: nextStepEnd
-          in: query
-          description: final da faixa da data próxima etapa executada
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: yyyy-MM-dd
-        - name: lastStep
-          in: query
-          description: código da última etapa da regra
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 2
-        - name: lastStepStart
-          in: query
-          description: início da faixa da data última etapa executada
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: yyyy-MM-dd
-        - name: lastStepEnd
-          in: query
-          description: final da faixa da data última etapa executada
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: yyyy-MM-dd
-        - name: status
-          in: query
-          description: 'status -  [''in_progress'', ''done'']'
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: in_progress
-        - name: finalAction
-          in: query
-          description: 'ação final: [''cancel_subscription'']'
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: cancel_subscription
-        - name: count
-          in: query
-          description: 'quantidade de itens por página, default: 10'
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 10
-        - name: page
-          in: query
-          description: 'página, default: 1'
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 1
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings/sales/report:
-    get:
-      tags:
-        - Sales Dunnings
-      summary: Report Sale Dunnings
-      operationId: ReportSaleDunnings
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /sales/3294/dunnings/detail:
-    get:
-      tags:
-        - Sales Dunnings
-      summary: Dunning Detail
-      operationId: DunningDetail
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /sales/3294/dunnings:
-    get:
-      tags:
-        - Sales Dunnings
-      summary: Dunning By SaleId
-      operationId: DunningBySaleId
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/dunnings/sales/{saleId}':
-    get:
-      tags:
-        - Sales Dunnings
-      summary: Cancel Sale Dunning
-      operationId: CancelSaleDunning
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: saleId
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings/check:
-    get:
-      tags:
-        - Dunning
-      summary: Check Dunning Exist for Payment Method
-      operationId: CheckDunningExistforPaymentMethod
-      parameters:
-        - name: paymentMethod
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings/69:
-    put:
-      tags:
-        - Dunning
-      summary: Update Dunning Rule
-      operationId: UpdateDunningRule
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateDunningRuleRequest'
-            example:
-              name: EDITAR-lucas
-              payment_method: credit_card
-              email_bcc: ''
-              email_from: lucas.nalon@veripag.com.br
-              rule_sets:
-                - on_day: 1
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: ''
-                  is_final_action: false
-                - on_day: 15
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: cancel_subscription
-                  is_final_action: true
-                - on_day: 2
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: ''
-                  is_final_action: false
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings/31/inactive:
-    put:
-      tags:
-        - Dunning
-      summary: Inactive Dunning Rule
-      operationId: InactiveDunningRule
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/InactiveDunningRuleRequest'
-            example:
-              name: teste2
-              payment_method: credit_card
-              email_bcc: ''
-              email_from: lucas.nalon@veripag.com.br
-              rule_sets:
-                - on_day: 1
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: ''
-                  is_final_action: false
-                - on_day: 15
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: cancel_subscription
-                  is_final_action: true
-                - on_day: 2
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: ''
-                  is_final_action: false
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dunnings/31/active:
-    put:
-      tags:
-        - Dunning
-      summary: Active Dunning Rule
-      operationId: ActiveDunningRule
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ActiveDunningRuleRequest'
-            example:
-              name: teste2
-              payment_method: credit_card
-              email_bcc: ''
-              email_from: lucas.nalon@veripag.com.br
-              rule_sets:
-                - on_day: 1
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: ''
-                  is_final_action: false
-                - on_day: 15
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: cancel_subscription
-                  is_final_action: true
-                - on_day: 2
-                  action_type: payment_retry
-                  is_notificated: true
-                  notification_content: payment-failed
-                  final_action: ''
-                  is_final_action: false
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/login:
-    post:
-      tags:
-        - Auth
-      summary: Login
-      description: Possui script para inserir um token na variável de ambiente chamda token
-      operationId: Login
-      parameters: []
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/LoginRequest'
-            example:
-              email: lucas.nalon@veripag.com.br
-              password: veripag@1234
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/forgot:
-    post:
-      tags:
-        - Auth
-      summary: Forgot
-      operationId: Forgot
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ForgotRequest'
-            example:
-              email: lucas.nalon@veripag.com.br
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/reset:
-    post:
-      tags:
-        - Auth
-      summary: Reset
-      operationId: Reset
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/ResetRequest'
-            example:
-              token: 0bvQotGU0a/Rq9Gl0a7RidGk0KLQutCi0LDQs9C20aTRotC30LnQs9Ct0aLRotC20LjQrdC00LTQuNGj0K3RodGm0LbQs9Ct0aHQstC10abRpNC40LDQsNC20abQtdCy0KLQrNCi0ZXRs9Gl0bLRrtGh0a3RpdCi0LrQotGs0bXRo9Gh0bPQrtGu0aHRrNGv0a7RgNG20aXRstGp0bDRodGn0K7Ro9Gv0a3QrtGi0bLQotCs0KLRhdG40bDRqdGy0aHRtNGp0a/RrtGB0bTRlNGp0aPRq9Ci0LrQttCz0LfQsNCw0LLQt9C50LfQstCw0LXQstCx0LfQsNC00LbRvQ==
-              password: veripag@1234
-              check_password: veripag@1234
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/me:
-    get:
-      tags:
-        - Auth
-      summary: Current User Data
-      operationId: CurrentUserData
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/filters:
-    get:
-      tags:
-        - Configurations
-      summary: Get Filter List
-      operationId: GetFilterList
-      parameters:
-        - name: component
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: subscriptions
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    put:
-      tags:
-        - Configurations
-      summary: Update Filter List
-      operationId: UpdateFilterList
-      parameters:
-        - name: component
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: invoices
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateFilterListRequest'
-            example:
-              order:
-                - customer.first_name
-                - customer.last_name
-                - amount
-                - plan.name
-                - total_amount
-                - billing_date
-                - status
-                - create_date
-                - invoice_code
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
   /users:
     get:
       tags:
@@ -1573,7 +236,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /users/23:
+  /users/{userId}:
     get:
       tags:
         - User
@@ -1605,7 +268,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /users/permissions65:
+  /users/permissions/65:
     get:
       tags:
         - User
@@ -2455,61 +1118,74 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /plans/1343/checkout:
-    get:
+  /plans/{planId}/pricing-options/{pricingOptionId}/checkout:
+    post:
       tags:
-        - Plan Checkout
-      summary: Get Plan Checkout
-      operationId: GetPlanCheckout
+        - Planos - Página de Checkout
+      summary: Criando página de checkout
+      operationId: CreatePlanCheckout
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
+        - name: api_key
           in: header
           description: ''
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlanCheckoutRequest'
+            example:
+              valid_until: 2020-09-12T22:33:11
+              is_time_defined: false
+              coupon_enabled: false
+              checkout_type: step
+        required: true
       responses:
         '200':
-          description: ''
+          description: 'Página de checkout criado com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Dado para criar checkout não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  '/plans/1822/}/pricing-options/e739480f-b461-4a5f-b351-ee2c62cabb21/checkout':
-    post:
+    get:
       tags:
-        - Plan Checkout
-      summary: Create Plan Checkout
+        - Planos - Página de Checkout
+      summary: Consultando página de checkout
       operationId: CreatePlanCheckout
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
+        - name: api_key
           in: header
           description: ''
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       requestBody:
         description: ''
         content:
@@ -2522,113 +1198,105 @@ paths:
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Consulta realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Dado para consulta não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /plans/1120/pricing-options/bb3371fb-9d95-4702-8d5a-5716a2a83803/checkout/19:
-    put:
+  /plans/{planId}/checkout:
+    get:
       tags:
-        - Plan Checkout
-      summary: Update Plan Checkout
-      operationId: UpdatePlanCheckout
+        - Planos - Página de Checkout
+      summary: Consultando checkouts de um plano
+      operationId: GetPlanCheckout
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
+        - name: api_key
           in: header
           description: ''
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
+  /plans/{planId}/pricing-options/{pricingOptionId}/checkout/{checkoutId}:
+    put:
+      tags:
+        - Planos - Página de Checkout
+      summary: Atualizando dados de checkout
+      operationId: UpdatePlanCheckout
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdatePlanCheckoutRequest'
-            example:
-              valid_until: '2020-08-07'
+              $ref: '#/components/schemas/CreatePlanCheckoutRequest'
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Checkout atualizado com sucesso'
           headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1066/checkout:
-    delete:
-      tags:
-        - Plan Checkout
-      summary: Inactive Plan Checkout
-      operationId: InactivePlanCheckout
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
+        '404':
+          description: 'Dado para atualização não encontrado'
           headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1066/checkout/active:
-    put:
-      tags:
-        - Plan Checkout
-      summary: Active Plan Checkout
-      operationId: ActivePlanCheckout
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Conflito, analisar objeto de retorno'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
@@ -2826,7 +1494,7 @@ paths:
   /plans/1141/pricing-options:
     get:
       tags:
-        - Pricing Options
+        - Preços
       summary: Get Plan Pricing Options
       operationId: GetPlanPricingOptions
       parameters:
@@ -2858,7 +1526,7 @@ paths:
   /plans/1132/pricing-options/id:
     get:
       tags:
-        - Pricing Options
+        - Preços
       summary: Get Specific Plan Pricing Options
       operationId: GetSpecificPlanPricingOptions
       parameters:
@@ -2961,7 +1629,7 @@ paths:
   /plans/1584/pricing-options:
     post:
       tags:
-        - Pricing Options
+        - Preços
       summary: Create Plan Pricing Option
       operationId: CreatePlanPricingOption
       parameters:
@@ -3014,7 +1682,7 @@ paths:
   /plans/1110/pricing-options/17a100e9-8c1c-41c7-b3d9-b1459986692a:
     put:
       tags:
-        - Pricing Options
+        - Preços
       summary: Update Price Option
       operationId: UpdatePriceOption
       parameters:
@@ -3066,15 +1734,61 @@ paths:
         '200':
           description: ''
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlanCheckoutResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
   /plans:
+    post:
+      tags:
+        - Planos
+      summary: Criando um Plano
+      operationId: CreatePlan
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreatePlanRequest'
+        required: true
+      responses:
+        '200':
+          description: 'Plano criado com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+        '400':
+          description: 'Erro de validação'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/ListErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
     get:
       tags:
-        - Plans
+        - Planos
       summary: Get Plans
       operationId: GetPlans
       parameters:
@@ -3104,70 +1818,6 @@ paths:
           schema:
             type: string
             example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Plans
-      summary: Create Plan
-      operationId: CreatePlan
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlanRequest'
-            example:
-              name: AVANÇADO 3
-              plan_code: string
-              description: string
-              pricing_options:
-                - amount: 1000
-                  currency: BRL
-                  setup_fee: 1000
-                  count: 12
-                  interval: 1
-                  frequency: MONTHLY
-                  rrule: COUNT=12;FREQ=MONTHLY;INTERVAL=1
-                  auto_renew: false
-                  trial_amount: 0
-                  trial_interval: 0
-                  trial_unit: MONTHLY
-                  default: true
-              payment_methods:
-                - credit_card
-              callback_url: 'http://www.google.com.br'
-              redirect_url_on_success: null
-              redirect_url_on_failure: null
-              enable_customer_suspension: true
-              enable_customer_cancelation: true
-              require_billing_address: true
-              require_shipping_address: true
-        required: true
       responses:
         '200':
           description: ''
@@ -3212,7 +1862,7 @@ paths:
   /plans/1120:
     get:
       tags:
-        - Plans
+        - Planos
       summary: Get Specific Plan
       operationId: GetSpecificPlan
       parameters:
@@ -3244,7 +1894,7 @@ paths:
   /plans/1079:
     put:
       tags:
-        - Plans
+        - Planos
       summary: Update Plan
       operationId: UpdatePlan
       parameters:
@@ -3298,7 +1948,7 @@ paths:
   /plans/1412/active:
     put:
       tags:
-        - Plans
+        - Planos
       summary: Active Plan
       operationId: ActivePlan
       parameters:
@@ -3330,7 +1980,7 @@ paths:
   /plans/DIARY_PLAN22/inactive:
     put:
       tags:
-        - Plans
+        - Planos
       summary: Inactive Plan
       operationId: InactivePlan
       parameters:
@@ -3549,29 +2199,36 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout/5:
+  /customers/{customerId}/checkout/{checkoutId}:
     post:
       tags:
-        - Checkout
-      summary: Subscribe Link
+        - Clientes - Página de Checkout
+      summary: Criando link de pagamento
       operationId: SubscribeLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: uuid
+        - name: checkoutId
+          in: path
+          description: ID do checkout de um plano
           required: true
-          style: simple
+          deprecated: false
+          schema:
+            type: integer
+            format: int32
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
           schema:
             type: string
-            example: live
+            format: 'api key'
         - name: Content-Type
           in: header
           description: ''
@@ -3582,129 +2239,184 @@ paths:
             example: application/json
       responses:
         '200':
-          description: ''
+          description: 'Link criado com sucesso'
+          content: 
+            application/json: 
+              schema:
+                type: object
+                $ref: '#/components/schemas/CustomerCheckoutLinkResponse'
+          headers: {}
+        '404':
+          description: 'Assinante ou checkout não encontrado'
+          headers: {}
+        '409':
+          description: 'Erro de conflito ao criar link de pagamento, analisar resposta'
           headers: {}
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout/201/send:
+  /customers/{customerId}/checkout/{checkoutLinkId}/send:
     post:
       tags:
-        - Checkout
-      summary: Send Subscribe Link
+        - Clientes - Página de Checkout
+      summary: Enviando link para o assinante
       operationId: SendSubscribeLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: uuid
+        - name: checkoutLinkId
+          in: path
+          description: ID do link de pagamento
           required: true
-          style: simple
+          deprecated: false
+          schema:
+            type: integer
+            format: int32
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
           schema:
             type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SendSubscribeLinkRequest'
-            example:
-              plan_id: 1065
-        required: true
+            format: 'api key'
       responses:
         '200':
-          description: ''
+          description: 'Link de pagamento enviado com sucesso.'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+        '403':
+          description: 'Link de pagamento utilizado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Assinante não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Conflito na requisição, verificar resposta'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/b905de9a-7968-4a09-85e3-dec143e4e00c/checkout/25:
+  /customers/{customerId}/checkout/{checkoutLinkId}:
     delete:
       tags:
-        - Checkout
-      summary: Delete Customer Link
+        - Clientes - Página de Checkout
+      summary: Removendo link de pagamento
       operationId: DeleteCustomerLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: uuid
+        - name: checkoutLinkId
+          in: path
+          description: ID do link de pagamento
           required: true
-          style: simple
+          deprecated: false
+          schema:
+            type: integer
+            format: int32
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
           schema:
             type: string
-            example: live
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
+            format: 'api key'
       responses:
         '200':
-          description: ''
+          description: 'Link removido com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: 'object'
+        '404':
+          description: 'Link de pagamento não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Link de pagamento já utilizado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/36a821fa-bf11-410d-b426-2bc0b10e4615/checkout:
+  /customers/{customerId}/checkout:
     get:
       tags:
-        - Checkout
-      summary: Get Subscribe Link
+        - Clientes - Página de Checkout
+      summary: Consultando links de pagamento
       operationId: GetSubscribeLink
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: ID do assinante
           required: true
-          style: simple
+          deprecated: false
           schema:
             type: string
-            example: '{{token}}'
-        - name: Content-Type
+            format: uuid
+        - name: api_key
           in: header
-          description: ''
+          description: Chave de API
           required: true
-          style: simple
           schema:
             type: string
-            example: application/json
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
+            format: 'api key'
       responses:
         '200':
-          description: ''
+          description: 'Consulta realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/CustomerCheckoutLinkResponse'
+        '404':
+          description: 'Dados não encontrados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
@@ -4381,135 +3093,6 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /subscriptions/payment-means/change:
-    get:
-      tags:
-        - Public routes
-      summary: Get Subscription Data
-      operationId: GetSubscriptionData
-      parameters:
-        - name: token
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: 0LHQstCy0Lg=
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    put:
-      tags:
-        - Public routes
-      summary: Update Payment Mean Form
-      operationId: UpdatePaymentMeanForm
-      parameters:
-        - name: token
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: token
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePaymentMeanFormRequest'
-            example:
-              payment_mean_id: 123
-              payment_mean:
-                brand: aa
-                number: '4970100000000014'
-                holder: PRIMEIRO CLIENTE
-                cvv: '554'
-                expiry_date: 12/2022
-                type: credit_card
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /subscriptions/report:
-    get:
-      tags:
-        - Report
-      summary: Subscription Report
-      operationId: SubscriptionReport
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: sandbox
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
   /subscriptions:
     get:
       tags:
@@ -5131,630 +3714,6 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /products:
-    get:
-      tags:
-        - Product
-      summary: Get List Product
-      operationId: GetListProduct
-      parameters:
-        - name: count
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 1
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Product
-      summary: Create Product
-      operationId: CreateProduct
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateProductRequest'
-            example:
-              soft_descriptor: produto-um
-              description: decrição do primeiro produto
-              name: PROD2
-              amount: 100
-              units: TIME
-              currency_code: BRL
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /products/SAMGW3H4X9:
-    get:
-      tags:
-        - Product
-      summary: Get Specific Product
-      operationId: GetSpecificProduct
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    put:
-      tags:
-        - Product
-      summary: Update Product
-      operationId: UpdateProduct
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdateProductRequest'
-            example:
-              reference_code: PRODUCT02
-              soft_descriptor: PRODUTO
-              description: PRODUTO COMERCIALIZADO
-              name: PRODUTO02
-              amount: '1000'
-              units: TIME
-              currency_code: BRL
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /products/PRODUCT02/active:
-    put:
-      tags:
-        - Product
-      summary: Active Product
-      operationId: ActiveProduct
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /products/PRODUCT02/inactive:
-    put:
-      tags:
-        - Product
-      summary: Inactive Product
-      operationId: InactiveProduct
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /coupons:
-    post:
-      tags:
-        - Test
-      summary: Test - OK - Create Coupons Amount
-      operationId: Test-OK-CreateCouponsAmount
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Test-OK-CreateCouponsAmountRequest'
-            example:
-              name: Cupom Amount
-              coupon_code: cupom_abcd
-              description: cupom teste para teste
-              amount: 100
-              count: 100
-              expiry_date: '2020-04-10'
-              currency: BRL
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    get:
-      tags:
-        - Test
-      summary: Test - Get Coupons Test
-      operationId: Test-GetCouponsTest
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /coupons/123asd123asd:
-    put:
-      tags:
-        - Test
-      summary: Test - Edit Coupon - Coupon Not Found
-      operationId: Test-EditCoupon-CouponNotFound
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Test-EditCoupon-CouponNotFoundRequest'
-            example:
-              count: 100
-              expiry_date: '2021-04-10'
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/coupons/{coupon_id}':
-    put:
-      tags:
-        - Test
-      summary: Test - Edit Coupon - Invalid Count 0
-      operationId: Test-EditCoupon-InvalidCount0
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: coupon_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Test-EditCoupon-InvalidCount0Request'
-            example:
-              count: 0
-              expiry_date: '2021-04-10'
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    get:
-      tags:
-        - Test
-      summary: Test - Get Coupons Specific
-      operationId: Test-GetCouponsSpecific
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: coupon_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    delete:
-      tags:
-        - Test
-      summary: Test - Inactive Coupons - Invalid Reason Length
-      operationId: Test-InactiveCoupons-InvalidReasonLength
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: coupon_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Test-InactiveCoupons-InvalidReasonLengthRequest'
-            example:
-              reason: 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789Z
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/coupons/{coupon_id}KK':
-    delete:
-      tags:
-        - Test
-      summary: Test - Inactive Coupons - Not Found Coupon
-      operationId: Test-InactiveCoupons-NotFoundCoupon
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: coupon_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/coupons/{coupon_id}KK/active':
-    put:
-      tags:
-        - Test
-      summary: Test - Inactive Coupon - Not Found
-      operationId: Test-InactiveCoupon-NotFound
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: coupon_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/coupons/{coupon_id}/active':
-    put:
-      tags:
-        - Test
-      summary: Test - Inactive Coupon
-      operationId: Test-InactiveCoupon
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: coupon_id
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
   /coupons/report:
     get:
       tags:
@@ -5971,563 +3930,6 @@ paths:
         - Taxes
       summary: Get Taxes In Company
       operationId: GetTaxesInCompany
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/countries:
-    get:
-      tags:
-        - Common
-      summary: Select List Countries
-      operationId: SelectListCountries
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /commons/select/checkouts:
-    get:
-      tags:
-        - Common
-      summary: Select List Checkout
-      operationId: SelectListCheckout
-      parameters:
-        - name: name
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: pl
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/locales:
-    get:
-      tags:
-        - Common
-      summary: Get Locales
-      operationId: GetLocales
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/locales/pt-br:
-    get:
-      tags:
-        - Common
-      summary: Get Locales Specific
-      operationId: GetLocalesSpecific
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: sandbox
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/timezones:
-    get:
-      tags:
-        - Common
-      summary: Get Timezones
-      operationId: GetTimezones
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/currencies:
-    get:
-      tags:
-        - Common
-      summary: Select List Currencies
-      operationId: SelectListCurrencies
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /commons/subscriptions/statuses:
-    get:
-      tags:
-        - Common
-      summary: Select List Subsctription Status
-      operationId: SelectListSubsctriptionStatus
-      parameters:
-        - name: status_child
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: unpaid
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/banks:
-    get:
-      tags:
-        - Common
-      summary: Select List Banks
-      operationId: SelectListBanks
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/dials:
-    get:
-      tags:
-        - Common
-      summary: Select List Dial Codes
-      operationId: SelectListDialCodes
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/transaction_status:
-    get:
-      tags:
-        - Common
-      summary: Select List Transaction Status
-      operationId: SelectListTransactionStatus
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /commons/select/customers:
-    get:
-      tags:
-        - Common
-      summary: Select List Customers
-      operationId: SelectListCustomers
-      parameters:
-        - name: name
-          in: query
-          description: name to search
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: ga
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: e30.eyJjb21wYW55X2lkIjoiMzYiLCJjb21wYW55X2NvZGUiOiJhM2UwZTU3Yi1jNWZkLTQ3Y2EtODk5Mi01M2JlZTUzMDY3MGQiLCJwcm92aWRlcl9pZCI6IjMyIiwidXNlcl9pZCI6IjIzIiwic2lnbmF0dXJlIjoiZm1LSjdKbllJMyIsIm5iZiI6MTU1NjIwODUxNSwiZXhwIjoxNTU2MjA5MTE1LCJpYXQiOjE1NTYyMDg1MTV9.
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /commons/select/plans:
-    get:
-      tags:
-        - Common
-      summary: Select List Plans
-      operationId: SelectListPlans
-      parameters:
-        - name: name
-          in: query
-          description: name to search
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/select/shop:
-    get:
-      tags:
-        - Common
-      summary: Select List Shop
-      operationId: SelectListShop
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/select/subscription_type:
-    get:
-      tags:
-        - Common
-      summary: Select List Subscription Type
-      operationId: SelectListSubscriptionType
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /common/brands:
-    get:
-      tags:
-        - Common
-      summary: Get Brands
-      operationId: GetBrands
-      parameters:
-        - name: bin
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 650042
-        - name: mode
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: live
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /commons/select/subscriptions:
-    get:
-      tags:
-        - Common
-      summary: Select List Subscription
-      operationId: SelectListSubscription
       parameters:
         - name: Authorization
           in: header
@@ -7401,152 +4803,6 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /invoices/print:
-    get:
-      tags:
-        - Invoice
-      summary: Print - Get Invoices Specified
-      operationId: Print-GetInvoicesSpecified
-      parameters:
-        - name: code
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: 5PXZTYG0SC
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices/328/download:
-    get:
-      tags:
-        - Invoice
-      summary: Download Invoice
-      operationId: DownloadInvoice
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices/GCJYMCG3ZU/charge:
-    put:
-      tags:
-        - Invoice
-      summary: Charge Invoice
-      operationId: ChargeInvoice
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices/78287R15XZ/refund:
-    delete:
-      tags:
-        - Invoice
-      summary: Refund Invoice
-      operationId: RefundInvoice
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RefundInvoiceRequest'
-            example:
-              amount: 8800
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
   /sales:
     get:
       tags:
@@ -7951,448 +5207,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /modules:
-    get:
-      tags:
-        - Modules
-      summary: Get Gateways
-      operationId: GetGateways
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /modules/profiles:
-    get:
-      tags:
-        - Modules
-      summary: Get Gateways Profiles
-      operationId: GetGatewaysProfiles
-      parameters:
-        - name: companyId
-          in: query
-          description: companyId
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: xxxxxxx
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Modules
-      summary: Create Gateway Profiles
-      operationId: CreateGatewayProfiles
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateGatewayProfilesRequest'
-            example:
-              name: MitTestGateway
-              payment_shop_id: '87085936'
-              module_id: 1
-              prod_key: '7281472615260690'
-              sandbox_key: '1950398500482465'
-              test_card_id: 2
-              sandbox_api_key: ''
-              sandbox_public_key: ''
-              prod_api_key: ''
-              prod_public_key: ''
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /modules/gateways/profiles/26:
-    get:
-      tags:
-        - Modules
-      summary: Get Gateways Profiles By Id
-      operationId: GetGatewaysProfilesById
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /modules/gateways/testcards:
-    get:
-      tags:
-        - Modules
-      summary: Get Test Cards
-      operationId: GetTestCards
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /system/activities:
-    get:
-      tags:
-        - System
-      summary: Get System Activities
-      operationId: GetSystemActivities
-      parameters:
-        - name: object
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: subscription
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: sandbox
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /status:
-    get:
-      tags:
-        - System
-      summary: Get Status
-      operationId: GetStatus
-      parameters:
-        - name: checkConnection
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: boolean
-            example: true
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: sandbox
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /system/configurations:
-    get:
-      tags:
-        - System
-      summary: Get System Configurations
-      operationId: GetSystemConfigurations
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /system/configurations/customer-portal/active:
-    put:
-      tags:
-        - System
-      summary: Active Customer Portal
-      operationId: ActiveCustomerPortal
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/system/configurations/customer-portal/active/{CompanyId}':
-    put:
-      tags:
-        - System
-      summary: Active Customer Portal as Provider
-      operationId: ActiveCustomerPortalasProvider
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: CompanyId
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /system/configurations/customer-portal/inactive:
-    put:
-      tags:
-        - System
-      summary: Inactive Customer Portal
-      operationId: InactiveCustomerPortal
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/system/configurations/customer-portal/inactive/{companyId}':
-    put:
-      tags:
-        - System
-      summary: Inactive Customer Portal As Provider
-      operationId: InactiveCustomerPortalAsProvider
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: companyId
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+  
   /checkout/configurations/fields:
     put:
       tags:
@@ -8553,108 +5368,103 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /:
-    get:
-      tags:
-        - IPN
-      summary: IPN REQUEST
-      operationId: IPNREQUEST
-      parameters: []
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-  /change-payment:
-    get:
-      tags:
-        - Functions
-      summary: Update PaymentMean
-      operationId: GetUpdatePaymentMean
-      parameters:
-        - name: subscriptionId
-          in: query
-          description: id da assinatura
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 2166
-        - name: token
-          in: header
-          description: token
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: 5tnlbbfnCEmbTqTgY+rcVg==
-        - name: companyId
-          in: header
-          description: company id
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: 07b3d2ea-c3ff-4a63-993f-28eb7bc70a71
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'https://cyclo-payment-develop.azurewebsites.net/api'
-          variables: {}
-    post:
-      tags:
-        - Functions
-      summary: Update PaymentMean
-      operationId: PostUpdatePaymentMean
-      parameters:
-        - name: token
-          in: header
-          description: token
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: 5tnlbbfnCEmbTqTgY+rcVg==
-        - name: companyId
-          in: header
-          description: company id
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: 07b3d2ea-c3ff-4a63-993f-28eb7bc70a71
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePaymentMeanRequest1'
-            example:
-              customer_id: aa884ce8-70e4-4bca-a600-993c2ac0c35d
-              subscription_id: 2166
-              payment_mean:
-                type: credit_card
-                number: '4970100000000014'
-                expiry_date: 12/2020
-                cvv: '222'
-                holder: lucas nalon
-                brand: visa
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'https://cyclo-payment-develop.azurewebsites.net/api'
-          variables: {}
 components:
   schemas:
+    SimpleErrorResponse:
+      title: SimpleErrorResponse
+      properties:
+        error_code:
+          type: integer
+        message:
+          type: string
+        parameter_name:
+          type: string
+    ListErrorResponse:
+      title: ListErrorResponse
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimpleErrorResponse'
+    CustomerCheckoutLinkResponse:
+      title: CustomerCheckoutLinkResponse
+      properties:
+        plan_checkout_link_id:
+          type: integer
+          description: Id do link de pagamento
+        checkout_id:
+          type: integer
+          description: Id do checkout
+        plan_id:
+          type: integer
+          description: Id do plano
+        pricing_option_id:
+          type: string
+          description: Id do preço do plano
+        pricing_option:
+          type: object
+          description: Detalhes do preço utilizado
+        customer_id:
+          type: string
+          description: Id do assinante
+        expiry_date:
+          type: string
+          format: date-time
+          description: Data UTC do expiração do link
+        hash:
+          type: string
+          description: Código hash do link
+        is_used:
+          type: boolean
+          description: Flag para identificar se o link já foi utilizado
+        url:
+          type: string
+          description: URL de acesso ao link de pagamento
+        status:
+          type: string
+          description: Status do link de pagamento 
+    PlanCheckoutResponse:
+      title: PlanCheckoutResponse
+      properties:
+        checkout_id:
+          type: integer
+          description: Id do chekout
+        plan_id:
+          type: integer
+          description: Id do plano
+        pricing_option_id:
+          type: string
+          description: Id do preço
+        hash:
+          type: string
+          description: Hash do checkout
+        valid_until:
+          type: string
+          format: date-time
+          description: Data UTC de expiração do checkout
+        is_time_defined:
+          type: boolean
+          description: Flag de validação de horário na expiração do checkout
+        url:
+          type: string
+          description: Url de acesso para o checkout
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação do checkout
+        update_date:
+          type: string
+          format: date-time
+          description: Data de criação do checkout
+        status:
+          type: string
+          description: Status do checkout
+        checkout_type:
+          type: string
+          description: Tipo do checkout
+        coupon_enabled:
+          type: boolean
+          description: Flag para habilitar cupom no checkout
     CreateCompanyRequest:
       title: CreateCompanyRequest
       required:
@@ -10557,18 +7367,29 @@ components:
     CreatePlanCheckoutRequest:
       title: CreatePlanCheckoutRequest
       required:
-        - valid_until
         - checkout_type
       type: object
       properties:
         valid_until:
           type: string
+          format: date-time
           nullable: true
+          description: Data de validade do checkout
         checkout_type:
           type: string
+          description: Tipo do checkout - obrigatório ser step
+        is_time_defined:
+          type: boolean
+          description: Flag para habilitar horas na validação
+        coupon_enabled:
+          type: boolean
+          description: Flag para habilitar cupom
+          nullable: true
       example:
-        valid_until: null
-        checkout_type: step
+          valid_until: 2020-09-12T22:33:11
+          is_time_defined: false
+          coupon_enabled: false
+          checkout_type: step
     UpdatePlanCheckoutRequest:
       title: UpdatePlanCheckoutRequest
       required:
@@ -10791,52 +7612,54 @@ components:
       required:
         - name
         - plan_code
-        - description
         - pricing_options
         - payment_methods
-        - callback_url
-        - redirect_url_on_success
-        - redirect_url_on_failure
-        - enable_customer_suspension
-        - enable_customer_cancelation
-        - require_billing_address
-        - require_shipping_address
       type: object
       properties:
         name:
           type: string
+          description: Nome do plano
         plan_code:
           type: string
+          description: Código do plano. Quando não enviado será gerado pela Cyclopay 
         description:
           type: string
+          description: Descrição do plano. Esse campo é exibido na seção *Descrição* na página de checkout
         pricing_options:
           type: array
           items:
             $ref: '#/components/schemas/PricingOption'
-          description: ''
+          description: 'Preços de um plano'
         payment_methods:
           type: array
           items:
             type: string
-          description: ''
+          description: 'Métodos de pagamento, credit_card ou boleto'
         callback_url:
           type: string
+          description: Url de callback para resposta de nosso servidor
         redirect_url_on_success:
           type: string
           nullable: true
+          description: Url de redirecionamento quando pagamento via checkout é realizado com sucesso
         redirect_url_on_failure:
           type: string
           nullable: true
+          description: Url de redirecionamento quando pagamento via checkout resulta em falha
         enable_customer_suspension:
           type: boolean
+          description: Habilita o botão para suspensão via backoffice das assinaturas deste plano 
         enable_customer_cancelation:
           type: boolean
+          description: Configuração do plano para identificar se os assinantes podem efetuar o cancelamento do plano via portal
         require_billing_address:
           type: boolean
+          description: Configuração do plano para exigir que os assinantes possuam endereço de cobrança
         require_shipping_address:
           type: boolean
+          description: Configuração do plano para exigir que os assinantes possuam endereço de entrega
       example:
-        name: AVANÇADO 3
+        name: string
         plan_code: string
         description: string
         pricing_options:
@@ -10854,9 +7677,10 @@ components:
             default: true
         payment_methods:
           - credit_card
-        callback_url: 'http://www.google.com.br'
-        redirect_url_on_success: null
-        redirect_url_on_failure: null
+          - boleto
+        callback_url: 'string'
+        redirect_url_on_success: string
+        redirect_url_on_failure: string
         enable_customer_suspension: true
         enable_customer_cancelation: true
         require_billing_address: true
@@ -10866,61 +7690,75 @@ components:
       required:
         - amount
         - currency
-        - setup_fee
         - count
         - interval
         - frequency
-        - rrule
         - auto_renew
-        - trial_amount
-        - trial_interval
-        - trial_unit
-        - default
       type: object
       properties:
         amount:
           type: integer
           format: int32
+          description: Valor do preço em centavos
+        pricing_code:
+          type: string
+          description: Código do preço, Quando não enviado, será gerado via servidor
         currency:
           type: string
+          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
         setup_fee:
           type: integer
           format: int32
+          description: Valor de Setup em centavos
         count:
           type: integer
           format: int32
+          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
         interval:
           type: integer
           format: int32
+          description: Intervalo entre as cobranças
         frequency:
           type: string
+          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
         rrule:
           type: string
+          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
         auto_renew:
           type: boolean
+          description: Identificador de renovação automática.
         trial_amount:
           type: integer
           format: int32
+          description: TRIAL - Preço em centavos
         trial_interval:
           type: integer
           format: int32
+          description: TRIAL - Quantidade de cobranças de trial
         trial_unit:
           type: string
-        default:
+          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
+        is_default:
           type: boolean
+          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
+        billing_day:
+          type: integer
+          format: int32
+          description: Dia que deve ser realizada a cobrança, quando não definido, as cobranças serão realizadas no dia da assinatura
       example:
-        amount: 1000
+      - amount: 11300
+        pricing_code: ALHS22SX
         currency: BRL
-        setup_fee: 1000
-        count: 12
+        count: 1
         interval: 1
         frequency: MONTHLY
-        rrule: COUNT=12;FREQ=MONTHLY;INTERVAL=1
         auto_renew: false
         trial_amount: 0
         trial_interval: 0
+        setup_fee: 0
         trial_unit: MONTHLY
-        default: true
+        is_default: true
+        billing_day: 5
     UpdatePlanRequest:
       title: UpdatePlanRequest
       required:
@@ -11837,6 +8675,74 @@ components:
             billing_date: '2020-09-04T00:00:00'
             create_date: '2018-09-04T21:36:28.23'
             update_date: null
+    PlansResponse:
+      title: PlanRequest
+      properties:
+        plan_id:
+          type: integer
+          description: Id do plano
+        name:
+          type: string
+          description: Nome do plano
+        plan_code:
+          type: string
+          description: Código do plano
+        description:
+          type: string
+          description: Descrição do plano
+        taxable:
+          type: boolean
+          description: Identificador de taxas sobre o plano
+        tax_code:
+          type: string
+          description: Código da taxa cadastrada
+        tax_included:
+          type: string
+          description: Verificador de taxa inclusa ou não sobre o preço do plano
+        pricing_options:
+          type: array
+          description: Preços do plano
+        payment_methods:
+          type: string
+          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
+        metadata:
+          type: object
+          description: Objeto livre
+        callback_url:
+          type: string
+          description: URL de callback
+        redirect_url_on_success:
+          type: string
+          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
+        redirect_url_on_failure:
+          type: string
+          description: URL de redirecionamento em caso de falha no pagamento do checkout
+        enable_customer_suspension:
+          type: boolean
+          description: Flag para identificar que o assinante pode suspender o plano
+        enable_customer_cancelation:
+          type: boolean
+          description: Flag para identificar que o assinante pode cancelar o plano
+        require_billing_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
+        require_shipping_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
+        status:
+          type: string
+          description: Status do plano, active | inactive
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação do plano
+        update_date: 
+          type: string
+          format: date-time
+          description: Data de atualização do plano
+        active: 
+          type: boolean
+          description: Flag para identificar o estado do plano
     Plan:
       title: Plan
       required:
@@ -13478,7 +10384,6 @@ components:
           brand: visa
 tags:
   - name: Admin
-  - name: Tests
   - name: Sales Dunnings
   - name: Dunning
   - name: Auth
@@ -13489,27 +10394,96 @@ tags:
   - name: Shop
   - name: Plan Checkout
   - name: Tabs
-  - name: Pricing Options
-  - name: Plans
+  - name: Preços
+  - name: Planos
   - name: Cards
   - name: Checkout
-  - name: Customers
+    description: '
+      Nesta seção é apresentado como criar e gerenciar as funcionalidades de Checkout, sendo elas a gestão dos checkout dos planos, os links de assinaturas, a página de checkout.
+    
+
+      **Gestão de checkout dos Planos**: Permite habilitar e configurar a página de checkout do plano.
+
+
+      **Link de Assinatura**: Checkout específico para um determinado assinante.
+
+
+      **Checkout**: Visualização dos dados para a página e Requisição de Assinar.
+
+
+      Ao gerar uma página de checkout ou link de assinatura, é possível utilizar a url retornada para acessar a pagina de checkout com os dados do assinantes já preenchidos, necessitando apenas o preenchimento dos dados do meio de pagamento.
+      '
+  - name: Planos - Página de Checkout
+    description: '
+          Começando temos que habilitar a página de checkout de um determinado plano, os pré requisitos para poder criar e configurar uma página de checkout são:
+          
+          - Plano selecionado ser existente
+          - Plano estar de modo **ATIVO**
+          
+          Estas páginas podem possuir validade, quando houver esta informação, a página ficará disponível até a data de validade.
+                  
+          > ### Link de página expirada
+          
+          > Quando a página de checkout do plano estiver expirada, você pode renovar a data de validade atualizando o campo "valid_until" para uma nova data, ou se quiser indicar que está página ficará sempre disponível atualizando este campo acima sem informar data.
+       '
+  - name: Clientes - Página de Checkout
+    description: '
+        Links de assinatura para os assinantes já cadastrados na plataforma. Os links são semelhantes aos gerados pela funcionalidade de *Página de Checkout*.
+
+        
+        Os pré-requisitos para utilizar essa funcionalidade são:
+         
+        - Possuir assinantes cadastrados
+        - Possuir plano cadastrado
+
+        Diferente da Página de Checkout, os links possuem algumas características e diferenças, elas são:
+
+        - Os links possuem validade
+        
+        > 🚧 A validade padrão dos links são de 24 horas após a sua data de criação.
+
+        - Os links são únicos
+        
+        > 🚧 Os links de assinatura não podem ser utilizado mais de uma vez.
+
+        - Plano selecionado necessita possuir checkout
+        
+        > 🚧 Para criar os link, o Plano selecionado deve possuir sua página de Checkout habilitado.
+      '
+  - name: Assinantes
   - name: Public routes
   - name: Report
-  - name: Subscription
+  - name: Assinaturas
   - name: Product
-  - name: Test
   - name: Cupons
   - name: Taxes
   - name: Common
     description: '01-02-2019 15:23: OK TESTADO'
-  - name: Transaction
+  - name: Transações
   - name: Dashboard
   - name: Invoice
-  - name: Sales
+  - name: Vendas
   - name: Invoice Copy
   - name: Modules
   - name: System
   - name: Configuration
   - name: IPN
   - name: Functions
+x-tagGroups:
+  - name: Pagamentos Recorrentes
+    description: Teste
+    tags:
+      - Planos
+      - Preços
+      - Cupons
+      - Assinantes
+      - Assinaturas
+      - Vendas
+      - Transações
+  - name: Checkout
+    tags:
+      - Checkout
+      - Planos - Página de Checkout
+      - Clientes - Página de Checkout
+  
+      
