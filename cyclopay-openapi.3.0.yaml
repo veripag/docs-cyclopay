@@ -159,291 +159,7 @@ servers:
   - url: 'https://cyclo-payment-develop.azurewebsites.net/api'
     variables: {}
 paths:
-  /users:
-    get:
-      tags:
-        - User
-      summary: Get List Users
-      operationId: GetListUsers
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - User
-      summary: Create User
-      operationId: CreateUser
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateUserRequest'
-            example:
-              name: Lucas
-              last_name: Nalon
-              email: email.test.exampl@cnetmail.net
-              country_code: '076'
-              locale: pt-br
-              timezone: Dateline Standard Time
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/{userId}:
-    get:
-      tags:
-        - User
-      summary: Get Specific User
-      operationId: GetSpecificUser
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /users/permissions/65:
-    get:
-      tags:
-        - User
-      summary: Get User Permissions
-      operationId: GetUserPermissions
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/users/{userid}':
-    put:
-      tags:
-        - User
-      summary: Edit User
-      operationId: EditUser
-      parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_live_15ed32003475782baffab30c5307a8e9c1dad3a7
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: userid
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EditUserRequest'
-            example:
-              name: Jerome
-              last_name: Pays
-              email: jerome.pays@lyra-network.com.br
-              country_code: '076'
-              locale: pt-br
-              timezone: Dateline Standard Time
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/users/{userid}/active':
-    put:
-      tags:
-        - User
-      summary: Active User
-      operationId: ActiveUser
-      parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_live_15ed32003475782baffab30c5307a8e9c1dad3a7
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: userid
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/users/{userid}/inactive':
-    put:
-      tags:
-        - User
-      summary: Inactive User
-      operationId: InactiveUser
-      parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_live_15ed32003475782baffab30c5307a8e9c1dad3a7
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: userid
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+  # ROUTES AFFILIATION
   /affiliations/types:
     get:
       tags:
@@ -615,6 +331,8 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
+  
+  # ROUTES SHOP
   /shops/c675048c-fea7-41cc-97da-e71c1eadb69e/affiliations:
     get:
       tags:
@@ -940,7 +658,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  '/shop/{code}/inactive':
+  /shop/{code}/inactive:
     put:
       tags:
         - Shop
@@ -1028,6 +746,8 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
+  
+  # ROUTES GATEWAY PROFILE
   /shops/8467f7b5-4806-427e-9f19-a328739da36d/gateway_profile:
     put:
       tags:
@@ -1118,6 +838,507 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
+    
+  # ROUTES PLANS
+  
+  /plans:
+    post:
+      tags:
+        - Planos
+      summary: Criando um Plano
+      operationId: CreatePlan
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanRequest'
+        required: true
+      responses:
+        '200':
+          description: 'Plano criado com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+        '400':
+          description: 'Erro de validação'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                $ref: '#/components/schemas/ListErrorResponse'
+      deprecated: false
+      security: []
+    get:
+      tags:
+        - Planos
+      summary: Consultando planos
+      operationId: GetPlans
+      parameters:
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content: 
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListingPlans'
+      deprecated: false
+      security: []
+  /plans/{planId}:
+    get:
+      tags:
+        - Planos
+      summary: Consulta um plano
+      operationId: GetSpecificPlan
+      parameters:
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
+    put:
+      tags:
+        - Planos
+      summary: Alterando um plano
+      operationId: UpdatePlan
+      parameters:
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlanRequest'
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlansResponse'
+        '400':
+          description: 'Erro na validação dos dados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListErrorResponse'
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+  /plans/{planId}/active:
+    put:
+      tags:
+        - Planos
+      summary: Ativando um plano
+      operationId: ActivePlan
+      parameters:
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+  /plans/{planId}/inactive:
+    put:
+      tags:
+        - Planos
+      summary: Inativando um plano
+      operationId: InactivePlan
+      parameters:
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+  
+# ROUTES PLANS PRICING OPTIONS
+  
+  /plans/{planId}/pricing-options:
+    post:
+      tags:
+        - Preços
+      summary: Criando um preço
+      operationId: CreatePlanPricingOption
+      parameters:
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PricingOptionRequest'
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingOptionResponse'
+        '400':
+          description: 'Erro na validação dos dados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+    get:
+      tags:
+        - Preços
+      summary: Consultando preços de um plano
+      operationId: GetPlanPricingOptions
+      parameters:
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PricingOptionResponse'
+        '404':
+          description: 'Plano não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
+  /plans/{planId}/pricing-options/{pricingOptionId}:
+    get:
+      tags:
+        - Preços
+      summary: Consultando um preço
+      operationId: GetSpecificPlanPricingOptions
+      parameters:
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+        - name: pricingOptionId
+          in: path
+          description: 'Id do preço'
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Plano ou preço não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      servers:
+        - url: 'http://example.com/v1'
+          variables: {}
+    put:
+      tags:
+        - Preços
+      summary: Atualizando um preço
+      operationId: UpdatePriceOption
+      parameters:
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+        - name: pricingOptionId
+          in: path
+          description: 'Id do preço'
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PricingOptionRequest'
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PricingOptionResponse'
+        '400':
+          description: 'Erro na validação dos dados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Plano ou preço não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+    delete:
+      tags:
+        - Preços
+      summary: Removendo um preço
+      operationId: Deletepriceoption
+      parameters:
+        - name: planId
+          in: path
+          description: 'Id do plano'
+          required: true
+          style: simple
+          schema:
+            type: integer
+            example: 1234
+        - name: pricingOptionId
+          in: path
+          description: 'Id do preço'
+          required: true
+          style: simple
+          schema:
+            type: string
+            format: uuid
+        - name: api_key
+          in: header
+          description: ''
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '204':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+        '404':
+          description: 'Plano ou preço não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '409':
+          description: 'Conflito na remoção do preço. Analisar mensagem de resposta'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+    
+  # ROUTES PLANS CHECKOUT
+  
   /plans/{planId}/pricing-options/{pricingOptionId}/checkout:
     post:
       tags:
@@ -1302,903 +1523,9 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /plans/tabs:
-    get:
-      tags:
-        - Tabs
-      summary: Get Plan Tabs
-      operationId: GetPlanTabs
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Tabs
-      summary: Create Plan Tab
-      operationId: CreatePlanTab
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlanTabRequest'
-            example:
-              label: Segunda Aba
-              checkout_ids:
-                - 3
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    delete:
-      tags:
-        - Tabs
-      summary: Delete Plan Tab
-      operationId: DeletePlanTab
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/tabs/1:
-    get:
-      tags:
-        - Tabs
-      summary: Get Tab By Id
-      operationId: GetTabById
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/plans/tabs/{id_tab}':
-    put:
-      tags:
-        - Tabs
-      summary: Edit Plan Tab
-      operationId: EditPlanTab
-      parameters:
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: id_tab
-          in: path
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/EditPlanTabRequest'
-            example:
-              label: texto aqui
-              plan_ids:
-                - 1
-                - 2
-                - 3
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1141/pricing-options:
-    get:
-      tags:
-        - Preços
-      summary: Get Plan Pricing Options
-      operationId: GetPlanPricingOptions
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1132/pricing-options/id:
-    get:
-      tags:
-        - Preços
-      summary: Get Specific Plan Pricing Options
-      operationId: GetSpecificPlanPricingOptions
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    put:
-      tags:
-        - Pricing Options
-      summary: Set Default
-      operationId: SetDefault
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SetDefaultRequest'
-            example:
-              is_default: true
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    delete:
-      tags:
-        - Pricing Options
-      summary: Delete price option
-      operationId: Deletepriceoption
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1584/pricing-options:
-    post:
-      tags:
-        - Preços
-      summary: Create Plan Pricing Option
-      operationId: CreatePlanPricingOption
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlanPricingOptionRequest'
-            example:
-              pricing_code: TESTE
-              currency: BRL
-              amount: 11300
-              count: '1'
-              interval: 1
-              frequency: MONTHLY
-              auto_renew: false
-              trial_amount: 0
-              trial_interval: 0
-              setup_fee: 0
-              trial_unit: ''
-              is_default: true
-              billing_day: 5
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1110/pricing-options/17a100e9-8c1c-41c7-b3d9-b1459986692a:
-    put:
-      tags:
-        - Preços
-      summary: Update Price Option
-      operationId: UpdatePriceOption
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePriceOptionRequest'
-            example:
-              pricing_option_id: 17a100e9-8c1c-41c7-b3d9-b1459986692a
-              pricing_code: '5948937'
-              amount: 3000
-              currency: BRL
-              setup_fee: 0
-              count: 12
-              interval: 1
-              frequency: MONTHLY
-              rrule: FREQ=MONTHLY;COUNT=12;INTERVAL=1
-              auto_renew: true
-              trial_amount: 1000
-              trial_interval: 0
-              trial_unit: MONTHLY
-              is_default: false
-              status: active
-              create_method: BACKOFFICE
-              create_date: '2020-01-06T20:11:21.337'
-              update_date: '2020-01-06T20:12:02.117'
-              created_by: lucas nalon
-              user_id: 99
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlanCheckoutResponse'
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans:
-    post:
-      tags:
-        - Planos
-      summary: Criando um Plano
-      operationId: CreatePlan
-      parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreatePlanRequest'
-        required: true
-      responses:
-        '200':
-          description: 'Plano criado com sucesso'
-          headers: {}
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/PlansResponse'
-        '400':
-          description: 'Erro de validação'
-          headers: {}
-          content:
-            application/json:
-              schema:
-                type: array
-                $ref: '#/components/schemas/ListErrorResponse'
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    get:
-      tags:
-        - Planos
-      summary: Get Plans
-      operationId: GetPlans
-      parameters:
-        - name: count
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 100
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/report:
-    get:
-      tags:
-        - Plans
-      summary: Report
-      operationId: Report
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1120:
-    get:
-      tags:
-        - Planos
-      summary: Get Specific Plan
-      operationId: GetSpecificPlan
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1079:
-    put:
-      tags:
-        - Planos
-      summary: Update Plan
-      operationId: UpdatePlan
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/UpdatePlanRequest'
-            example:
-              name: PLAN EDITADO
-              recurrence_rule:
-                interval: '1'
-                frequency: DAILY
-                auto_renew: 'false'
-              payment_definitions:
-                payment_methods:
-                  - credit_card
-                amount: 300
-                currency: BRL
-              trial_period:
-                interval: 1
-                amount: 800
-                interval_unit: MONTHLY
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1412/active:
-    put:
-      tags:
-        - Planos
-      summary: Active Plan
-      operationId: ActivePlan
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/DIARY_PLAN22/inactive:
-    put:
-      tags:
-        - Planos
-      summary: Inactive Plan
-      operationId: InactivePlan
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /plans/1025/message:
-    post:
-      tags:
-        - Plans
-      summary: Send Plan Message
-      operationId: SendPlanMessage
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/SendPlanMessageRequest'
-            example:
-              message: aqui é um tituloaqui é um tituloaqui é um tituloaqui é um tituloaqui é um tituloaqui é um tituloaqui é um tituloaqui é um tituloaqui é um tituloaqui é um titulo
-              subject: TESTE
-              title: aqui é um titulo
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /customers/15def620-0966-4f5c-9132-a0a01aaf6ba1/payment-means:
-    post:
-      tags:
-        - Cards
-      summary: Create Customer Card
-      operationId: CreateCustomerCard
-      parameters:
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/CreateCustomerCardRequest'
-            example:
-              brand: visa
-              number: '4970100000000055'
-              holder: VINICIUS A FONSECA
-              cvv: '122'
-              expiry_date: 12/2020
-              type: credit_card
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    delete:
-      tags:
-        - Cards
-      summary: Remove Customer Card
-      operationId: RemoveCustomerCard
-      parameters:
-        - name: Content-Type
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: application/json
-        - name: api_key
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /customers/aaec000d-bf9c-484f-a35b-47cb03d617c4/payment-means/cards:
-    get:
-      tags:
-        - Cards
-      summary: Get Customer Cards
-      operationId: GetCustomerCards
-      parameters:
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /customers/ae1856a6-9cc9-4be0-9a05-a4c8224e9e4a/payment-means/cards:
-    get:
-      tags:
-        - Cards
-      summary: Get Form Token
-      operationId: GetFormToken
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+    
+  # ROUTES CUSTOMERS PAYMENT LINK
+ 
   /customers/{customerId}/checkout/{checkoutId}:
     post:
       tags:
@@ -2422,299 +1749,30 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /checkout:
-    get:
-      tags:
-        - Checkout
-      summary: Get Checkout
-      operationId: GetCheckout
-      parameters:
-        - name: hash
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: OENDODM1QUVEOTQwQjQxRDE0NEQ4MUE5RERDM0MxRUQ=
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    post:
-      tags:
-        - Checkout
-      summary: Register
-      description: First step of checkout
-      operationId: Register
-      parameters:
-        - name: hash
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: QURBRTYyOTlGNTExMDQ3RUVBNDc5RDdBMzdBMzY5RDE=
-        - name: step
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: step
-      requestBody:
-        description: ''
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/RegisterRequest'
-            example:
-              customer:
-                first_name: lucas
-                last_name: nalon
-                email: lucas.nalon@veripag.com.br
-                mobile_number: +55 (11) 998798798
-                country_code: BRA
-                billing_address:
-                  postal_code: 06192-010
-                  street1: Avenida Comandante Sampaio
-                  number: '123'
-                  state: SP
-                  district: km 18
-                  city: Osasco
-                  country: ''
-                  complement: ''
-        required: true
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-    patch:
-      tags:
-        - Checkout
-      summary: Create International Losed Transaction
-      operationId: CreateInternationalLosedTransaction
-      parameters:
-        - name: hash
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: NzhGNEJCQzA2OTBEMkY4QTI4NzAzRDc3ODgzMjlFMUI=
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /checkout/check-email:
-    get:
-      tags:
-        - Checkout
-      summary: Check Email - Checkout
-      operationId: CheckEmail-Checkout
-      parameters:
-        - name: hash
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: ZDkxZDFiNGQ4MjQxOWRlOGE2MTRhYmNlOWNjMGU2ZDQ=
-        - name: email
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: nalon.lucas@veripag.com.br
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /checkout/landing-page:
-    get:
-      tags:
-        - Checkout
-      summary: Landing Page
-      operationId: LandingPage
-      parameters:
-        - name: Referer
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: 'https://demo-billing.veripag.com.br'
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /checkout/coupons:
-    get:
-      tags:
-        - Checkout
-      summary: Validate Coupon
-      operationId: ValidateCoupon
-      parameters:
-        - name: code
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: CUPOM15OFF
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /checkout/transaction/8NOBRIB3CK:
-    patch:
-      tags:
-        - Checkout
-      summary: Create Transaction From Invoice
-      operationId: CreateTransactionFromInvoice
-      parameters:
-        - name: uuid
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: 6534adee634d425abc26dc2ec42e208d
-        - name: Authorization
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+  
+  # ROUTES CUSTOMERS
   /customers:
-    get:
-      tags:
-        - Customers
-      summary: Get Customer List
-      operationId: GetCustomerList
-      parameters:
-        - name: Email
-          in: query
-          description: email
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: lucas.nalon@veripag.com.br
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+    
     post:
       tags:
-        - Customers
-      summary: Create Customer
+        - Assinantes
+      summary: Criando um assinante
       operationId: CreateCustomer
       parameters:
-        - name: Authorization
+        - name: api_key
           in: header
-          description: Token de acordo com o Login
+          description: 'Chave de API'
           required: true
           style: simple
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/CreateCustomerRequest'
+              $ref: '#/components/schemas/CustomerRequest'
             example:
               first_name: Lucas
               last_name: Nalon
@@ -2758,296 +1816,287 @@ paths:
         required: true
       responses:
         '200':
-          description: ''
-          headers:
-            Date:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                  example: 'Wed, 14 Mar 2018 18:50:45 GMT'
-            Server:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                  example: Kestrel
-            Transfer-Encoding:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                  example: chunked
-            X-Api-Environment:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                  example: Test
-            X-Powered-By:
-              content:
-                text/plain:
-                  schema:
-                    type: string
-                  example: ASP.NET
+          description: 'Assinante cadastrado com sucesso'
           content:
-            application/json; charset=utf-8:
+            application/json:
               schema:
-                $ref: '#/components/schemas/CreateCustomer'
-              example:
-                customer_id: 9ec9b985-19d5-42e4-bdbe-5db3a53da956
-                email: fulano@veripag.com.br
-                phone:
-                  phone_number: '11988822222'
-                name: Fulano
-                birth: '1994-03-22T00:00:00Z'
-                gender: M
-                document:
-                  type: CPF
-                  number: '38249711009'
-                address:
-                  - street: Rua Teste
-                    number: 112
-                    neighborhood: Vila Teste
-                    city: Sao Paulo
-                    state: SP
-                    address_country_code: BRA
-                    postal_code: 05319000
-                    complement: apto 444
-                    address_code: ff717188-94f9-430b-91d7-81c596a59062
-                create_date: '2018-03-14T18:50:45.2934882Z'
-                active: true
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: 'Erro na validação do objeto recebido'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListErrorResponse'
+        '409':
+          description: 'E-mail do assinante já cadastrado'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/report:
     get:
       tags:
-        - Customers
-      summary: Report
-      operationId: GetReport
+        - Assinantes
+      summary: Consultando assinantes
+      operationId: GetCustomerList
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
+        - name: Name
+          in: query
+          description: Nome
+          required: false
+          style: form
+          explode: true
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
+        - name: Email
+          in: query
+          description: E-mail
+          required: false
+          style: form
+          explode: true
           schema:
             type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /customers/27887971-4522-4236-93b2-56a003884eb4:
-    get:
-      tags:
-        - Customers
-      summary: Get Specific Customer
-      operationId: GetSpecificCustomer
-      parameters:
+        - name: DocumentType
+          in: query
+          description: Tipo de Documento
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: DocumentNumber
+          in: query
+          description: Número do documento
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: RefCode
+          in: query
+          description: Código de referência
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: MobileNumber
+          in: query
+          description: Número do telefone
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
+        - name: Active
+          in: query
+          description: Status do assinante
+          required: false
+          style: form
+          explode: true
+          schema:
+            type: string
         - name: api_key
           in: header
-          description: ''
+          description: 'Chave de API'
           required: true
           style: simple
           schema:
             type: string
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
       responses:
         '200':
-          description: ''
+          description: 'Consulta realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/ListingCustomers'
       deprecated: false
+      security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /customers/b605fb50-0e46-4c9a-9dd2-9aef6ae9bbc6:
+  /customers/{customerId}:
+    get:
+      tags:
+        - Assinantes
+      summary: Consultando um assinante
+      operationId: GetSpecificCustomer
+      parameters:
+        - name: customerId
+          in: path
+          description: 'Id do assinante'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: 208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/CustomerResponse'
+
+        '404':
+          description: 'Assinante não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
     put:
       tags:
-        - Customers
-      summary: Update Customer
+        - Assinantes
+      summary: Atualizando dados de um assinante
       operationId: UpdateCustomer
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
+        - name: customerId
+          in: path
+          description: 'Id do assinante'
           required: true
           style: simple
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
+            example: 208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: api_key
           in: header
-          description: ''
+          description: 'Chave de API'
           required: true
           style: simple
           schema:
             type: string
-            example: live
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       requestBody:
         description: ''
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UpdateCustomerRequest'
-            example:
-              customer_id: d234514e-9ac2-49bb-8e87-9211ff709d9e
-              ref_code: null
-              email: elmai@email.com
-              cc_emails: []
-              first_name: guilherme
-              last_name: cardoso
-              birth: ''
-              gender: ''
-              description: ''
-              mobile_number: +55 (11) 9 4949-494
-              phones: []
-              document:
-                type: CPF
-                number: 012.345.678-90
-              tax_exempt: false
-              vat_number: ''
-              country_code: BRA
-              cancel_date: null
-              create_date: '2020-03-16T15:33:51Z'
-              update_date: null
-              active: true
-              shipping_address:
-                - address_country_code: BRA
-                  is_main: false
-                  postal_code: 04890-575
-                  street1: Rua Barão de Hermida
-                  number: '21'
-                  complement: ''
-                  district: Jardim Santa Fé (Zona Sul)
-                  city: São Paulo
-                  state: SP
-                - address_country_code: BRA
-                  is_main: true
-                  postal_code: 04890-575
-                  street1: Rua Barão de Hermida
-                  number: '21'
-                  complement: ''
-                  district: Jardim Santa Fé (Zona Sul)
-                  city: São Paulo
-                  state: SP
-              billing_address:
-                address_country_code: BRA
-                postal_code: 04890-575
-                street1: RUA BARAO DE HERMIDA
-                number: '21'
-                complement: 'RUA BARAO DE HERMIDA, 21'
-                district: Jardim Santa Fé (Zona Sul)
-                city: SAO PAULO
-                state: São Paulo
-                aditional_info: ''
+              $ref: '#/components/schemas/CustomerRequest'
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Alteração realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+        '400':
+          description: 'Erro na validação dos dados recebidos'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  '/customers/{code}/active':
+  /customers/{customerId}/active:
     put:
       tags:
-        - Customers
-      summary: Activate Customer
+        - Assinantes
+      summary: Ativando um assinante
       operationId: ActivateCustomer
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: code
+        - name: customerId
           in: path
-          description: ''
+          description: 'Id do assinante'
           required: true
           style: simple
           schema:
             type: string
+            example: 208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '200':
-          description: ''
+          description: 'Operação realizada com sucesso'
           headers: {}
+        '400':
+          description: 'Assinante já ativo'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Assinante não encontrado'
+          headers: {}  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  '/customers/{code}/inactive':
+  /customers/{customerId}/inactive:
     put:
       tags:
-        - Customers
-      summary: Inactive Customer
+        - Assinantes
+      summary: Inativando um assinante
       operationId: InactiveCustomer
       parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-        - name: code
+        - name: customerId
           in: path
-          description: ''
+          description: 'Id do assinante'
           required: true
           style: simple
           schema:
             type: string
+            example: 208e6954b8f46967beb4a154660e7f8d0e5ea33b
+        - name: api_key
+          in: header
+          description: 'Chave de API'
+          required: true
+          style: simple
+          schema:
+            type: string
+            example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '200':
-          description: ''
+          description: 'Operação realizada com sucesso'
           headers: {}
+        '400':
+          description: 'Assinante já inativo'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Assinante não encontrado'
+          headers: {}  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
@@ -3093,6 +2142,8 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
+  
+  # ROUTES SUBSCRIPTIONS
   /subscriptions:
     get:
       tags:
@@ -3481,7 +2532,7 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  '/subscriptions/{subscription_code}/active':
+  /subscriptions/{subscription_code}/active:
     put:
       tags:
         - Subscription
@@ -3714,93 +2765,22 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /coupons/report:
-    get:
+  
+  # ROUTES COUPONS
+  /coupons:
+    post:
       tags:
         - Cupons
-      summary: Report
-      operationId: GetReport12
+      summary: Criando um cupom
+      operationId: CreateCoupon
       parameters:
-        - name: Authorization
+        - name: api_key
           in: header
-          description: Token de acordo com o Login
+          description: Chave de API
           required: true
-          style: simple
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /coupons/e69f2263-ca42-ea11-a601-281878ebd216:
-    get:
-      tags:
-        - Cupons
-      summary: Get Coupon
-      operationId: GetCoupon
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /coupons/df54c5e7-8643-ea11-a601-281878ebd216:
-    put:
-      tags:
-        - Cupons
-      summary: Edit Coupon
-      operationId: EditCoupon
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
+            format: 'api key'
       requestBody:
         description: ''
         content:
@@ -3812,68 +2792,206 @@ paths:
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Operação realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponResponse'
+        '400':
+          description: 'Erro na validação dos dados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /coupons/8/active:
-    put:
+      
+    get:
       tags:
         - Cupons
-      summary: Active Coupon
-      operationId: ActiveCoupon
+      summary: Consultando cupons
+      operationId: ConsultingCoupons
       parameters:
-        - name: Authorization
+        - name: api_key
           in: header
-          description: Token de acordo com o Login
+          description: Chave de API
           required: true
-          style: simple
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
+            format: 'api key'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EditCouponRequest'
+            example:
+              plan_restrictions: null
+        required: true
       responses:
         '200':
-          description: ''
+          description: 'Consulta realizada com sucesso'
           headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListingCoupons'
+      deprecated: false
+      security: []
+      
+  /coupons/{couponId}:
+    get:
+      tags:
+        - Cupons
+      summary: Consultando um cupom
+      operationId: GetCoupon
+      parameters:
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
+          schema:
+            type: string
+            format: 'api key'
+        - name: couponId
+          in: path
+          description: Id do cupom
+          required: true
+          schema:
+            type: string
+            format: 'uuid'
+      responses:
+        '200':
+          description: 'Consulta realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponResponse'
+        '404':
+          description: 'Cupom não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      
+    put:
+      tags:
+        - Cupons
+      summary: Editando um cupom
+      operationId: EditCoupon
+      parameters:
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
+          schema:
+            type: string
+            format: 'api key'
+        - name: couponId
+          in: path
+          description: Id do cupom
+          required: true
+          schema:
+            type: string
+            format: 'uuid'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CouponRequestEdit'
+            example:
+              plan_restrictions: null
+        required: true
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CouponResponse'
+        '400':
+          description: 'Erro na validação dos dados'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+        '404':
+          description: 'Cupom não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
+      deprecated: false
+      security: []
+      
+  /coupons/{couponId}/active:
+    put:
+      tags:
+        - Cupons
+      summary: Ativando um cupom
+      operationId: ActiveCoupon
+      parameters:
+        - name: api_key
+          in: header
+          description: Chave de API
+          required: true
+          schema:
+            type: string
+            format: 'api key'
+        - name: couponId
+          in: path
+          description: Id do cupom
+          required: true
+          schema:
+            type: string
+            format: 'uuid'
+      responses:
+        '200':
+          description: 'Operação realizada com sucesso'
+          headers: {}
+        '404':
+          description: 'Cupom não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /coupons/8/inactive:
+  /coupons/{couponId}/inactive:
     put:
       tags:
         - Cupons
-      summary: Inactive Coupon
+      summary: Inativando um cupom
       operationId: InactiveCoupon
       parameters:
-        - name: Authorization
+        - name: api_key
           in: header
-          description: Token de acordo com o Login
+          description: Chave de API
           required: true
-          style: simple
           schema:
             type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
+            format: 'api key'
+        - name: couponId
+          in: path
+          description: Id do cupom
           required: true
-          style: simple
           schema:
             type: string
-            example: live
+            format: 'uuid'
       requestBody:
         description: ''
         content:
@@ -3885,45 +3003,19 @@ paths:
         required: true
       responses:
         '200':
-          description: ''
+          description: 'Operação realizada com sucesso'
           headers: {}
+        '404':
+          description: 'Cupom não encontrado'
+          headers: {}
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleErrorResponse'
       deprecated: false
       security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /commons/taxes:
-    get:
-      tags:
-        - Taxes
-      summary: Get Country Taxes
-      operationId: GetCountryTaxes
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+  
+  
   /plan/1026/taxes:
     get:
       tags:
@@ -3956,6 +3048,8 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
+  
+  # ROUTES TRANSACTIONS
   /transactions:
     get:
       tags:
@@ -4221,588 +3315,8 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /dashboard/customers_statuses:
-    get:
-      tags:
-        - Dashboard
-      summary: Customers per Status
-      operationId: CustomersperStatus
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/churn:
-    get:
-      tags:
-        - Dashboard
-      summary: Churn
-      operationId: Churn
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/top-plans:
-    get:
-      tags:
-        - Dashboard
-      summary: Top Plans
-      operationId: TopPlans
-      parameters:
-        - name: startDate
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: orderBy
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: quantity
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/revenue:
-    get:
-      tags:
-        - Dashboard
-      summary: Revenue
-      operationId: Revenue
-      parameters:
-        - name: onlyDebit
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: boolean
-            example: false
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/sale-chart:
-    get:
-      tags:
-        - Dashboard
-      summary: Sales Chart
-      operationId: SalesChart
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/plans_statuses:
-    get:
-      tags:
-        - Dashboard
-      summary: Plan per Status
-      operationId: PlanperStatus
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/shop_activities:
-    get:
-      tags:
-        - Dashboard
-      summary: Shop Activity
-      operationId: ShopActivity
-      parameters:
-        - name: createDateStart
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: createDateEnd
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/subscriptions_versus_customers:
-    get:
-      tags:
-        - Dashboard
-      summary: Subscriptions x Active Customers
-      operationId: SubscriptionsxActiveCustomers
-      parameters:
-        - name: createDateStart
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/subscriptions_per_status:
-    get:
-      tags:
-        - Dashboard
-      summary: Subscriptions per status
-      operationId: Subscriptionsperstatus
-      parameters:
-        - name: createDateStart
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/invoices_per_time:
-    get:
-      tags:
-        - Dashboard
-      summary: Invoices per time
-      operationId: Invoicespertime
-      parameters:
-        - name: createDateEnd
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/transaction_quantity_per_status:
-    get:
-      tags:
-        - Dashboard
-      summary: Transaction quantity per Status
-      operationId: TransactionquantityperStatus
-      parameters:
-        - name: createDateEnd
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /dashboard/invoices_statuses:
-    get:
-      tags:
-        - Dashboard
-      summary: Invoice Statuses
-      operationId: InvoiceStatuses
-      parameters:
-        - name: createDateStart
-          in: query
-          description: ''
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: string
-            example: '2019-01-01'
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices/SEBYL31LW1:
-    get:
-      tags:
-        - Invoice
-      summary: Get Invoices
-      description: "Códigos de status:\r\n \r\n review = 1,\r\n pending = 2,\r\n paid = 3,\r\n canceled = 4,\r\n scheduled = 5,\r\n created = 6,\r\n suspended = 7,\r\n blocked = 8"
-      operationId: GetInvoices
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices:
-    get:
-      tags:
-        - Invoice
-      summary: Invoices Report
-      description: "Códigos de status:\r\n \r\n review = 1,\r\n pending = 2,\r\n paid = 3,\r\n canceled = 4,\r\n scheduled = 5,\r\n created = 6,\r\n suspended = 7,\r\n blocked = 8"
-      operationId: InvoicesReport
-      parameters:
-        - name: count
-          in: query
-          description: quantidade de itens por página
-          required: true
-          style: form
-          explode: true
-          schema:
-            type: integer
-            format: int32
-            example: 100
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices/78287R15XZ:
-    get:
-      tags:
-        - Invoice
-      summary: Get Invoices Specified
-      operationId: GetInvoicesSpecified
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
+  
+  # ROUTES SALES
   /sales:
     get:
       tags:
@@ -4895,7 +3409,7 @@ paths:
       tags:
         - Sales
       summary: Sale Report
-      description: "Códigos de status:\r\n \r\n review = 1,\r\n pending = 2,\r\n paid = 3,\r\n canceled = 4,\r\n scheduled = 5,\r\n created = 6,\r\n suspended = 7,\r\n blocked = 8"
+      description: Códigos de status:\r\n \r\n review = 1,\r\n pending = 2,\r\n paid = 3,\r\n canceled = 4,\r\n scheduled = 5,\r\n created = 6,\r\n suspended = 7,\r\n blocked = 8
       operationId: SaleReport
       parameters:
         - name: Authorization
@@ -5143,71 +3657,8 @@ paths:
       servers:
         - url: 'http://example.com/v1'
           variables: {}
-  /invoices/2816/download:
-    get:
-      tags:
-        - Invoice Copy
-      summary: Download Invoice
-      operationId: GetDownloadInvoice
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  /invoices/20:
-    put:
-      tags:
-        - Invoice Copy
-      summary: Create Invoices
-      operationId: CreateInvoices
-      parameters:
-        - name: Authorization
-          in: header
-          description: Token de acordo com o Login
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: '{{token}}'
-        - name: mode
-          in: header
-          description: ''
-          required: true
-          style: simple
-          schema:
-            type: string
-            example: live
-      responses:
-        '200':
-          description: ''
-          headers: {}
-      deprecated: false
-      security: []
-      servers:
-        - url: 'http://example.com/v1'
-          variables: {}
-  
+
+  # ROUTES CHECKOUT CONFIGURATIONS 
   /checkout/configurations/fields:
     put:
       tags:
@@ -5370,6 +3821,7 @@ paths:
           variables: {}
 components:
   schemas:
+    # ERRORS
     SimpleErrorResponse:
       title: SimpleErrorResponse
       properties:
@@ -5386,6 +3838,783 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/SimpleErrorResponse'
+    
+    # MODELS COMMMONS
+
+    AddressRequest:
+      title: AddressRequest
+      required:
+        - street1
+        - number
+        - postal_code
+        - country_code
+        - district
+        - city
+        - state
+      type: object
+      properties:
+        address_code:
+          type: string
+          format: uuid
+          description: Id do endereço
+        street1:
+          type: string
+          description: Endereço 1
+        street2:
+          type: string
+          description: Endereço 2
+        number:
+          type: string
+          description: Número do endereço
+        district:
+          type: string
+          description: Bairro ou distrito
+        city:
+          type: string
+          description: Cidade
+        state:
+          type: string
+          description: Estado
+        address_country_code:
+          type: string
+          description: Código do país. Utilizar código ALPHA3 da ISO 3166
+        postal_code:
+          type: string
+          description: Código postal
+        additional_info:
+          type: string
+          description: Complemento adicional ao endereço
+        is_main:
+          type: boolean
+          description: Idenfiticador de Endereço Principal. Usado para ShippingAddress
+      example:
+        address_code: 976a22a7-535a-4e16-a6c2-db96beab95c7
+        street1: Av. Queiroz Filho
+        street2: ''
+        number: '1560'
+        complement: Torre Beija Flor 4º andar
+        postal_code: '06123456'
+        district: Vila Leopoldina
+        city: São Paulo
+        state: SP
+        address_country_code: BRA
+        
+    AddressReponse:
+      title: AddressResponse
+      type: object
+      properties:
+        address_code:
+          type: string
+          format: uuid
+          description: Id do endereço
+        street1:
+          type: string
+          description: Endereço 1
+        street2:
+          type: string
+          description: Endereço 2
+        number:
+          type: string
+          description: Número do endereço
+        district:
+          type: string
+          description: Bairro ou distrito
+        city:
+          type: string
+          description: Cidade
+        state:
+          type: string
+          description: Estado
+        address_country_code:
+          type: string
+          description: Código do país. Utilizar código ALPHA3 da ISO 3166
+        postal_code:
+          type: string
+          description: Código postal
+        additional_info:
+          type: string
+          description: Complemento adicional ao endereço
+      example:
+        address_code: 976a22a7-535a-4e16-a6c2-db96beab95c7
+        street1: Av. Queiroz Filho
+        street2: ''
+        number: '1560'
+        complement: Torre Beija Flor 4º andar
+        postal_code: '06123456'
+        district: Vila Leopoldina
+        city: São Paulo
+        state: SP
+        address_country_code: BRA
+
+    Document:
+      title: Document
+      required:
+        - type
+        - number
+      type: object
+      properties:
+        type:
+          type: string
+          description: Tipo do documento
+        number:
+          type: string
+          description: Número do documento
+      example:
+        type: CPF
+        number: 01234567890
+    
+    Phone:
+      title: Phone
+      required:
+        - type
+        - number
+      type: object
+      properties:
+        type:
+          type: string
+          description: Tipo do telefone - "mobile", "home", "commercial" ou "other"
+        number:
+          type: string
+          description: Número do telefone
+      example:
+        type: mobile
+        number: '11988822222'
+
+    # MODELS CUSTOMERS
+
+    ListingCustomers:
+      title: ListingCustomers
+      type: object
+      properties:
+        total_items: 
+          type: integer
+          description: Total de itens
+        total_pages:
+          type: integer
+          description: Total de páginas
+        quantity_page:
+          type: integer
+          description: Quantiade de itens por página
+        actual_page:
+          type: integer
+          description: Página consultada
+        items: 
+          type: array
+          description: Itens consultados
+          items:
+            $ref: '#/components/schemas/CustomerResponse'
+
+    CustomerRequest:
+      title: CustomerRequest
+      required:
+        - first_name
+        - last_name
+        - email
+        - mobile_number
+        - country_code
+      type: object
+      properties:
+        first_name:
+          type: string 
+          description: Primeiro nome do assinante
+        last_name:
+          type: string
+          description: Último nome do assinante
+        ref_code:
+          type: string
+          description: Código de referência do Assinante. Geralmente um id de sua plataforma
+        email:
+          type: string
+          description: Endereço de e-mail
+        billing_address:
+          $ref: '#/components/schemas/AddressRequest'
+          description: Endereço de cobrança
+        mobile_number:
+          type: string
+          description: Número de telefone principal
+        birth:
+          type: string
+          description: Data de nascimento
+        gender:
+          type: string
+          description: Genêro do assinante. M, F ou O
+        country_code:
+          type: string
+          description: Código do país do assinante. Usar Alpha3 ISO 3166
+        document:
+          $ref: '#/components/schemas/Document'
+          description: Documento do assinante
+        cc_emails:
+          type: array
+          items:
+            type: string
+          description: 'Lista de endereços de e-mail, para notificação em cópia'
+        tax_exempt:
+          type: boolean
+          description: Identificador de isenção fiscal
+        phones:
+          type: array
+          items:
+            $ref: '#/components/schemas/Phone'
+          description: 'Lista de número de telefones'
+        vat_number:
+          type: string
+          description: VAT
+        shipping_address:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressRequest'
+          description: 'Endereços de entrega'
+      example:
+        first_name: Cyclopay
+        last_name: Assinante
+        email: cyclo@veripag.com.br
+        mobile_number: +55 (31) 232132132
+        country_code: BRA
+    
+    CustomerResponse:
+      title: CustomerRequest
+      type: object
+      properties:
+        customer_id:
+          type: string
+          format: uuid
+          description: Id do assinante
+        first_name:
+          type: string 
+          description: Primeiro nome do assinante
+        last_name:
+          type: string
+          description: Último nome do assinante
+        email:
+          type: string
+          description: Endereço de e-mail
+        billing_address:
+          $ref: '#/components/schemas/AddressRequest'
+          description: Endereço de cobrança
+        mobile_number:
+          type: string
+          description: Número de telefone principal
+        birth:
+          type: string
+          description: Data de nascimento
+        gender:
+          type: string
+          description: Genêro do assinante. M, F ou O
+        country_code:
+          type: string
+          description: Código do país do assinante. Usar Alpha3 ISO 3166
+        document:
+          $ref: '#/components/schemas/Document'
+          description: Documento do assinante
+        cc_emails:
+          type: array
+          items:
+            type: string
+          description: 'Lista de endereços de e-mail, para notificação em cópia'
+        tax_exempt:
+          type: boolean
+          description: Identificador de isenção fiscal
+        phones:
+          type: array
+          items:
+            type: string
+          description: 'Lista de número de telefones'
+        vat_number:
+          type: string
+          description: VAT
+        shipping_address:
+          type: array
+          items:
+            $ref: '#/components/schemas/AddressRequest'
+          description: 'Endereços de entrega'
+        cancel_date:
+          type: string
+          format: date-time
+          description: Data de cancelamento
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação
+        update_date:
+          type: string
+          format: date-time
+          description: Data de atualização
+        active:
+          type: boolean
+          description: Status do assinante
+
+    # MODELS PLANS
+
+    ListingPlans:
+      title: ListingCustomers
+      type: object
+      properties:
+        total_items: 
+          type: integer
+          description: Total de itens
+        total_pages:
+          type: integer
+          description: Total de páginas
+        quantity_page:
+          type: integer
+          description: Quantiade de itens por página
+        actual_page:
+          type: integer
+          description: Página consultada
+        items: 
+          type: array
+          description: Itens consultados
+          items:
+            $ref: '#/components/schemas/PlansResponse'
+
+    PlanRequest:
+      title: PlanRequest
+      required:
+        - name
+        - pricing_options
+        - payment_methods
+      properties:
+        name:
+          type: string
+          description: Nome do plano
+        plan_code:
+          type: string
+          description: Código do plano
+        description:
+          type: string
+          description: Descrição do plano
+        taxable:
+          type: boolean
+          description: Identificador de taxas sobre o plano
+        tax_code:
+          type: string
+          description: Código da taxa cadastrada
+        tax_included:
+          type: string
+          description: Verificador de taxa inclusa ou não sobre o preço do plano
+        pricing_options:
+          type: array
+          description: Preços do plano
+          items:
+            $ref: '#/components/schemas/CreatePlanPricingOptionRequest'
+        payment_methods:
+          type: string
+          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
+        metadata:
+          type: object
+          description: Objeto livre
+        callback_url:
+          type: string
+          description: URL de callback
+        redirect_url_on_success:
+          type: string
+          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
+        redirect_url_on_failure:
+          type: string
+          description: URL de redirecionamento em caso de falha no pagamento do checkout
+        enable_customer_suspension:
+          type: boolean
+          description: Flag para identificar que o assinante pode suspender o plano
+        enable_customer_cancelation:
+          type: boolean
+          description: Flag para identificar que o assinante pode cancelar o plano
+        require_billing_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
+        require_shipping_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
+        
+    PlansResponse:
+      title: PlansResponse
+      properties:
+        plan_id:
+          type: integer
+          description: Id do plano
+        name:
+          type: string
+          description: Nome do plano
+        plan_code:
+          type: string
+          description: Código do plano
+        description:
+          type: string
+          description: Descrição do plano
+        taxable:
+          type: boolean
+          description: Identificador de taxas sobre o plano
+        tax_code:
+          type: string
+          description: Código da taxa cadastrada
+        tax_included:
+          type: string
+          description: Verificador de taxa inclusa ou não sobre o preço do plano
+        pricing_options:
+          type: array
+          description: Preços do plano
+          items:
+            $ref: '#/components/schemas/PricingOptionResponse'
+        payment_methods:
+          type: string
+          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
+        metadata:
+          type: object
+          description: Objeto livre
+        callback_url:
+          type: string
+          description: URL de callback
+        redirect_url_on_success:
+          type: string
+          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
+        redirect_url_on_failure:
+          type: string
+          description: URL de redirecionamento em caso de falha no pagamento do checkout
+        enable_customer_suspension:
+          type: boolean
+          description: Flag para identificar que o assinante pode suspender o plano
+        enable_customer_cancelation:
+          type: boolean
+          description: Flag para identificar que o assinante pode cancelar o plano
+        require_billing_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
+        require_shipping_address:
+          type: boolean
+          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
+        status:
+          type: string
+          description: Status do plano, active | inactive
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação do plano
+        update_date: 
+          type: string
+          format: date-time
+          description: Data de atualização do plano
+        active: 
+          type: boolean
+          description: Flag para identificar o estado do plano
+
+    PricingOptionRequest:
+      title: PricingOptionRequest
+      required:
+        - amount
+        - currency
+        - count
+        - interval
+        - frequency
+        - auto_renew
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+          description: Valor do preço em centavos
+        pricing_code:
+          type: string
+          description: Código do preço, Quando não enviado, será gerado via servidor
+        currency:
+          type: string
+          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+        setup_fee:
+          type: integer
+          format: int32
+          description: Valor de Setup em centavos
+        count:
+          type: integer
+          format: int32
+          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
+        interval:
+          type: integer
+          format: int32
+          description: Intervalo entre as cobranças
+        frequency:
+          type: string
+          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
+        rrule:
+          type: string
+          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
+        auto_renew:
+          type: boolean
+          description: Identificador de renovação automática.
+        trial_amount:
+          type: integer
+          format: int32
+          description: TRIAL - Preço em centavos
+        trial_interval:
+          type: integer
+          format: int32
+          description: TRIAL - Quantidade de cobranças de trial
+        trial_unit:
+          type: string
+          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
+        is_default:
+          type: boolean
+          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
+        billing_day:
+          type: integer
+          format: int32
+          description: Dia que deve ser realizada a cobrança, quando não definido, as cobranças serão realizadas no dia da assinatura
+      example:
+      - amount: 11300
+        pricing_code: ALHS22SX
+        currency: BRL
+        count: 1
+        interval: 1
+        frequency: MONTHLY
+        auto_renew: false
+        trial_amount: 0
+        trial_interval: 0
+        setup_fee: 0
+        trial_unit: MONTHLY
+        is_default: true
+        billing_day: 5
+
+    PricingOptionResponse:
+      title: PricingOptionResponse
+      required:
+        - amount
+        - currency
+        - count
+        - interval
+        - frequency
+        - auto_renew
+      type: object
+      properties:
+        amount:
+          type: integer
+          format: int32
+          description: Valor do preço em centavos
+        pricing_code:
+          type: string
+          description: Código do preço, Quando não enviado, será gerado via servidor
+        currency:
+          type: string
+          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+        setup_fee:
+          type: integer
+          format: int32
+          description: Valor de Setup em centavos
+        count:
+          type: integer
+          format: int32
+          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
+        interval:
+          type: integer
+          format: int32
+          description: Intervalo entre as cobranças
+        frequency:
+          type: string
+          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
+        rrule:
+          type: string
+          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
+        auto_renew:
+          type: boolean
+          description: Identificador de renovação automática.
+        trial_amount:
+          type: integer
+          format: int32
+          description: TRIAL - Preço em centavos
+        trial_interval:
+          type: integer
+          format: int32
+          description: TRIAL - Quantidade de cobranças de trial
+        trial_unit:
+          type: string
+          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
+        is_default:
+          type: boolean
+          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
+        created_method:
+          type: string
+          description: Método de criação do preço
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação do preço
+        update_date:
+          type: string
+          format: date-time
+          description: Data de atualização do preço
+        created_by:
+          type: string
+          description: Nome do usuário que criou o preço
+        user_id:
+          type: integer
+          format: int32
+          description: Id do usuário que criou o preço
+      
+    # MODELS COUPONS
+
+    ListingCoupons:
+      title: ListingCoupons
+      type: object
+      properties:
+        total_items: 
+         type: integer
+         description: Total de itens
+        total_pages:
+         type: integer
+         description: Total de páginas
+        quantity_page:
+         type: integer
+         description: Quantiade de itens por página
+        actual_page:
+         type: integer
+         description: Página consultada
+        items: 
+         type: array
+         description: Itens consultados
+         items:
+           $ref: '#/components/schemas/CouponResponse'
+
+    CouponResponse:
+      title: CouponResponse
+      required:
+        - name
+        - coupon_code
+        - description
+        - percentage
+        - amount
+        - count
+        - expiry_date
+        - currency
+      type: object
+      properties:
+        coupon_id:
+          type: string
+          format: uuid
+          description: Id do cupom
+        name:
+          type: string
+          description: Nome do cupom
+        coupon_code:
+          type: string
+          description: Código do cupom
+        description:
+          type: string
+          description: Descrição do cupom
+        percentage:
+          type: number
+          description: Porcentagem de desconto do cupom
+        amount:
+          type: integer
+          format: int32
+          description: Valor de desconto do cupom em centavos
+        count:
+          type: integer
+          format: int32
+          description: Quantidad de cupons
+        expiry_date:
+          type: string
+          description: Data de expiração do cupom
+        plan_restrictions:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Planos que podem utilizar o cupom. Quando vazio, o cupom é válido para todos os planos
+        usage:
+          type: string
+          description: Quantidade de cupons utilizados
+        status:
+          type: string
+          description: Status
+        status_reason:
+          type: string
+          description: Motivo do status
+        created_by:
+          type: string
+          description: Nome do usuário que criou
+        create_date:
+          type: string
+          format: date-time
+          description: Data de criação
+        update_date:
+          type: string
+          format: date-time
+          description: Data de atualização
+
+    CouponRequestEdit:
+      title: CouponRequestEdit
+      type: object
+      properties:
+        description:
+          type: string
+          description: Descrição do cupom
+        count:
+          type: integer
+          format: int32
+          description: Quantidad de cupons
+        expiry_date:
+          type: string
+          description: Data de expiração do cupom
+        plan_restrictions:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Planos que podem utilizar o cupom. Quando vazio, o cupom é válido para todos os planos
+
+    CouponRequest:
+      title: CouponRequest
+      required:
+        - name
+        - coupon_code
+        - description
+        - percentage
+        - amount
+        - count
+        - expiry_date
+        - currency
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nome do cupom
+        coupon_code:
+          type: string
+          description: Código do cupom
+        description:
+          type: string
+          description: Descrição do cupom
+        percentage:
+          type: number
+          description: Porcentagem de desconto do cupom
+        amount:
+          type: integer
+          format: int32
+          description: Valor de desconto do cupom em centavos
+        count:
+          type: integer
+          format: int32
+          description: Quantidad de cupons
+        expiry_date:
+          type: string
+          description: Data de expiração do cupom
+        plan_restrictions:
+          type: array
+          items:
+            type: integer
+            format: int32
+          description: Planos que podem utilizar o cupom. Quando vazio, o cupom é válido para todos os planos
+        currency:
+          type: string
+          description: Moeda do cupom, quando definido amount. Utilizar AlphaCode, ISO 4217
+
+    # MODELS SUBSCRIPTIONS
+
+    # MODELS SALES
+
+    # MODELS TRANSACTIONS
+
+    # MODELS SHOP
+
+    # MODELS 
+
     CustomerCheckoutLinkResponse:
       title: CustomerCheckoutLinkResponse
       properties:
@@ -5512,7 +4741,7 @@ components:
             type: string
           description: ''
         address:
-          $ref: '#/components/schemas/Address'
+          $ref: '#/components/schemas/AddressRequest'
         payment_configuration:
           $ref: '#/components/schemas/PaymentConfiguration'
         cyclo:
@@ -5579,58 +4808,7 @@ components:
         metadata:
           termos: '{{$randomPhrase}}'
         is_provider: false
-    Address:
-      title: Address
-      required:
-        - street1
-        - street2
-        - number
-        - complement
-        - postal_code
-        - country_code
-        - district
-        - city
-        - state
-        - latitude
-        - longitude
-      type: object
-      properties:
-        street1:
-          type: string
-        street2:
-          type: string
-        number:
-          type: string
-        complement:
-          type: string
-        postal_code:
-          type: string
-        country_code:
-          type: string
-        district:
-          type: string
-        city:
-          type: string
-        state:
-          type: string
-        latitude:
-          type: integer
-          format: int32
-        longitude:
-          type: integer
-          format: int32
-      example:
-        street1: Av. Queiroz Filho
-        street2: ''
-        number: '1560'
-        complement: Torre Beija Flor 4º andar
-        postal_code: '06123456'
-        country_code: '76'
-        district: Vila Leopoldina
-        city: São Paulo
-        state: SP
-        latitude: -5066
-        longitude: 4999
+    
     PaymentConfiguration:
       title: PaymentConfiguration
       required:
@@ -7162,20 +6340,6 @@ components:
           state: SP
           aditional_info: ''
         ref_code: ''
-    Document:
-      title: Document
-      required:
-        - type
-        - number
-      type: object
-      properties:
-        type:
-          type: string
-        number:
-          type: string
-      example:
-        type: DNI
-        number: 34690678P
     Address3:
       title: Address3
       required:
@@ -7607,190 +6771,7 @@ components:
           type: boolean
       example:
         is_default: true
-    CreatePlanRequest:
-      title: CreatePlanRequest
-      required:
-        - name
-        - plan_code
-        - pricing_options
-        - payment_methods
-      type: object
-      properties:
-        name:
-          type: string
-          description: Nome do plano
-        plan_code:
-          type: string
-          description: Código do plano. Quando não enviado será gerado pela Cyclopay 
-        description:
-          type: string
-          description: Descrição do plano. Esse campo é exibido na seção *Descrição* na página de checkout
-        pricing_options:
-          type: array
-          items:
-            $ref: '#/components/schemas/PricingOption'
-          description: 'Preços de um plano'
-        payment_methods:
-          type: array
-          items:
-            type: string
-          description: 'Métodos de pagamento, credit_card ou boleto'
-        callback_url:
-          type: string
-          description: Url de callback para resposta de nosso servidor
-        redirect_url_on_success:
-          type: string
-          nullable: true
-          description: Url de redirecionamento quando pagamento via checkout é realizado com sucesso
-        redirect_url_on_failure:
-          type: string
-          nullable: true
-          description: Url de redirecionamento quando pagamento via checkout resulta em falha
-        enable_customer_suspension:
-          type: boolean
-          description: Habilita o botão para suspensão via backoffice das assinaturas deste plano 
-        enable_customer_cancelation:
-          type: boolean
-          description: Configuração do plano para identificar se os assinantes podem efetuar o cancelamento do plano via portal
-        require_billing_address:
-          type: boolean
-          description: Configuração do plano para exigir que os assinantes possuam endereço de cobrança
-        require_shipping_address:
-          type: boolean
-          description: Configuração do plano para exigir que os assinantes possuam endereço de entrega
-      example:
-        name: string
-        plan_code: string
-        description: string
-        pricing_options:
-          - amount: 1000
-            currency: BRL
-            setup_fee: 1000
-            count: 12
-            interval: 1
-            frequency: MONTHLY
-            rrule: COUNT=12;FREQ=MONTHLY;INTERVAL=1
-            auto_renew: false
-            trial_amount: 0
-            trial_interval: 0
-            trial_unit: MONTHLY
-            default: true
-        payment_methods:
-          - credit_card
-          - boleto
-        callback_url: 'string'
-        redirect_url_on_success: string
-        redirect_url_on_failure: string
-        enable_customer_suspension: true
-        enable_customer_cancelation: true
-        require_billing_address: true
-        require_shipping_address: true
-    PricingOption:
-      title: PricingOption
-      required:
-        - amount
-        - currency
-        - count
-        - interval
-        - frequency
-        - auto_renew
-      type: object
-      properties:
-        amount:
-          type: integer
-          format: int32
-          description: Valor do preço em centavos
-        pricing_code:
-          type: string
-          description: Código do preço, Quando não enviado, será gerado via servidor
-        currency:
-          type: string
-          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
-        setup_fee:
-          type: integer
-          format: int32
-          description: Valor de Setup em centavos
-        count:
-          type: integer
-          format: int32
-          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
-        interval:
-          type: integer
-          format: int32
-          description: Intervalo entre as cobranças
-        frequency:
-          type: string
-          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
-        rrule:
-          type: string
-          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
-        auto_renew:
-          type: boolean
-          description: Identificador de renovação automática.
-        trial_amount:
-          type: integer
-          format: int32
-          description: TRIAL - Preço em centavos
-        trial_interval:
-          type: integer
-          format: int32
-          description: TRIAL - Quantidade de cobranças de trial
-        trial_unit:
-          type: string
-          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
-        is_default:
-          type: boolean
-          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
-        billing_day:
-          type: integer
-          format: int32
-          description: Dia que deve ser realizada a cobrança, quando não definido, as cobranças serão realizadas no dia da assinatura
-      example:
-      - amount: 11300
-        pricing_code: ALHS22SX
-        currency: BRL
-        count: 1
-        interval: 1
-        frequency: MONTHLY
-        auto_renew: false
-        trial_amount: 0
-        trial_interval: 0
-        setup_fee: 0
-        trial_unit: MONTHLY
-        is_default: true
-        billing_day: 5
-    UpdatePlanRequest:
-      title: UpdatePlanRequest
-      required:
-        - name
-        - recurrence_rule
-        - payment_definitions
-        - trial_period
-      type: object
-      properties:
-        name:
-          type: string
-        recurrence_rule:
-          $ref: '#/components/schemas/RecurrenceRule'
-        payment_definitions:
-          $ref: '#/components/schemas/PaymentDefinitions'
-        trial_period:
-          $ref: '#/components/schemas/TrialPeriod'
-      example:
-        name: PLAN EDITADO
-        recurrence_rule:
-          interval: '1'
-          frequency: DAILY
-          auto_renew: 'false'
-        payment_definitions:
-          payment_methods:
-            - credit_card
-          amount: 300
-          currency: BRL
-        trial_period:
-          interval: 1
-          amount: 800
-          interval_unit: MONTHLY
+    
     RecurrenceRule:
       title: RecurrenceRule
       required:
@@ -7911,102 +6892,7 @@ components:
           format: int32
       example:
         plan_id: 1065
-    CreateCustomerRequest:
-      title: CreateCustomerRequest
-      required:
-        - first_name
-        - last_name
-        - email
-        - billing_address
-        - mobile_number
-        - birth
-        - gender
-        - country_code
-        - document
-        - cc_emails
-        - tax_exempt
-        - phones
-        - vat_number
-        - shipping_address
-      type: object
-      properties:
-        first_name:
-          type: string
-        last_name:
-          type: string
-        email:
-          type: string
-        billing_address:
-          $ref: '#/components/schemas/BillingAddress'
-        mobile_number:
-          type: string
-        birth:
-          type: string
-        gender:
-          type: string
-        country_code:
-          type: string
-        document:
-          $ref: '#/components/schemas/Document'
-        cc_emails:
-          type: array
-          items:
-            type: string
-          description: ''
-        tax_exempt:
-          type: boolean
-        phones:
-          type: array
-          items:
-            type: string
-          description: ''
-        vat_number:
-          type: string
-        shipping_address:
-          type: array
-          items:
-            $ref: '#/components/schemas/ShippingAddress'
-          description: ''
-      example:
-        first_name: Lucas
-        last_name: Nalon
-        email: lucas.nalon3@veripag.com.br
-        billing_address:
-          address_country_code: PER
-          postal_code: 05128000
-          street1: Rua Willis Roberto Banks
-          district: Parque Maria Domitila
-          city: São Paulo
-          state: SP
-          number: '549'
-        mobile_number: +55 (31) 232132132
-        birth: 22/03/2000
-        gender: M
-        country_code: BR
-        document:
-          type: DNI
-          number: 63694935T
-        cc_emails: []
-        tax_exempt: false
-        phones: []
-        vat_number: ''
-        shipping_address:
-          - address_country_code: PER
-            postal_code: 05128000
-            street1: Rua Willis Roberto Banks
-            district: Parque Maria Domitila
-            city: São Paulo
-            state: SP
-            number: '549'
-            is_main: 'true'
-          - address_country_code: PER
-            postal_code: 05128000
-            street1: Rua Willis Roberto Banks
-            district: Parque Maria Domitila
-            city: São Paulo
-            state: SP
-            number: '549'
-            is_main: 'false'
+    
     BillingAddress:
       title: BillingAddress
       required:
@@ -8140,16 +7026,7 @@ components:
             address_code: ff717188-94f9-430b-91d7-81c596a59062
         create_date: '2018-03-14T18:50:45.2934882Z'
         active: true
-    Phone:
-      title: Phone
-      required:
-        - phone_number
-      type: object
-      properties:
-        phone_number:
-          type: string
-      example:
-        phone_number: '11988822222'
+    
     Address5:
       title: Address5
       required:
@@ -8481,9 +7358,9 @@ components:
         subscription_code:
           type: string
         plan:
-          $ref: '#/components/schemas/Plan'
+          $ref: '#/components/schemas/PlansResponse'
         customer:
-          $ref: '#/components/schemas/Customer'
+          $ref: '#/components/schemas/CustomerResponse'
         shop:
           $ref: '#/components/schemas/Shop'
         notification:
@@ -8675,133 +7552,8 @@ components:
             billing_date: '2020-09-04T00:00:00'
             create_date: '2018-09-04T21:36:28.23'
             update_date: null
-    PlansResponse:
-      title: PlanRequest
-      properties:
-        plan_id:
-          type: integer
-          description: Id do plano
-        name:
-          type: string
-          description: Nome do plano
-        plan_code:
-          type: string
-          description: Código do plano
-        description:
-          type: string
-          description: Descrição do plano
-        taxable:
-          type: boolean
-          description: Identificador de taxas sobre o plano
-        tax_code:
-          type: string
-          description: Código da taxa cadastrada
-        tax_included:
-          type: string
-          description: Verificador de taxa inclusa ou não sobre o preço do plano
-        pricing_options:
-          type: array
-          description: Preços do plano
-        payment_methods:
-          type: string
-          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
-        metadata:
-          type: object
-          description: Objeto livre
-        callback_url:
-          type: string
-          description: URL de callback
-        redirect_url_on_success:
-          type: string
-          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
-        redirect_url_on_failure:
-          type: string
-          description: URL de redirecionamento em caso de falha no pagamento do checkout
-        enable_customer_suspension:
-          type: boolean
-          description: Flag para identificar que o assinante pode suspender o plano
-        enable_customer_cancelation:
-          type: boolean
-          description: Flag para identificar que o assinante pode cancelar o plano
-        require_billing_address:
-          type: boolean
-          description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
-        require_shipping_address:
-          type: boolean
-          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
-        status:
-          type: string
-          description: Status do plano, active | inactive
-        create_date:
-          type: string
-          format: date-time
-          description: Data de criação do plano
-        update_date: 
-          type: string
-          format: date-time
-          description: Data de atualização do plano
-        active: 
-          type: boolean
-          description: Flag para identificar o estado do plano
-    Plan:
-      title: Plan
-      required:
-        - name
-        - soft_descriptor
-        - description
-        - payment_definitions
-        - trial_days
-        - enable_off_date
-        - generation_date
-        - shop_code
-        - create_date
-        - update_date
-        - active
-      type: object
-      properties:
-        name:
-          type: string
-        soft_descriptor:
-          type: string
-        description:
-          type: string
-        payment_definitions:
-          $ref: '#/components/schemas/PaymentDefinitions1'
-        trial_days:
-          type: integer
-          format: int32
-        enable_off_date:
-          type: boolean
-        generation_date:
-          type: string
-        shop_code:
-          type: string
-        create_date:
-          type: string
-        update_date:
-          type: string
-          nullable: true
-        active:
-          type: boolean
-      example:
-        name: PLANO 01 diary
-        soft_descriptor: testetesteteste
-        description: Plano cobrado diariamente
-        payment_definitions:
-          amount: 9900
-          installments: 1
-          charge_settings:
-            billing_day: '4'
-            due_day: '15'
-          setup_fee: 0
-          cancelation_fee: 0
-        trial_days: 0
-        enable_off_date: false
-        generation_date: '8'
-        shop_code: A3Q9L2AEDX
-        create_date: '2018-09-04T20:33:07.8'
-        update_date: null
-        active: false
+    
+    
     PaymentDefinitions1:
       title: PaymentDefinitions1
       required:
@@ -9184,764 +7936,6 @@ components:
         amount: '1000'
         units: TIME
         currency_code: BRL
-    Test-OK-CreateCouponsAmountRequest:
-      title: Test-OK-CreateCouponsAmountRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Amount
-        coupon_code: cupom_abcd
-        description: cupom teste para teste
-        amount: 100
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-OK-CreateCouponsAmountCopyRequest:
-      title: Test-OK-CreateCouponsAmountCopyRequest
-      required:
-        - discount_type
-        - amount
-        - count
-        - expiry_date
-        - name
-        - coupon_code
-        - description
-        - currency_code
-        - plan_restrictions
-      type: object
-      properties:
-        discount_type:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        currency_code:
-          type: string
-        plan_restrictions:
-          type: array
-          items:
-            type: string
-          description: ''
-      example:
-        discount_type: amount
-        amount: 123
-        count: 1
-        expiry_date: '2020-01-28'
-        name: eqr
-        coupon_code: wer
-        description: ''
-        currency_code: BRL
-        plan_restrictions: []
-    Test-OK-CreateCouponsPercentageRequest:
-      title: Test-OK-CreateCouponsPercentageRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - percentage
-        - count
-        - expiry_date
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        percentage:
-          type: number
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        name: Cupom Amount
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        percentage: 12.5
-        count: 100
-        expiry_date: '2020-04-10'
-    Test-OK-CreateCouponsWithPlanIdRequest:
-      title: Test-OK-CreateCouponsWithPlanIdRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - plan_restrictions
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        plan_restrictions:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: ''
-        currency:
-          type: string
-      example:
-        name: Cupom Amount
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 1220
-        count: 100
-        expiry_date: '2020-04-10'
-        plan_restrictions:
-          - 1118
-        currency: BRL
-    Test-CreateCouponsPercentageWithCurrencyRequest:
-      title: Test-CreateCouponsPercentageWithCurrencyRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - percentage
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        percentage:
-          type: number
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Amount
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        percentage: 12.5
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-NegativeAmountRequest:
-      title: Test-CreateCoupons-NegativeAmountRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: -100
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-NegativePercentageRequest:
-      title: Test-CreateCoupons-NegativePercentageRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - percentage
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        percentage:
-          type: number
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        percentage: -12
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-Percentage+100%Request:
-      title: Test-CreateCoupons-Percentage+100%Request
-      required:
-        - name
-        - coupon_code
-        - description
-        - percentage
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        percentage:
-          type: number
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        percentage: 100.5
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-AmountandPercentageRequest:
-      title: Test-CreateCoupons-AmountandPercentageRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - percentage
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        percentage:
-          type: number
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 600
-        percentage: 12.5
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-InvalidCurrencyRequest:
-      title: Test-CreateCoupons-InvalidCurrencyRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 100
-        count: 100
-        expiry_date: '2020-04-10'
-        currency: BRLS
-    Test-CreateCoupons-InvalidCountZeroRequest:
-      title: Test-CreateCoupons-InvalidCountZeroRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 1100
-        count: 0
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-InvalidCountNegativeRequest:
-      title: Test-CreateCoupons-InvalidCountNegativeRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 1100
-        count: -20
-        expiry_date: '2020-04-10'
-        currency: BRL
-    Test-CreateCoupons-InvalidExpiryDateRequest:
-      title: Test-CreateCoupons-InvalidExpiryDateRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 1100
-        count: 100
-        expiry_date: '2002-04-10'
-        currency: BRL
-    Test-CreateCoupons-InvalidPlanIdRequest:
-      title: Test-CreateCoupons-InvalidPlanIdRequest
-      required:
-        - name
-        - coupon_code
-        - description
-        - amount
-        - count
-        - expiry_date
-        - plan_restrictions
-        - currency
-      type: object
-      properties:
-        name:
-          type: string
-        coupon_code:
-          type: string
-        description:
-          type: string
-        amount:
-          type: integer
-          format: int32
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        plan_restrictions:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: ''
-        currency:
-          type: string
-      example:
-        name: Cupom Falha
-        coupon_code: cupom_abc
-        description: cupom teste para teste
-        amount: 1100
-        count: 100
-        expiry_date: '2020-04-10'
-        plan_restrictions:
-          - 121121212
-        currency: BRL
-    Test-EditCoupon-CouponNotFoundRequest:
-      title: Test-EditCoupon-CouponNotFoundRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        count: 100
-        expiry_date: '2021-04-10'
-    Test-EditCoupon-InvalidCount0Request:
-      title: Test-EditCoupon-InvalidCount0Request
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        count: 0
-        expiry_date: '2021-04-10'
-    Test-EditCoupon-InvalidCountNegativeRequest:
-      title: Test-EditCoupon-InvalidCountNegativeRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        count: -120
-        expiry_date: '2021-04-10'
-    Test-EditCoupon-InvalidCountNullRequest:
-      title: Test-EditCoupon-InvalidCountNullRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: string
-          nullable: true
-        expiry_date:
-          type: string
-      example:
-        count: null
-        expiry_date: '2021-04-10'
-    Test-EditCoupon-InvalidCount-LessthanOriginalRequest:
-      title: Test-EditCoupon-InvalidCount-LessthanOriginalRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        count: 90
-        expiry_date: '2021-04-10'
-    Test-EditCoupon-InvalidExpiryLessThanTodayRequest:
-      title: Test-EditCoupon-InvalidExpiryLessThanTodayRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        count: 400
-        expiry_date: '2019-04-10'
-    Test-EditCoupon-InvalidExpiryLessThanOriginalValueRequest:
-      title: Test-EditCoupon-InvalidExpiryLessThanOriginalValueRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-      example:
-        count: 400
-        expiry_date: '2020-02-10'
-    Test-EditCoupon-BadRequestRequest:
-      title: Test-EditCoupon-BadRequestRequest
-      required:
-        - count
-        - expiry_date
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: boolean
-      example:
-        count: 500
-        expiry_date: true
-    Test-EditCoupon-PlanRestrictionNotFoundRequest:
-      title: Test-EditCoupon-PlanRestrictionNotFoundRequest
-      required:
-        - plan_restrictions
-      type: object
-      properties:
-        plan_restrictions:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: ''
-      example:
-        plan_restrictions:
-          - 888888
-    Test-EditCoupon-OK-OnlyDescriptionRequest:
-      title: Test-EditCoupon-OK-OnlyDescriptionRequest
-      required:
-        - description
-      type: object
-      properties:
-        description:
-          type: string
-      example:
-        description: Teste aqui
-    Test-EditCoupon-OK-OnlyPlanRestrictionRequest:
-      title: Test-EditCoupon-OK-OnlyPlanRestrictionRequest
-      required:
-        - plan_restrictions
-      type: object
-      properties:
-        plan_restrictions:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: ''
-      example:
-        plan_restrictions:
-          - 1118
-    Test-EditCoupon-OK-OnlyCountRequest:
-      title: Test-EditCoupon-OK-OnlyCountRequest
-      required:
-        - count
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-      example:
-        count: 400
-    Test-EditCoupon-OK-OnlyExpiryDateRequest:
-      title: Test-EditCoupon-OK-OnlyExpiryDateRequest
-      required:
-        - expiry_date
-      type: object
-      properties:
-        expiry_date:
-          type: string
-      example:
-        expiry_date: '{{next_expiry}}'
-    Test-EditCoupon-OKRequest:
-      title: Test-EditCoupon-OKRequest
-      required:
-        - count
-        - expiry_date
-        - description
-        - plan_restrictions
-      type: object
-      properties:
-        count:
-          type: integer
-          format: int32
-        expiry_date:
-          type: string
-        description:
-          type: string
-        plan_restrictions:
-          type: array
-          items:
-            type: integer
-            format: int32
-          description: ''
-      example:
-        count: 500
-        expiry_date: '{{next_expiry}}'
-        description: TESTE DESCRITIVO
-        plan_restrictions:
-          - 1118
-    Test-InactiveCoupons-InvalidReasonLengthRequest:
-      title: Test-InactiveCoupons-InvalidReasonLengthRequest
-      required:
-        - reason
-      type: object
-      properties:
-        reason:
-          type: string
-      example:
-        reason: 01234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789Z
-    Test-InactiveCoupon-WithReasonRequest:
-      title: Test-InactiveCoupon-WithReasonRequest
-      required:
-        - reason
-      type: object
-      properties:
-        reason:
-          type: string
-      example:
-        reason: Teste para inativar cupom
     CreateCouponRequest:
       title: CreateCouponRequest
       required:
