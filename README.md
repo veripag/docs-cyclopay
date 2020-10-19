@@ -5,11 +5,11 @@ With the Cyclopay API Documentation, you will have an accurate manual on how to 
 enabling a better interaction with your financial transactions and your company !! Start with this Readme, which will guide you through the documentation's functions. </p>
 
 - ## With our documentation you will be able to do: </p>
-: trophy: Be introduced to the API effectively through separate topics; </p>
-: trophy: Have access to a brief demonstration of the area of ​​recurring payments; </p>
-: trophy: Execute examples of requests within the area of ​​recurring payments; </p>
-: trophy: Get an accurate view of the details of the request with examples of errors that can occur in requests made by the client; </p>
-: trophy: have access to the checkouts area, in addition to access to the introduction of checkouts. </p>
+:trophy: Be introduced to the API effectively through separate topics; </p>
+:trophy: Have access to a brief demonstration of the area of ​​recurring payments; </p>
+:trophy: Execute examples of requests within the area of ​​recurring payments; </p>
+:trophy: Get an accurate view of the details of the request with examples of errors that can occur in requests made by the client; </p>
+:trophy: have access to the checkouts area, in addition to access to the introduction of checkouts. </p>
 <br>
 
 - ## Layout:
