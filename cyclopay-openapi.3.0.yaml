@@ -8,53 +8,53 @@ info:
   title: api.cyclopay
   description: |-
 
-    # Introdução à Cyclopay
+    # Introduction to Cyclopay
 
-    Bem vindo à  API da Cyclopay! 
+    Welcome to Cyclopay's API! 
     
-    Você pode utilizar nossa API para realizar o gerenciamento de seus pagamentos recorrentes com facilidade e agilidade.
+    you can utilize our API to realize the management of your recurrent payments with  agility and easyness.
 
-    Os recursos da plataforma Cyclopay estão disponíveis utilizando o padrão de API REST. Nossas respostas serão sempre em JSON e utilizando os padrões dos códigos HTTP.
+    The resources of Cyclopay's platform are available from utilizing the default API REST. Our aswers will aways be in JSON and utilizing the standard of the codes HTTP 
 
-    Ao longo desta documentação detalharemos cada funcionalidade suportada por nossa API. Caso tenha alguma dúvida, sugestão ou queira reportar algum erro entre em contato através do canal ***integracoes@veripag.com.br***.
+    Along this documentation, we will detail every functionality suported by our API. if you have any doubt, sugestion or want to report any error,  contact us through  ***integracoes@veripag.com.br***.
     
-    # Começando
+    # starting
 
-    Para começar sua integração com a gente você vai precisar de uma **Chave de API** (que vamos chamar de **"api_key"**), que é obtida na integração ou por meio do Backoffice Cyclopay, acessando o menu Empresa -> Aba Configurações -> Acesso. 
+    To start your integration with us, you are gonna need a key **API Key** ( We are gonna call **"api_key"**), that are obtained by the integration or by Cyclopay's backoffice, acessing the menu enterprise -> configurations -> acess. 
     
-    Com a api_key em mãos você já pode começar à utilizar tudo que a API Cyclopay pode oferecer.
+    With the api_key in hands, you can utilize everything that Cyclopay's API can offer to you.
 
-    > A chave de api é uma chave secreta, única e intransferível. A Veripag não se responsabiliza pela forma de utilização e administração das chaves fornecidas. Porém em caso de perda da sua chave, você pode recria-la utilizando a funcionalidade Redefinir Chaves.
+    > The Api Key is a secret key, unique and untransferable. Cyclopay does not responsabilize for the utilization and administration mean of the provided keys, but in case of loss of your keys, you can recriate it using the redefine key functionality 
 
-    ## Autenticação
+    ## Authentication
 
-    A autenticação de acesso à API é realizado por meio da [Headers](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers), necessitando 
-    o cabeçalho "api_key" a cada solicitação.
+    The API acess authentication is performed through [Headers](https://developer.mozilla.org/pt-BR/docs/Web/HTTP/Headers), needing 
+    the header "api_key" for every request.
 
-    Abaixo segue um exemplo de requisição à API Cyclopay 
+    Below is an example of requesting the Cyclopay's API. 
 
     ``` curlrc
           curl --location --request GET 'https://api-billing.veripag.com.br/v1/customers' \
           --header 'api_key: ak_sandbox_bfffff8fc80096c0b8e6c95d7d670e080bf3ffff' \
     ```
 
-    ## Respostas HTTP
+    ## HTTP Answers
+ 
+    Our API is builded with de REST standard, using better methods and HTTP verbs for the answers identification. Every section have the definition of its errors and possible answers, but the waited codes are: 
 
-    Nossa API é construída com o padrão REST, utilizando melhor dos método e verbos HTTP para identificação das respostas. Cada seção possui a definição de seus erros e possíveis respotas, mas os códigos esperados são:
+    - **HTTP 2xx** - Sucess answers. Occurs when the request was correctly realized by API.
 
-    - **HTTP 2xx** - Respostas de sucesso. Ocorre quando a requisição foi realizada corretamente pela API.
-
-    - **HTTP 4xx** - Respostas de erros mapeados e identificados, podendo ser solucionados pela mensagem de retorno da API.
+    - **HTTP 4xx** - Identificated and mapped answers, can be solved by the API return message.
     
-    - **HTTP 5xx** - Erro desconhecido (nesse caso é necessário entrar em contato com o suporte, para identificação do problema).
+    - **HTTP 5xx** - Unknown Error (On this case, its necessary an support call for the identification of the problem).
 
-    ## Erros
+    ## Errors
 
-    Como falado agora pouco, nossa API possui um objeto padrão para os erros retornados **4xx**. 
+    As recently spoken, our API have a default object for the retorned errors **4xx**. 
 
-    Os objetos são separados em duas categorias
+    The objects are separated by two categories
 
-    - Objeto Listagem de erros: Ocorre na validação do body
+    -  errors listing objects: Occurs on body validation
     
     ``` javascript
         {
@@ -67,7 +67,7 @@ info:
         }    
     ``` 
 
-    - Objeto Erro:  Ocorre na validação do body e devido ações indisponíveis
+    - object Error:  Occurs on body validation and for indisponible actions
 
     ``` javascript
         {
@@ -77,24 +77,24 @@ info:
         }
     ```
     
-      |  parâmetro | descrição | tipo  | 
+      |  parameter | description | type  | 
       |---|---|---|
-      | error_code  | _Http Code_ do erro | `int`  |  
-      | parameter_name  | Código do erro  | `string`  |  
-      | message | Mensagem do erro, resumo do ocorrido  | `string`  |  
+      | error_code  | _Http Code_ error | `int`  |  
+      | parameter_name  | Error code  | `string`  |  
+      | message | error message, sumary of the happenings  | `string`  |  
 
-    ## Pesquisas e Retornos
+    ## Researches and resume
 
-    Continuando com nossa explicação da API Veripag. As funcionalidades que retornam uma lista de dados, que ocorrem nos métodos HTTP GET, possuem funcionalidades de filtro de pesquisa, paginação e ordenação do resultado requerido.
+    Continuing with our explication of Cyclopay's API. The functionalities that return a data list, that occur in the metods HTTP GET, has features of search filter, pagination and ordering of the required result.
 
-    ### Filtros
+    ### Filters
 
-    Os filtros de pesquisa são opcionais e devem ser enviados na URL por meio de [QueryString](https://en.wikipedia.org/wiki/Query_string). Contendo formatos específicos de envio de acordo com o tipo de dado. Para dados do tipos numérico e texto, não existem alterações no formato de envio. Para dados do tipo Boolean os dados enviados devem ser:
+    The search filters are optional and must be sent to the URL via [QueryString](https://en.wikipedia.org/wiki/Query_string). Containing specific sending formats according with the data type. For numeric and text data types, it doesn't exist alterations on the sending format. For boolean types, the sendt datas must be:
 
-    - **true**: Verdadeiro
-    - **false**: Falso
+    - **true**: true
+    - **false**: False
 
-    Dados de data, devem serem formatados de acordo com o exemplo abaixo para que seja efetuada a pesquisa de forma correta.
+    Date types must be formatted according to the example below for the search to be carried out correctly.
 
     ```
       YYYY-MM-DD
@@ -110,9 +110,9 @@ info:
       http://example.cyclopay.com/v1/example?createDateStart=06/15/2018
     ```
 
-    ### Paginação
+    ### Pagination
 
-    A paginação é realizada a partir do envio dos parâmetros __*count*__ e __*page*__. Após realizar uma pesquisa paginada será respondido a requisição com um objeto, o formato deste objeto é:
+      Pagination is performed by sending the parameters __ * count * __ and __ * page * __. After performing a paged search the request will be answered with an object, the format of this object is:
 
     ``` javascript
     {
@@ -124,28 +124,26 @@ info:
     }
     ```
 
-      |  parâmetro | tipo | descrição  | 
+      |  parameter | type | description  | 
       |---|---|---|
-      | total_items  | `int` | Total de itens retornados no elemento *items*, resultantes da pesquisa.  |  
-      | total_pages  | `int` | Total de páginas retornados na pesquisa de acordo com a quantidade de itens consultados.  |  
-      | quantity_page | `int` | Quantidade de itens por página, definido pelo parâmetro *count*.  |
-      | current_page  | `int`| Página atual pesquisada, definida pelo parâmetro *page*  |  
-      | items  | `T` | Lista da pesquisa, onde T é o objeto contexto da requisição.  |  
+      | total_items  | `int` | Total items returned in the * items * element, resulting from the search.  |  
+      | total_pages  | `int` | total pages returned on the research according with the quantity of consulted items. |  
+      | quantity_page | `int` | Number of items per page, defined by the parameter * count *.|
+      | current_page  | `int`| Actual page searched, defined by the parameter *page*  |  
+      | items  | `T` | Search list, where T is the request context object. |  
          
     
-      > Quando o parâmetro page (paginação da pesquisa) não for enviado, a API sempre irá considerar o padrão, retornando a página número 1.
+      > When page parameter (research pagination) is not sent, the API  will always consider the default, returning page number 1.
     
-      > Quando o parâmetro count (quantidade de itens na página) não for enviado, a API sempre irá atribuir a quantidade padrão de 10 itens por página.
+      > When the count parameter (number of items on the page) is not sent, the API will always assign the default quantity of 10 items per page.
 
-    ### Ordenação
-
-    A ordem do resultados, quando possível, podem ser realizadas de forma crescente ou decrescente pela data de criação do registro. Por padrão a ordem dos resultados são sempre em ordem decrescente.
-    Mas ao enviar o parâmetro "*orderDir*" por meio de *QueryString*, você pode alterar a ordenação. 
-    Os possíveis valores do parâmetro "*orderDir*" são: "*asc*" ou "*desc*".
-    - __asc__: Ordenação crescente.
-    - __desc__: Ordenação decrescente.
-
-    
+    ### Ordenation 
+   
+    The order of results, when possible, can be carried out in an increasing or decreasing manner by the date of creation of the record. By default, the order of results is always in descending order.
+    But by sending the "* orderDir *" parameter via * QueryString *, you can change the ordering.
+    The possible values ​​of the "* orderDir *" parameter are: "* asc *" or "* desc *".
+    - __asc__: Ascending order.
+    - __desc__: Descending order.    
     ```
       http://example.veripag.com/v1/example?orderDir=asc
     ```
@@ -168,7 +166,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -208,7 +206,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -248,7 +246,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -278,9 +276,9 @@ paths:
                 agreement_code: '1234561234'
                 bank: '341'
                 carteira: '109'
-                conv_api_key: chave teste
-                conv_api_id: chave teste
-                conv_api_secret: chave teste
+                conv_api_key: test key
+                conv_api_id: test key
+                conv_api_secret: test key
         required: true
       responses:
         '200':
@@ -299,7 +297,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -341,7 +339,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -380,7 +378,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -417,7 +415,7 @@ paths:
       tags:
         - Shop
       summary: Get Shop List
-      description: Listagem de lojas
+      description: shopping list
       operationId: GetShopList
       parameters:
         - name: companyId
@@ -439,7 +437,7 @@ paths:
             example: application/json
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -470,7 +468,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -536,7 +534,7 @@ paths:
             example: application/json
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -634,7 +632,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -666,7 +664,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -722,7 +720,7 @@ paths:
             example: application/json
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -756,7 +754,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -814,7 +812,7 @@ paths:
             example: ak_live_edc14416aa77554e3ed3d9e2a81492aea824b
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -843,8 +841,8 @@ paths:
   /plans:
     post:
       tags:
-        - Planos
-      summary: Criando um Plano
+        - Plans
+      summary: Creating a Plan
       operationId: CreatePlan
       parameters:
         - name: api_key
@@ -864,14 +862,14 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Plano criado com sucesso'
+          description: 'plan successfully created'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlansResponse'
         '400':
-          description: 'Erro de validação'
+          description: 'Validation error'
           headers: {}
           content:
             application/json:
@@ -882,8 +880,8 @@ paths:
       security: []
     get:
       tags:
-        - Planos
-      summary: Consultando planos
+        - Plans
+      summary: consulting plans
       operationId: GetPlans
       parameters:
         - name: api_key
@@ -896,7 +894,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '200':
-          description: 'Consulta realizada com sucesso'
+          description: 'sucessfully consulation'
           headers: {}
           content: 
             application/json:
@@ -907,13 +905,13 @@ paths:
   /plans/{planId}:
     get:
       tags:
-        - Planos
-      summary: Consulta um plano
+        - Plans
+      summary: Consulting a plan
       operationId: GetSpecificPlan
       parameters:
         - name: api_key
           in: header
-          description: 'Chave de API'
+          description: 'API key'
           required: true
           style: simple
           schema:
@@ -921,7 +919,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'Plan Id'
           required: true
           style: simple
           schema:
@@ -929,14 +927,14 @@ paths:
             example: 1234
       responses:
         '200':
-          description: 'Consulta realizada com sucesso'
+          description: 'sucessfully consulation'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlansResponse'
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -949,13 +947,13 @@ paths:
           variables: {}
     put:
       tags:
-        - Planos
-      summary: Alterando um plano
+        - Plans
+      summary: changing a plan.
       operationId: UpdatePlan
       parameters:
         - name: api_key
           in: header
-          description: 'Chave de API'
+          description: 'API key'
           required: true
           style: simple
           schema:
@@ -963,7 +961,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: ' plan Id'
           required: true
           style: simple
           schema:
@@ -978,21 +976,21 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Operação realizada com sucesso'
+          description: 'Operation performed successfully'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlansResponse'
         '400':
-          description: 'Erro na validação dos dados'
+          description: 'Error in data validation'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ListErrorResponse'
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -1003,13 +1001,13 @@ paths:
   /plans/{planId}/active:
     put:
       tags:
-        - Planos
-      summary: Ativando um plano
+        - Plans
+      summary: Activating a plan
       operationId: ActivePlan
       parameters:
         - name: api_key
           in: header
-          description: 'Chave de API'
+          description: 'API key'
           required: true
           style: simple
           schema:
@@ -1017,7 +1015,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'plan Id'
           required: true
           style: simple
           schema:
@@ -1025,10 +1023,10 @@ paths:
             example: 1234
       responses:
         '200':
-          description: 'Operação realizada com sucesso'
+          description: 'Operation performed successfully'
           headers: {}
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -1039,13 +1037,13 @@ paths:
   /plans/{planId}/inactive:
     put:
       tags:
-        - Planos
-      summary: Inativando um plano
+        - Plans
+      summary: Inactivating a plan
       operationId: InactivePlan
       parameters:
         - name: api_key
           in: header
-          description: 'Chave de API'
+          description: ' API key '
           required: true
           style: simple
           schema:
@@ -1053,7 +1051,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'plan Id'
           required: true
           style: simple
           schema:
@@ -1061,10 +1059,10 @@ paths:
             example: 1234
       responses:
         '200':
-          description: 'Operação realizada com sucesso'
+          description: 'operation performed successfully'
           headers: {}
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -1078,13 +1076,13 @@ paths:
   /plans/{planId}/pricing-options:
     post:
       tags:
-        - Preços
-      summary: Criando um preço
+        - Prices
+      summary: Creating a price
       operationId: CreatePlanPricingOption
       parameters:
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'plan Id'
           required: true
           style: simple
           schema:
@@ -1092,7 +1090,7 @@ paths:
             example: 1234
         - name: api_key
           in: header
-          description: 'Chave de API'
+          description: 'API key'
           required: true
           style: simple
           schema:
@@ -1107,21 +1105,21 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Operação realizada com sucesso'
+          description: 'operation performed successfully'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PricingOptionResponse'
         '400':
-          description: 'Erro na validação dos dados'
+          description: 'Validation error'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SimpleErrorResponse'
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -1131,13 +1129,13 @@ paths:
       security: []
     get:
       tags:
-        - Preços
-      summary: Consultando preços de um plano
+        - Prices
+      summary: consulting a plan's prices
       operationId: GetPlanPricingOptions
       parameters:
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'plan Id'
           required: true
           style: simple
           schema:
@@ -1153,7 +1151,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '200':
-          description: 'Consulta realizada com sucesso'
+          description: 'Consultation successful'
           headers: {}
           content:
             application/json:
@@ -1162,7 +1160,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/PricingOptionResponse'
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -1176,13 +1174,13 @@ paths:
   /plans/{planId}/pricing-options/{pricingOptionId}:
     get:
       tags:
-        - Preços
-      summary: Consultando um preço
+        - Prices
+      summary: consulting a plan's prices
       operationId: GetSpecificPlanPricingOptions
       parameters:
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'plan Id'
           required: true
           style: simple
           schema:
@@ -1190,7 +1188,7 @@ paths:
             example: 1234
         - name: pricingOptionId
           in: path
-          description: 'Id do preço'
+          description: 'price Id'
           required: true
           style: simple
           schema:
@@ -1206,14 +1204,14 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '200':
-          description: 'Consulta realizada com sucesso'
+          description: 'Consultation successful'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SimpleErrorResponse'
         '404':
-          description: 'Plano ou preço não encontrado'
+          description: 'Plan or price not found'
           headers: {}
           content:
             application/json:
@@ -1226,13 +1224,13 @@ paths:
           variables: {}
     put:
       tags:
-        - Preços
-      summary: Atualizando um preço
+        - Prices
+      summary: Updating a price
       operationId: UpdatePriceOption
       parameters:
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'Plan Id'
           required: true
           style: simple
           schema:
@@ -1240,7 +1238,7 @@ paths:
             example: 1234
         - name: pricingOptionId
           in: path
-          description: 'Id do preço'
+          description: 'Price Id'
           required: true
           style: simple
           schema:
@@ -1263,21 +1261,21 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Operação realizada com sucesso'
+          description: 'Consultation successful'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PricingOptionResponse'
         '400':
-          description: 'Erro na validação dos dados'
+          description: 'Data validation error'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SimpleErrorResponse'
         '404':
-          description: 'Plano ou preço não encontrado'
+          description: 'Plan or price not found'
           headers: {}
           content:
             application/json:
@@ -1287,13 +1285,13 @@ paths:
       security: []
     delete:
       tags:
-        - Preços
-      summary: Removendo um preço
+        - Prices
+      summary: Removing a price
       operationId: Deletepriceoption
       parameters:
         - name: planId
           in: path
-          description: 'Id do plano'
+          description: 'Plan Id'
           required: true
           style: simple
           schema:
@@ -1301,7 +1299,7 @@ paths:
             example: 1234
         - name: pricingOptionId
           in: path
-          description: 'Id do preço'
+          description: 'Price Id'
           required: true
           style: simple
           schema:
@@ -1317,17 +1315,17 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '204':
-          description: 'Operação realizada com sucesso'
+          description: 'operation performed successfully'
           headers: {}
         '404':
-          description: 'Plano ou preço não encontrado'
+          description: 'Plan or price not found'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SimpleErrorResponse'
         '409':
-          description: 'Conflito na remoção do preço. Analisar mensagem de resposta'
+          description: 'Conflict in removing the price. Analyze reply message'
           headers: {}
           content:
             application/json:
@@ -1341,8 +1339,8 @@ paths:
   /plans/{planId}/pricing-options/{pricingOptionId}/checkout:
     post:
       tags:
-        - Planos - Página de Checkout
-      summary: Criando página de checkout
+        - Plans - Checkout's page
+      summary: Creatiing checkout page
       operationId: CreatePlanCheckout
       parameters:
         - name: api_key
@@ -1367,21 +1365,21 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Página de checkout criado com sucesso'
+          description: 'Checkout page successfully created'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlanCheckoutResponse'
         '404':
-          description: 'Dado para criar checkout não encontrado'
+          description: 'Data to create checkout not found'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/SimpleErrorResponse'
         '409':
-          description: 'Consulta realizada com sucesso'
+          description: 'Consultation successful'
           headers: {}
           content:
             application/json:
@@ -1394,8 +1392,8 @@ paths:
           variables: {}
     get:
       tags:
-        - Planos - Página de Checkout
-      summary: Consultando página de checkout
+        - Plans - Checkout page
+      summary: Consulting checkout page
       operationId: CreatePlanCheckout
       parameters:
         - name: api_key
@@ -1418,14 +1416,14 @@ paths:
         required: true
       responses:
         '200':
-          description: 'Consulta realizada com sucesso'
+          description: 'Consultation successful'
           headers: {}
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/PlanCheckoutResponse'
         '404':
-          description: 'Dado para consulta não encontrado'
+          description: 'Data to create checkout not found'
           headers: {}
           content:
             application/json:
@@ -1439,8 +1437,8 @@ paths:
   /plans/{planId}/checkout:
     get:
       tags:
-        - Planos - Página de Checkout
-      summary: Consultando checkouts de um plano
+        - Plans - Checkout page
+      summary: consulting a plan's checkouts
       operationId: GetPlanCheckout
       parameters:
         - name: api_key
@@ -1453,7 +1451,7 @@ paths:
             example: ak_sandbox_208e6954b8f46967beb4a154660e7f8d0e5ea33b
       responses:
         '200':
-          description: 'Consulta realizada com sucesso'
+          description: 'Consultation successful'
           headers: {}
           content:
             application/json:
@@ -1462,7 +1460,7 @@ paths:
                 items:
                   $ref: '#/components/schemas/PlanCheckoutResponse'
         '404':
-          description: 'Plano não encontrado'
+          description: 'Plan not found'
           headers: {}
           content:
             application/json:
@@ -2110,7 +2108,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2170,7 +2168,7 @@ paths:
             example: true
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2201,7 +2199,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2254,7 +2252,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2295,7 +2293,7 @@ paths:
             example: false
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2540,7 +2538,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2579,7 +2577,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2611,7 +2609,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2652,7 +2650,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2701,7 +2699,7 @@ paths:
             example: application/json
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -2741,7 +2739,7 @@ paths:
             example: application/json
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3024,7 +3022,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3058,7 +3056,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3090,7 +3088,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3122,7 +3120,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3176,7 +3174,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3208,7 +3206,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3336,7 +3334,7 @@ paths:
             example: 100
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3367,7 +3365,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3413,7 +3411,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3445,7 +3443,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3486,7 +3484,7 @@ paths:
             example: 5PXZTYG0SC
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3518,7 +3516,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3550,7 +3548,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3582,7 +3580,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3624,7 +3622,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3667,7 +3665,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3715,7 +3713,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3747,7 +3745,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -3787,7 +3785,7 @@ paths:
       parameters:
         - name: Authorization
           in: header
-          description: Token de acordo com o Login
+          description: Token according to the Login
           required: true
           style: simple
           schema:
@@ -4176,125 +4174,125 @@ components:
       properties:
         name:
           type: string
-          description: Nome do plano
+          description: Plan name
         plan_code:
           type: string
-          description: Código do plano
+          description: plan code
         description:
           type: string
-          description: Descrição do plano
+          description: Plan description
         taxable:
           type: boolean
-          description: Identificador de taxas sobre o plano
+          description: Rate identifier on the plan
         tax_code:
           type: string
-          description: Código da taxa cadastrada
+          description: Registered tax code 
         tax_included:
           type: string
-          description: Verificador de taxa inclusa ou não sobre o preço do plano
+          description: Rate checker included or not on the plan price
         pricing_options:
           type: array
-          description: Preços do plano
+          description: Plan prices
           items:
             $ref: '#/components/schemas/CreatePlanPricingOptionRequest'
         payment_methods:
           type: string
-          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
+          description: Payment method enabled in the plan - [credit_card or boleto]
         metadata:
           type: object
-          description: Objeto livre
+          description: Free object
         callback_url:
           type: string
-          description: URL de callback
+          description: Callback Url
         redirect_url_on_success:
           type: string
-          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
+          description: Redirect URL on successful checkout payment
         redirect_url_on_failure:
           type: string
-          description: URL de redirecionamento em caso de falha no pagamento do checkout
+          description: Redirect URL in case of checkout payment failure
         enable_customer_suspension:
           type: boolean
-          description: Flag para identificar que o assinante pode suspender o plano
+          description: Flag to identify that the subscriber can suspend the plan
         enable_customer_cancelation:
           type: boolean
-          description: Flag para identificar que o assinante pode cancelar o plano
+          description: Flag to identify that the subscriber can cancel the plan
         require_billing_address:
           type: boolean
-          description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
+          description: Flag to identify that the subscriber needs a billing address to complete the plan subscription
         require_shipping_address:
           type: boolean
-          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
+          description: Flag to identify that the subscriber needs a delivery address to complete the plan subscription
         
     PlansResponse:
       title: PlansResponse
       properties:
         plan_id:
           type: integer
-          description: Id do plano
+          description: Plan Id
         name:
           type: string
-          description: Nome do plano
+          description: Plan name 
         plan_code:
           type: string
-          description: Código do plano
+          description: Plan code
         description:
           type: string
-          description: Descrição do plano
+          description: Plan description
         taxable:
           type: boolean
-          description: Identificador de taxas sobre o plano
+          description: Rate identifier on the plan
         tax_code:
           type: string
-          description: Código da taxa cadastrada
+          description: Registered tax code
         tax_included:
           type: string
-          description: Verificador de taxa inclusa ou não sobre o preço do plano
+          description: Rate checker included or not on the plan price
         pricing_options:
           type: array
-          description: Preços do plano
+          description: Plan prices
           items:
             $ref: '#/components/schemas/PricingOptionResponse'
         payment_methods:
           type: string
-          description: Método de pagamento habilitado no plano - [credit_card ou boleto]
+          description: Payment method enabled on the plan - [credit card or boleto]
         metadata:
           type: object
-          description: Objeto livre
+          description: Free object
         callback_url:
           type: string
-          description: URL de callback
+          description: Callback URL
         redirect_url_on_success:
           type: string
-          description: URL de redirecionamento em caso de sucesso no pagamento do checkout
+          description: Redirect URL on successful checkout payment
         redirect_url_on_failure:
           type: string
-          description: URL de redirecionamento em caso de falha no pagamento do checkout
+          description: Redirect URL in case of checkout payment failure
         enable_customer_suspension:
           type: boolean
-          description: Flag para identificar que o assinante pode suspender o plano
+          description: Flag to identify that the subscriber can suspend the plan
         enable_customer_cancelation:
           type: boolean
-          description: Flag para identificar que o assinante pode cancelar o plano
+          description: Flag to identify that the subscriber can cancel the plan
         require_billing_address:
           type: boolean
           description: Flag para identificar que o assinante necessita de endereço de cobrança para concluir a assinatura do plano
         require_shipping_address:
           type: boolean
-          description: Flag para identificar que o assinante necessita de endereço de entrega para concluir a assinatura do plano
+          description:  Flag to identify that the subscriber needs a delivery address to complete the plan subscription
         status:
           type: string
-          description: Status do plano, active | inactive
+          description: Plan Status, active | inactive
         create_date:
           type: string
           format: date-time
-          description: Data de criação do plano
+          description: Creation date of the Plan
         update_date: 
           type: string
           format: date-time
           description: Data de atualização do plano
         active: 
           type: boolean
-          description: Flag para identificar o estado do plano
+          description: Flag to identificate the plan status
 
     PricingOptionRequest:
       title: PricingOptionRequest
@@ -4310,52 +4308,52 @@ components:
         amount:
           type: integer
           format: int32
-          description: Valor do preço em centavos
+          description: Price value in cents
         pricing_code:
           type: string
-          description: Código do preço, Quando não enviado, será gerado via servidor
+          description: Price code, When not sent, will be generated via server
         currency:
           type: string
-          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+          description: Price currency, need utilize ALPHA3 of [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
         setup_fee:
           type: integer
           format: int32
-          description: Valor de Setup em centavos
+          description: Setup valor in cents
         count:
           type: integer
           format: int32
-          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
+          description: Amount of charges for this plan. 0 for infinite charges
         interval:
           type: integer
           format: int32
-          description: Intervalo entre as cobranças
+          description: Charging interval
         frequency:
           type: string
-          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
+          description: Billing frequency, use DAILY, MONTLHY or YEARLY
         rrule:
           type: string
-          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
+          description: String RRULE of the desired billing periodicity. RRULE follows the RFC 5545 standard
         auto_renew:
           type: boolean
-          description: Identificador de renovação automática.
+          description: Automatic renewal identifier.
         trial_amount:
           type: integer
           format: int32
-          description: TRIAL - Preço em centavos
+          description: TRIAL - Price in cents
         trial_interval:
           type: integer
           format: int32
-          description: TRIAL - Quantidade de cobranças de trial
+          description: TRIAL - Number of trial charges
         trial_unit:
           type: string
-          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
+          description: TRIAL - Trial periodicity, use DAILY, MONTLHY or YEARLY
         is_default:
           type: boolean
-          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
+          description: Main price identifier. When more than one price is created it becomes mandatory
         billing_day:
           type: integer
           format: int32
-          description: Dia que deve ser realizada a cobrança, quando não definido, as cobranças serão realizadas no dia da assinatura
+          description: Day to be charged, when not defined, charges will be made on the day of subscription
       example:
       - amount: 11300
         pricing_code: ALHS22SX
@@ -4385,66 +4383,66 @@ components:
         amount:
           type: integer
           format: int32
-          description: Valor do preço em centavos
+          description: Price valor in cents
         pricing_code:
           type: string
-          description: Código do preço, Quando não enviado, será gerado via servidor
+          description: Price code, When not sent, will be generated via server
         currency:
           type: string
-          description: Moeda do preço, necessário utilizar ALPHA3 da [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
+          description: Price currency, need to utilize ALPHA3 of [ISO 4217](https://en.wikipedia.org/wiki/ISO_4217)
         setup_fee:
           type: integer
           format: int32
-          description: Valor de Setup em centavos
+          description: Setup valor in cents
         count:
           type: integer
           format: int32
-          description: Quantidade de cobranças deste plano. 0 para cobranças infinitas
+          description: Amount of charges for this plan. 0 for infinite charges
         interval:
           type: integer
           format: int32
-          description: Intervalo entre as cobranças
+          description: Charging interval
         frequency:
           type: string
-          description: Periodicidade de cobrança, utilizar DAILY, MONTLHY ou YEARLY
+          description: Billing frequency, use DAILY, MONTLHY or YEARLY
         rrule:
           type: string
-          description: String RRULE da periodicidade desejada de cobrança. RRULE segue o padrão RFC 5545
+          description: String RRULE of the desired billing periodicity. RRULE follows the RFC 5545 standard
         auto_renew:
           type: boolean
-          description: Identificador de renovação automática.
+          description: Automatic renewal identifier.
         trial_amount:
           type: integer
           format: int32
-          description: TRIAL - Preço em centavos
+          description: TRIAL - Price in cents
         trial_interval:
           type: integer
           format: int32
-          description: TRIAL - Quantidade de cobranças de trial
+          description: TRIAL - Number of trial charges
         trial_unit:
           type: string
-          description: TRIAL - Periodicidade de Trial, utilizar DAILY, MONTLHY ou YEARLY 
+          description: TRIAL - Trial periodicity, use DAILY, MONTLHY or YEARLY 
         is_default:
           type: boolean
-          description: Identificador de preço principal. Quando criado mais de um preço este se torna obrigatório
+          description: Main price identifier. When more than one price is created it becomes mandatory
         created_method:
           type: string
-          description: Método de criação do preço
+          description: Price creation method
         create_date:
           type: string
           format: date-time
-          description: Data de criação do preço
+          description: Price cration date
         update_date:
           type: string
           format: date-time
-          description: Data de atualização do preço
+          description: Price update date
         created_by:
           type: string
-          description: Nome do usuário que criou o preço
+          description: Name of the user who created the price
         user_id:
           type: integer
           format: int32
-          description: Id do usuário que criou o preço
+          description: Id of the user who created the price
       
     # MODELS COUPONS
 
@@ -4454,19 +4452,19 @@ components:
       properties:
         total_items: 
          type: integer
-         description: Total de itens
+         description: Total items
         total_pages:
          type: integer
-         description: Total de páginas
+         description: Total pages
         quantity_page:
          type: integer
-         description: Quantiade de itens por página
+         description: Amount of items per page
         actual_page:
          type: integer
-         description: Página consultada
+         description: Page consulted
         items: 
          type: array
-         description: Itens consultados
+         description: Consulted items
          items:
            $ref: '#/components/schemas/CouponResponse'
 
@@ -4486,56 +4484,56 @@ components:
         coupon_id:
           type: string
           format: uuid
-          description: Id do cupom
+          description: coupon id
         name:
           type: string
-          description: Nome do cupom
+          description: Coupon name
         coupon_code:
           type: string
-          description: Código do cupom
+          description: Coupon code
         description:
           type: string
-          description: Descrição do cupom
+          description: Coupon description
         percentage:
           type: number
-          description: Porcentagem de desconto do cupom
+          description: Coupon discount percentage
         amount:
           type: integer
           format: int32
-          description: Valor de desconto do cupom em centavos
+          description: Coupon discount amount in cents
         count:
           type: integer
           format: int32
-          description: Quantidad de cupons
+          description: Coupon quantity
         expiry_date:
           type: string
-          description: Data de expiração do cupom
+          description: Coupon expiration date
         plan_restrictions:
           type: array
           items:
             type: integer
             format: int32
-          description: Planos que podem utilizar o cupom. Quando vazio, o cupom é válido para todos os planos
+          description: Plans that can use the coupon. When empty, the coupon is valid for all plans
         usage:
           type: string
-          description: Quantidade de cupons utilizados
+          description: Number of coupons used
         status:
           type: string
           description: Status
         status_reason:
           type: string
-          description: Motivo do status
+          description: Status reason
         created_by:
           type: string
-          description: Nome do usuário que criou
+          description: Name of the user who created
         create_date:
           type: string
           format: date-time
-          description: Data de criação
+          description: Creation date.
         update_date:
           type: string
           format: date-time
-          description: Data de atualização
+          description: Update date
 
     CouponRequestEdit:
       title: CouponRequestEdit
@@ -4543,20 +4541,20 @@ components:
       properties:
         description:
           type: string
-          description: Descrição do cupom
+          description: Coupon description
         count:
           type: integer
           format: int32
-          description: Quantidad de cupons
+          description: Number of coupons
         expiry_date:
           type: string
-          description: Data de expiração do cupom
+          description: Coupon expiration date
         plan_restrictions:
           type: array
           items:
             type: integer
             format: int32
-          description: Planos que podem utilizar o cupom. Quando vazio, o cupom é válido para todos os planos
+          description: Plans that can use the coupon. When empty, the coupon is valid for all plans
 
     CouponRequest:
       title: CouponRequest
@@ -4573,36 +4571,36 @@ components:
       properties:
         name:
           type: string
-          description: Nome do cupom
+          description: Coupon name
         coupon_code:
           type: string
-          description: Código do cupom
+          description: Coupon code
         description:
           type: string
-          description: Descrição do cupom
+          description: Coupon description
         percentage:
           type: number
-          description: Porcentagem de desconto do cupom
+          description: Coupon discount percentage
         amount:
           type: integer
           format: int32
-          description: Valor de desconto do cupom em centavos
+          description: Coupon discount amount in cents
         count:
           type: integer
           format: int32
-          description: Quantidad de cupons
+          description: Number of coupons
         expiry_date:
           type: string
-          description: Data de expiração do cupom
+          description: Coupon expiration date
         plan_restrictions:
           type: array
           items:
             type: integer
             format: int32
-          description: Planos que podem utilizar o cupom. Quando vazio, o cupom é válido para todos os planos
+          description: Plans that can use the coupon. When empty, the coupon is valid for all plans
         currency:
           type: string
-          description: Moeda do cupom, quando definido amount. Utilizar AlphaCode, ISO 4217
+          description: Coupon currency, when set amount. Using AlphaCode, ISO 4217
 
     # MODELS SUBSCRIPTIONS
 
@@ -6537,17 +6535,16 @@ components:
           type: string
           format: date-time
           nullable: true
-          description: Data de validade do checkout
+          description: Checkout expiration date
         checkout_type:
           type: string
-          description: Tipo do checkout - obrigatório ser step
+          description: Checkout type - mandatory to be step
         is_time_defined:
           type: boolean
-          description: Flag para habilitar horas na validação
+          description: Flag to enable validation hours
         coupon_enabled:
           type: boolean
-          description: Flag para habilitar cupom
-          nullable: true
+          description: Flag to enable 
       example:
           valid_until: 2020-09-12T22:33:11
           is_time_defined: false
@@ -6579,7 +6576,7 @@ components:
             format: int32
           description: ''
       example:
-        label: Segunda Aba
+        label: Second Tab
         checkout_ids:
           - 3
     EditPlanTabRequest:
@@ -8392,70 +8389,70 @@ tags:
   - name: Cards
   - name: Checkout
     description: '
-      Nesta seção é apresentado como criar e gerenciar as funcionalidades de Checkout, sendo elas a gestão dos checkout dos planos, os links de assinaturas, a página de checkout.
+      In this section it is shown how to create and manage the Checkout functionalities, being them the plan checkout management, subscription links, and checkout page.
     
 
-      **Gestão de checkout dos Planos**: Permite habilitar e configurar a página de checkout do plano.
+      ** Plan checkout management **: Allows you to enable and configure the plan checkout page.
 
 
-      **Link de Assinatura**: Checkout específico para um determinado assinante.
+      **Subscription Link**:Specific checkout for a determinated subscriber.
 
 
-      **Checkout**: Visualização dos dados para a página e Requisição de Assinar.
+      **Checkout**: Data visualization for the page and sign request.
 
 
-      Ao gerar uma página de checkout ou link de assinatura, é possível utilizar a url retornada para acessar a pagina de checkout com os dados do assinantes já preenchidos, necessitando apenas o preenchimento dos dados do meio de pagamento.
+      When generating a checkout page or subscription link, it is possible to use the returned url to access the checkout page with the subscriber data already filled in, requiring only the payment method data to be filled.
       '
-  - name: Planos - Página de Checkout
+  - name: Plan - checkout page
     description: '
-          Começando temos que habilitar a página de checkout de um determinado plano, os pré requisitos para poder criar e configurar uma página de checkout são:
+            Starting we have to enable the checkout page of a determinated plan, the prerequisites for creating and configuring a checkout page are:
           
-          - Plano selecionado ser existente
-          - Plano estar de modo **ATIVO**
+          - Plan selected to be existing
+          - Plan to be in ** ACTIVE ** checkout page are:
           
-          Estas páginas podem possuir validade, quando houver esta informação, a página ficará disponível até a data de validade.
+          These pages may have validity, when this information is available, the page will be available until the expiration date.
                   
-          > ### Link de página expirada
+          > ### Expired page link
           
-          > Quando a página de checkout do plano estiver expirada, você pode renovar a data de validade atualizando o campo "valid_until" para uma nova data, ou se quiser indicar que está página ficará sempre disponível atualizando este campo acima sem informar data.
+          > When the plan checkout page has expired, you can renew the expiration date by updating the "valid_until" field to a new date, or if you want to indicate that this page will always be available by updating this field above without informing the date.
        '
-  - name: Clientes - Página de Checkout
+  - name: customers - Checkout page
     description: '
-        Links de assinatura para os assinantes já cadastrados na plataforma. Os links são semelhantes aos gerados pela funcionalidade de *Página de Checkout*.
+        Subscription links for subscribers already registered on the platform. The links arSubscription links for subscribers already registered on the platform. The links are similar to those generated by the * Checkout Page * functionality.e similar to those generated by the * Checkout Page * functionality.
 
         
-        Os pré-requisitos para utilizar essa funcionalidade são:
+        The prerequisites for using this functionality are:
          
-        - Possuir assinantes cadastrados
-        - Possuir plano cadastrado
+        - Have registered subscribers
+        - Have a registered plan
 
-        Diferente da Página de Checkout, os links possuem algumas características e diferenças, elas são:
+        Unlike the checkout page, the links have some characteristics and diferences, they are:
 
-        - Os links possuem validade
+        - The links have a expiration date
         
-        > 🚧 A validade padrão dos links são de 24 horas após a sua data de criação.
+        > 🚧 The default validity of the links is 24 hours after their creation date.
 
-        - Os links são únicos
+        - The lins are unique
         
-        > 🚧 Os links de assinatura não podem ser utilizado mais de uma vez.
+        > 🚧 Subscription links cannot be used more than once.
 
-        - Plano selecionado necessita possuir checkout
+        - Selected plan needs to have checkout
         
-        > 🚧 Para criar os link, o Plano selecionado deve possuir sua página de Checkout habilitado.
+        > 🚧 To create the links, the selected Plan must have its Checkout page enabled.
       '
-  - name: Assinantes
+  - name: subscribers
   - name: Public routes
   - name: Report
-  - name: Assinaturas
+  - name: Subscriptions
   - name: Product
   - name: Cupons
   - name: Taxes
   - name: Common
-    description: '01-02-2019 15:23: OK TESTADO'
-  - name: Transações
+    description: '01-02-2019 15:23: OK TESTED'
+  - name: Transaction
   - name: Dashboard
   - name: Invoice
-  - name: Vendas
+  - name: sales
   - name: Invoice Copy
   - name: Modules
   - name: System
@@ -8463,20 +8460,20 @@ tags:
   - name: IPN
   - name: Functions
 x-tagGroups:
-  - name: Pagamentos Recorrentes
-    description: Teste
+  - name: recurring payments
+    description: Test
     tags:
-      - Planos
-      - Preços
-      - Cupons
-      - Assinantes
-      - Assinaturas
-      - Vendas
-      - Transações
+      - Plans
+      - Prices
+      - Coupons
+      - subscribers
+      - subscription
+      - sales
+      - Transactions
   - name: Checkout
     tags:
       - Checkout
-      - Planos - Página de Checkout
-      - Clientes - Página de Checkout
+      - Plans - Checkout page
+      - Clients - Checkout Page
   
       
