@@ -16,21 +16,21 @@ enabling a better interaction with your financial transactions and your company 
 With the CYCLOPAY Documentation Layout, you will have a preview of what our Platform is capable of, with a brief summary of capabilities:
 <br>
 - ### Introduction: </P>
-! [intro] (https://github.com/veripag/docs-cyclopay/blob/master/Images/Cyclopay_layout_demo.png)
+! [intro](https://github.com/veripag/docs-cyclopay/blob/master/Images/Cyclopay_layout_demo.png)
 The introduction of the documentation has the functionality of providing customers with a summary of our platform and how it works with the API REST platform. </p>
 <br>
 
 - ### Starting: </p>
-! [begining] (https://github.com/veripag/docs-cyclopay/blob/master/Images/Introdu%C3%A7%C3%A3o.png)
+! [begining](https://github.com/veripag/docs-cyclopay/blob/master/Images/Introdu%C3%A7%C3%A3o.png)
 The "getting started" area of ​​the documentation has the functionality to guide customers to use our platform effectively and accurately. </p>
 <br>
 ## Recurring payment area
 The area of ​​recurring payments has the function of assigning to customers, an example of requests within specific menus for their own requests. </p>
 <br>
 - ### Plans: </p>
-! [Plans] (https://github.com/veripag/docs-cyclopay/blob/master/Images/ Planos.png)
+! [Plans](https://github.com/veripag/docs-cyclopay/blob/master/Images/Planos.png)
 The Plans menu in the documentation contains the requests for the plans, where the API can manage the company's plans.
 <br>
 - ### Prices: </p>
-! [price] (https://github.com/veripag/docs-cyclopay/blob/master/Images/Preços.png)
+! [price](https://github.com/veripag/docs-cyclopay/blob/master/Images/Preços.png)
 With the price menu, you can manage your company's prices quickly and effectively.
