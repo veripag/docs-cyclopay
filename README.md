@@ -21,7 +21,7 @@ The introduction of the documentation has the functionality of providing custome
 <br>
 
 - ### Starting: </p>
-![begining](https://github.com/veripag/docs-cyclopay/blob/master/Images/Introdu%C3%A7%C3%A3o.png)
+![begining](https://github.com/veripag/docs-cyclopay/blob/master/Images/Intro.png)
 The "getting started" area of ​​the documentation has the functionality to guide customers to use our platform effectively and accurately. </p>
 <br>
 ## Recurring payment area
