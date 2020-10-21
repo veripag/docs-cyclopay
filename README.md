@@ -34,3 +34,11 @@ The Plans menu in the documentation contains the requests for the plans, where t
 - ### Prices: </p>
 ![price](https://github.com/veripag/docs-cyclopay/blob/master/Images/Preços.png)
 With the price menu, you can manage your company's prices quickly and effectively.
+<br>
+- ### Checkout: <P>
+![Checkout](https://github.com/veripag/docs-cyclopay/blob/master/Images/Checkout.png)
+  When you acess the Checkout menu, You will be able to manage the whole checkout functionalities. 
+ <br>
+- ### Plans - Checkout Page: <p>
+  ![Checkout Page](https://github.com/veripag/docs-cyclopay/blob/master/Images/Checkout_page.png) 
+  With this menu, you will be able to consulting the checkout page and see the expiration date, if it is enabled and more...
